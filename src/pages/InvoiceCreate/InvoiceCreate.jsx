@@ -55,7 +55,9 @@ const InvoiceCreate = () => {
         }
       ],
       notes: '',
-      vatRate: settings.invoice.vatRate
+      vatRate: settings.invoice.vatRate,
+      discountType: 'percentage',
+      discountValue: 0
     }
   })
 
@@ -64,11 +66,13 @@ const InvoiceCreate = () => {
     name: 'items'
   })
 
-  const watchedItems = watch('items')
-  const watchedVatRate = watch('vatRate')
+  const watchedItems = watch('items') || []
+  const watchedVatRate = watch('vatRate') || 20
+  const watchedDiscountType = watch('discountType') || 'percentage'
+  const watchedDiscountValue = watch('discountValue') || 0
 
   // Calculate totals
-  const totals = calculateInvoiceTotals(watchedItems, watchedVatRate)
+  const totals = calculateInvoiceTotals(watchedItems, watchedVatRate, watchedDiscountType, watchedDiscountValue)
 
   const onSubmit = async (data) => {
     try {
@@ -299,7 +303,7 @@ const InvoiceCreate = () => {
                   </div>
 
                   <div className="item-amount">
-                    {formatCurrency(watchedItems[index]?.quantity * watchedItems[index]?.rate || 0)}
+                    {formatCurrency((watchedItems[index]?.quantity || 0) * (watchedItems[index]?.rate || 0))}
                   </div>
 
                   <div className="item-actions">
@@ -346,11 +350,47 @@ const InvoiceCreate = () => {
               </div>
             </div>
 
+            {/* Discount Section */}
+            <div className="discount-section">
+              <h3>Discount</h3>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Discount Type</label>
+                  <select {...register('discountType')}>
+                    <option value="percentage">Percentage (%)</option>
+                    <option value="fixed">Fixed Amount (€)</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Discount Value</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    {...register('discountValue', { 
+                      min: { value: 0, message: 'Discount must be positive' }
+                    })}
+                    className={errors.discountValue ? 'error' : ''}
+                    placeholder={watchedDiscountType === 'percentage' ? '0.00' : '0.00'}
+                  />
+                  {errors.discountValue && <span className="error-message">{errors.discountValue.message}</span>}
+                </div>
+              </div>
+            </div>
+
             <div className="invoice-totals">
               <div className="total-row">
                 <span>Subtotal:</span>
                 <span>{formatCurrency(totals.subtotal)}</span>
               </div>
+              {totals.discount > 0 && (
+                <div className="total-row total-row--discount">
+                  <span>
+                    Discount ({watchedDiscountType === 'percentage' ? `${watchedDiscountValue}%` : formatCurrency(watchedDiscountValue)}):
+                  </span>
+                  <span>-{formatCurrency(totals.discount)}</span>
+                </div>
+              )}
               <div className="total-row">
                 <span>VAT ({watchedVatRate}%):</span>
                 <span>{formatCurrency(totals.vat)}</span>

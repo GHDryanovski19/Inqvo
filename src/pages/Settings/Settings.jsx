@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { 
@@ -9,16 +9,32 @@ import {
   FiCreditCard,
   FiSettings,
   FiDroplet,
-  FiFileText
+  FiFileText,
+  FiDownload,
+  FiUpload,
+  FiDatabase,
+  FiLock,
+  FiUnlock,
+  FiTrash2,
+  FiRefreshCw
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
 import toast from 'react-hot-toast'
+import { 
+  exportData, 
+  exportEncryptedData, 
+  importData, 
+  generateBackupFilename,
+  validateImportedData 
+} from '../../utils/dataExport'
 import './Settings.scss'
 
 const Settings = () => {
-  const { settings, dispatch } = useApp()
+  const { settings, dispatch, invoices, clients } = useApp()
   const [activeTab, setActiveTab] = useState('company')
+  const [isImporting, setIsImporting] = useState(false)
+  const fileInputRef = useRef(null)
 
   const {
     register,
@@ -83,10 +99,90 @@ const Settings = () => {
     }
   }
 
+  // Data management functions
+  const handleExportData = () => {
+    const result = exportData({ invoices, clients, settings })
+    if (result.success) {
+      toast.success(result.message)
+    } else {
+      toast.error(result.message)
+    }
+  }
+
+  const handleExportEncryptedData = () => {
+    const result = exportEncryptedData({ invoices, clients, settings })
+    if (result.success) {
+      toast.success(result.message)
+    } else {
+      toast.error(result.message)
+    }
+  }
+
+  const handleExportBackup = () => {
+    const filename = generateBackupFilename()
+    const result = exportData({ invoices, clients, settings }, filename)
+    if (result.success) {
+      toast.success('Backup created successfully!')
+    } else {
+      toast.error(result.message)
+    }
+  }
+
+  const handleImportData = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    setIsImporting(true)
+    try {
+      const result = await importData(file)
+      
+      if (result.success) {
+        // Validate the imported data
+        const validation = validateImportedData(result.data)
+        
+        if (validation.valid) {
+          // Update the app state with imported data
+          if (result.data.invoices) {
+            dispatch({ type: 'IMPORT_INVOICES', payload: result.data.invoices })
+          }
+          if (result.data.clients) {
+            dispatch({ type: 'IMPORT_CLIENTS', payload: result.data.clients })
+          }
+          if (result.data.settings) {
+            dispatch({ type: 'UPDATE_SETTINGS', payload: result.data.settings })
+          }
+          
+          toast.success(result.message)
+        } else {
+          toast.error(`Import validation failed: ${validation.errors.join(', ')}`)
+        }
+      } else {
+        toast.error(result.message)
+      }
+    } catch (error) {
+      toast.error('Failed to import data')
+      console.error('Import error:', error)
+    } finally {
+      setIsImporting(false)
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    }
+  }
+
+  const handleClearData = () => {
+    if (window.confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+      dispatch({ type: 'CLEAR_ALL_DATA' })
+      toast.success('All data cleared successfully')
+    }
+  }
+
   const tabs = [
     { id: 'company', label: 'Company', icon: FiBriefcase },
     { id: 'invoice', label: 'Invoice', icon: FiFileText },
-    { id: 'theme', label: 'Theme', icon: FiDroplet }
+    { id: 'theme', label: 'Theme', icon: FiDroplet },
+    { id: 'data', label: 'Data Management', icon: FiDatabase }
   ]
 
   return (
@@ -365,6 +461,94 @@ const Settings = () => {
                     <Button variant="secondary">Secondary Button</Button>
                     <Button variant="outline">Outline Button</Button>
                   </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'data' && (
+            <motion.div
+              className="tab-panel"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <h2>Data Management</h2>
+              <p>Export, import, and manage your application data</p>
+
+              <div className="form-section">
+                <h3>Export Data</h3>
+                <p>Download your data for backup or transfer purposes</p>
+                
+                <div className="data-actions">
+                  <Button variant="outline" onClick={handleExportData}>
+                    <FiDownload />
+                    Export All Data
+                  </Button>
+                  
+                  <Button variant="outline" onClick={handleExportEncryptedData}>
+                    <FiLock />
+                    Export Encrypted
+                  </Button>
+                  
+                  <Button variant="outline" onClick={handleExportBackup}>
+                    <FiDatabase />
+                    Create Backup
+                  </Button>
+                </div>
+
+                <div className="data-stats">
+                  <div className="stat-item">
+                    <span className="stat-label">Invoices:</span>
+                    <span className="stat-value">{invoices.length}</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Clients:</span>
+                    <span className="stat-value">{clients.length}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3>Import Data</h3>
+                <p>Import data from a previously exported file</p>
+                
+                <div className="import-section">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".json"
+                    onChange={handleImportData}
+                    style={{ display: 'none' }}
+                  />
+                  
+                  <Button 
+                    variant="outline" 
+                    onClick={() => fileInputRef.current?.click()}
+                    loading={isImporting}
+                  >
+                    <FiUpload />
+                    {isImporting ? 'Importing...' : 'Import Data'}
+                  </Button>
+                  
+                  <p className="import-note">
+                    Supported formats: JSON files exported from this application
+                  </p>
+                </div>
+              </div>
+
+              <div className="form-section danger-zone">
+                <h3>Danger Zone</h3>
+                <p>Irreversible actions - use with caution</p>
+                
+                <div className="danger-actions">
+                  <Button variant="outline" onClick={handleClearData} className="danger-button">
+                    <FiTrash2 />
+                    Clear All Data
+                  </Button>
+                  
+                  <p className="danger-note">
+                    This will permanently delete all invoices, clients, and settings.
+                  </p>
                 </div>
               </div>
             </motion.div>

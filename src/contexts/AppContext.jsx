@@ -54,7 +54,10 @@ const ACTIONS = {
   UPDATE_CLIENT: 'UPDATE_CLIENT',
   DELETE_CLIENT: 'DELETE_CLIENT',
   UPDATE_SETTINGS: 'UPDATE_SETTINGS',
-  CLEAR_DATA: 'CLEAR_DATA'
+  CLEAR_DATA: 'CLEAR_DATA',
+  IMPORT_INVOICES: 'IMPORT_INVOICES',
+  IMPORT_CLIENTS: 'IMPORT_CLIENTS',
+  CLEAR_ALL_DATA: 'CLEAR_ALL_DATA'
 }
 
 // Reducer
@@ -127,6 +130,49 @@ const appReducer = (state, action) => {
     
     case ACTIONS.CLEAR_DATA:
       return { ...initialState }
+    
+    case ACTIONS.IMPORT_INVOICES:
+      return {
+        ...state,
+        invoices: action.payload
+      }
+    
+    case ACTIONS.IMPORT_CLIENTS:
+      return {
+        ...state,
+        clients: action.payload
+      }
+    
+    case ACTIONS.CLEAR_ALL_DATA:
+      return {
+        ...state,
+        invoices: [],
+        clients: [],
+        settings: {
+          company: {
+            name: 'Inkblot Studio',
+            address: '',
+            city: '',
+            postalCode: '',
+            country: 'Bulgaria',
+            vatNumber: '',
+            iban: '',
+            logo: null
+          },
+          invoice: {
+            prefix: 'INV',
+            nextNumber: 1,
+            currency: 'EUR',
+            vatRate: 20,
+            language: 'en',
+            includeQR: false
+          },
+          theme: {
+            primaryColor: '#98C93C',
+            secondaryColor: '#2A9245'
+          }
+        }
+      }
     
     default:
       return state
@@ -220,16 +266,50 @@ export const AppProvider = ({ children }) => {
     }).format(amount)
   }
 
-  const calculateInvoiceTotals = (items, vatRate = 20) => {
-    const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.rate), 0)
-    const vat = subtotal * (vatRate / 100)
-    const total = subtotal + vat
+  const calculateInvoiceTotals = (items, vatRate = 20, discountType = null, discountValue = 0) => {
+    // Ensure items is an array and has valid data
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return {
+        subtotal: 0,
+        discount: 0,
+        subtotalAfterDiscount: 0,
+        vat: 0,
+        total: 0,
+        vatRate,
+        discountType,
+        discountValue
+      }
+    }
+    
+    const subtotal = items.reduce((sum, item) => {
+      const quantity = item.quantity || 0
+      const rate = item.rate || 0
+      return sum + (quantity * rate)
+    }, 0)
+    
+    // Calculate discount
+    let discount = 0
+    if (discountType && discountValue > 0) {
+      if (discountType === 'percentage') {
+        discount = subtotal * (discountValue / 100)
+      } else if (discountType === 'fixed') {
+        discount = Math.min(discountValue, subtotal) // Don't discount more than subtotal
+      }
+    }
+    
+    const subtotalAfterDiscount = subtotal - discount
+    const vat = subtotalAfterDiscount * (vatRate / 100)
+    const total = subtotalAfterDiscount + vat
     
     return {
       subtotal,
+      discount,
+      subtotalAfterDiscount,
       vat,
       total,
-      vatRate
+      vatRate,
+      discountType,
+      discountValue
     }
   }
 

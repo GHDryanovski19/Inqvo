@@ -242,6 +242,22 @@
 .amount {
   font-weight: 600;
   color: var(--color-gray);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+}
+
+.discount-indicator {
+  .discount-badge {
+    background: rgba(81, 207, 102, 0.2);
+    color: var(--color-success);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 }
 
 .actions {

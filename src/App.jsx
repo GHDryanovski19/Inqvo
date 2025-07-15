@@ -20,7 +20,7 @@ const App = () => {
             <Route index element={<Dashboard />} />
             <Route path="invoices" element={<InvoiceList />} />
             <Route path="invoices/create" element={<InvoiceCreate />} />
-            <Route path="invoices/:id" element={<InvoiceEdit />} />
+            <Route path="invoices/:id/edit" element={<InvoiceEdit />} />
             <Route path="invoices/:id/preview" element={<InvoicePreview />} />
             <Route path="clients" element={<Clients />} />
             <Route path="settings" element={<Settings />} />

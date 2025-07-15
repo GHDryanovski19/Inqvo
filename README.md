@@ -1,71 +1,63 @@
-# Inkblot Invoice Studio
+# 🎨 Inkblot Studio Invoice System
 
-A modern, professional-grade invoice management system designed specifically for Inkblot Studio and other digital agencies operating in Europe. Built with React, optimized for EURO currency, and ready for Bulgaria's transition to the Eurozone in 2025-2026.
+A modern, professional-grade web application for generating and managing invoices for Inkblot Studio, a digital agency based in Bulgaria operating across Europe.
 
-## 🚀 Features
+## ✨ Features
 
-### Core Invoice Management
-- **Professional Invoice Creation**: Create invoices with hourly-based items, fixed-price services, and predefined templates
-- **EURO Currency Support**: Full EURO (€) support with European locale formatting (1 234,56 €)
-- **VAT Compliance**: Automatic 20% VAT calculation with toggle support
-- **Legal Compliance**: Bulgarian and EU law compliant invoice layout
-- **Sequential Numbering**: Year-based invoice numbering system
+### 🧾 **Invoice Management**
+- **Create Invoices**: Professional invoice creation with dynamic line items
+- **Edit Invoices**: Full editing capabilities for existing invoices
+- **Preview Invoices**: Beautiful invoice preview with print-ready formatting
+- **Invoice List**: Comprehensive list view with filtering and search
+- **Status Tracking**: Draft, Pending, Paid, and Overdue statuses
+- **Discount Support**: Percentage and fixed amount discounts
+- **VAT Calculation**: Automatic VAT calculation with configurable rates
 
-### Client Management
-- **Multi-brand Support**: Support for multiple brands (Inkblot Studio, Heavenly Kingdom, etc.)
-- **Client Profiles**: Complete client information including VAT numbers, addresses, and contact details
-- **Client Presets**: Save and reuse client information and preferences
-- **EU VAT Support**: Optional VAT/EU VAT number fields
+### 👥 **Client Management**
+- **Client Database**: Store and manage client information
+- **Client Modal**: Quick client creation and editing
+- **Client Details**: Complete contact and business information
+- **VAT Numbers**: Support for EU VAT registration
 
-### Data Management & Portability
-- **Offline-First**: Works completely offline with local storage
-- **Data Export/Import**: Export all data as JSON or ZIP files
-- **Encrypted Storage**: Local data encryption for security
-- **Cloud Backup**: Optional Supabase/PlanetScale integration
-- **PWA Ready**: Progressive Web App capabilities
+### ⚙️ **Settings & Configuration**
+- **Company Information**: Complete business profile setup
+- **Invoice Settings**: Customizable invoice numbering and defaults
+- **Theme Customization**: Brand color customization
+- **Multi-language Support**: English, Bulgarian, German, French
 
-### Professional Features
-- **PDF Generation**: Beautiful, printable invoices with custom branding
-- **QR Code Support**: Optional QR codes for IBAN + amount
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- **Modern UI**: Apple-level polish with Framer Motion animations
-- **Dark/Light Themes**: Customizable color schemes
+### 💾 **Data Management**
+- **Export Data**: JSON export with encryption support
+- **Import Data**: Secure data import with validation
+- **Backup System**: Automated backup creation
+- **Data Encryption**: AES encryption for sensitive data
+- **Clear Data**: Safe data clearing with confirmation
 
-## 🛠️ Technology Stack
+### 🎨 **Modern UI/UX**
+- **Responsive Design**: Mobile-first responsive layout
+- **Framer Motion**: Smooth animations and transitions
+- **SCSS Modules**: Organized and maintainable styling
+- **Professional Design**: Clean, modern interface
+- **Print Styles**: Optimized for printing invoices
 
-- **Frontend**: React 18 with Vite
-- **Styling**: SCSS modules (no Tailwind)
-- **Animations**: Framer Motion
-- **Forms**: React Hook Form
-- **State Management**: React Context + useReducer
-- **Storage**: LocalForage with encryption
-- **Icons**: React Icons (Feather icons)
-- **Build Tool**: Vite
-- **Deployment**: Vercel-ready
+### 🔧 **Technical Features**
+- **React 18**: Latest React with modern hooks
+- **Vite**: Fast development and build tooling
+- **Local Storage**: Offline-capable with localforage
+- **Form Validation**: Comprehensive form validation
+- **Error Handling**: Robust error handling and user feedback
 
-## 🎨 Design System
+## 🚀 Quick Start
 
-### Colors
-- **Primary**: Lime (#98C93C)
-- **Secondary**: Green (#2A9245)
-- **Text**: Gray (#232323)
-- **Background**: White (#FFFFFF)
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-### Typography
-- **Headings**: Outfit font family
-- **Body**: Arial Nova (fallback to Arial)
-
-### Spacing & Layout
-- Consistent spacing system (4px, 8px, 16px, 24px, 32px, 48px)
-- Responsive grid layouts
-- Modern border radius and shadows
-
-## 📦 Installation
+### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/inkblot-invoice-studio.git
-   cd inkblot-invoice-studio
+   git clone <repository-url>
+   cd Inqvo
    ```
 
 2. **Install dependencies**
@@ -78,156 +70,192 @@ A modern, professional-grade invoice management system designed specifically for
    npm run dev
    ```
 
-4. **Build for production**
-   ```bash
-   npm run build
+4. **Open in browser**
    ```
+   http://localhost:5173
+   ```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Layout/         # Main layout components
+│   ├── UI/            # Basic UI components (Button, Modal, etc.)
+│   └── Navigation/    # Navigation components
+├── contexts/          # React contexts
+│   └── AppContext.jsx # Main application state
+├── pages/             # Page components
+│   ├── Dashboard/     # Dashboard page
+│   ├── InvoiceCreate/ # Invoice creation
+│   ├── InvoiceEdit/   # Invoice editing
+│   ├── InvoiceList/   # Invoice listing
+│   ├── InvoicePreview/# Invoice preview
+│   ├── Clients/       # Client management
+│   └── Settings/      # Application settings
+├── styles/            # Global styles and design tokens
+│   ├── variables.scss # CSS custom properties
+│   ├── mixins.scss    # SCSS mixins
+│   └── globals.scss   # Global styles
+├── utils/             # Utility functions
+│   └── dataExport.js  # Data export/import utilities
+└── App.jsx           # Main application component
+```
+
+## 🎯 Usage Guide
+
+### Creating an Invoice
+
+1. Navigate to **Invoices** → **Create Invoice**
+2. Fill in invoice details (number, dates, client)
+3. Add line items with descriptions, quantities, and rates
+4. Configure VAT rate and optional discounts
+5. Add notes if needed
+6. Save the invoice
+
+### Managing Clients
+
+1. Go to **Clients** page
+2. Click **Add Client** to create new clients
+3. Fill in client information (name, email, address, VAT)
+4. Save client details
+
+### Exporting Data
+
+1. Navigate to **Settings** → **Data Management**
+2. Choose export option:
+   - **Export All Data**: Standard JSON export
+   - **Export Encrypted**: AES-encrypted export
+   - **Create Backup**: Timestamped backup file
+
+### Importing Data
+
+1. Go to **Settings** → **Data Management**
+2. Click **Import Data**
+3. Select a previously exported JSON file
+4. Data will be validated and imported automatically
+
+## 🎨 Customization
+
+### Theme Colors
+
+1. Go to **Settings** → **Theme**
+2. Customize primary and secondary colors
+3. Preview changes in real-time
+4. Save settings
+
+### Company Information
+
+1. Navigate to **Settings** → **Company**
+2. Update company details
+3. Configure VAT number and IBAN
+4. Set default invoice settings
+
+## 🔒 Security Features
+
+- **Data Encryption**: All stored data is AES-encrypted
+- **Secure Export**: Encrypted export options available
+- **Data Validation**: Import validation prevents corrupted data
+- **Safe Deletion**: Confirmation dialogs for destructive actions
+
+## 📱 Responsive Design
+
+The application is fully responsive and optimized for:
+- **Desktop**: Full-featured experience
+- **Tablet**: Touch-optimized interface
+- **Mobile**: Streamlined mobile experience
+
+## 🖨️ Print Support
+
+Invoices are optimized for printing with:
+- Clean, professional layout
+- Proper page breaks
+- Print-specific CSS
+- High-quality output
+
+## 🔧 Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix ESLint issues
+
+### Code Style
+
+- **ESLint**: Code linting and formatting
+- **Prettier**: Code formatting
+- **SCSS Modules**: Organized styling
+- **TypeScript-like**: JSDoc comments for type safety
 
 ## 🚀 Deployment
 
-### Vercel Deployment
+### Vercel (Recommended)
+
 1. Connect your GitHub repository to Vercel
-2. Vercel will automatically detect the Vite configuration
-3. Deploy with zero configuration
+2. Configure build settings:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+3. Deploy automatically on push
 
-### Environment Variables
-No environment variables required for basic functionality. The app works entirely offline.
+### Other Platforms
 
-## 📱 Usage
+The application can be deployed to any static hosting platform:
+- Netlify
+- GitHub Pages
+- AWS S3
+- Firebase Hosting
 
-### Creating Invoices
-1. Navigate to "Invoices" → "Create Invoice"
-2. Fill in invoice details (number, dates, client)
-3. Add invoice items with descriptions, quantities, and rates
-4. Review totals and VAT calculations
-5. Save the invoice
+## 📊 Browser Support
 
-### Managing Clients
-1. Go to "Clients" section
-2. Add new clients with complete information
-3. Edit existing client details
-4. Search and filter clients
-
-### Settings Configuration
-1. Access "Settings" to configure company information
-2. Set default VAT rates and invoice preferences
-3. Customize theme colors
-4. Configure invoice numbering
-
-## 🔧 Configuration
-
-### Company Settings
-- Company name and address
-- VAT number and IBAN
-- Default invoice settings
-- Brand colors and theme
-
-### Invoice Settings
-- Invoice prefix (e.g., "INV")
-- Next invoice number
-- Default VAT rate (20%)
-- Language preferences
-- QR code inclusion
-
-## 📊 Data Structure
-
-### Invoice Object
-```javascript
-{
-  id: "unique-id",
-  number: "INV-2025-0001",
-  issueDate: "2025-01-15",
-  dueDate: "2025-02-14",
-  status: "pending", // draft, pending, paid, overdue
-  client: { /* client object */ },
-  items: [
-    {
-      id: "item-id",
-      description: "Web Design",
-      quantity: 10,
-      rate: 50,
-      unit: "hour"
-    }
-  ],
-  vatRate: 20,
-  notes: "Additional notes",
-  createdAt: "2025-01-15T10:00:00Z",
-  updatedAt: "2025-01-15T10:00:00Z"
-}
-```
-
-### Client Object
-```javascript
-{
-  id: "client-id",
-  name: "Client Name",
-  company: "Company Name",
-  email: "client@example.com",
-  phone: "+359 888 123 456",
-  address: "123 Street",
-  city: "Sofia",
-  postalCode: "1000",
-  country: "Bulgaria",
-  vatNumber: "BG123456789",
-  notes: "Client notes"
-}
-```
-
-## 🔒 Security & Privacy
-
-- **Local Storage**: All data stored locally in the browser
-- **Encryption**: Data encrypted using CryptoJS
-- **No External Dependencies**: Works without external databases
-- **GDPR Compliant**: Full data export and deletion capabilities
-
-## 🌍 Internationalization
-
-- **EURO Currency**: Primary currency support
-- **European Locale**: Number formatting (1 234,56 €)
-- **Multi-language**: Support for English, Bulgarian, German, French
-- **VAT Compliance**: European VAT regulations
-
-## 🚀 Future Enhancements
-
-### Planned Features
-- **AI Integration**: Auto-describe services via GPT
-- **Translation**: AI-powered invoice translation (EN ↔ BG)
-- **Predictive Analytics**: Cost prediction based on past projects
-- **Smart Presets**: AI-powered service suggestions
-- **Cloud Sync**: Optional Supabase/PlanetScale integration
-
-### Advanced Features
-- **Time Tracking**: Built-in time tracking for hourly billing
-- **Recurring Invoices**: Automated recurring invoice generation
-- **Payment Integration**: Direct payment processing
-- **Advanced Analytics**: Revenue tracking and reporting
-- **Multi-currency**: Support for additional currencies
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🆘 Support
 
 For support and questions:
-- Create an issue in the GitHub repository
+- Create an issue on GitHub
 - Contact the development team
 - Check the documentation
 
-## 🙏 Acknowledgments
+## 🔄 Version History
 
-- Built for Inkblot Studio and the European digital agency market
-- Designed for Bulgaria's Eurozone transition in 2025-2026
-- Inspired by modern SaaS tools but built for specific agency needs
-- Special thanks to the React and open-source community
+### v1.0.0 (2025-01-XX)
+- Initial release
+- Complete invoice management system
+- Client management
+- Data export/import
+- Professional UI/UX
+- Responsive design
+- Print optimization
 
 ---
 

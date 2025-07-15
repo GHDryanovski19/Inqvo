@@ -23,13 +23,13 @@ const Dashboard = () => {
   const totalClients = clients.length
   
   const totalRevenue = invoices.reduce((sum, invoice) => {
-    const totals = calculateInvoiceTotals(invoice.items, invoice.vatRate)
+    const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20)
     return sum + totals.total
   }, 0)
 
   const pendingInvoices = invoices.filter(invoice => invoice.status === 'pending')
   const pendingAmount = pendingInvoices.reduce((sum, invoice) => {
-    const totals = calculateInvoiceTotals(invoice.items, invoice.vatRate)
+    const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20)
     return sum + totals.total
   }, 0)
 
@@ -159,7 +159,7 @@ const Dashboard = () => {
           <div className="invoices-list">
             {recentInvoices.length > 0 ? (
               recentInvoices.map((invoice) => {
-                const totals = calculateInvoiceTotals(invoice.items, invoice.vatRate)
+                const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20)
                 return (
                   <motion.div
                     key={invoice.id}

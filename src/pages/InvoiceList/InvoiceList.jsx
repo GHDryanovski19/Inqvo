@@ -58,8 +58,8 @@ const InvoiceList = () => {
           bValue = b.client?.name || ''
           break
         case 'amount':
-          const aTotals = calculateInvoiceTotals(a.items, a.vatRate)
-          const bTotals = calculateInvoiceTotals(b.items, b.vatRate)
+                const aTotals = calculateInvoiceTotals(a.items || [], a.vatRate || 20, a.discountType || 'percentage', a.discountValue || 0)
+      const bTotals = calculateInvoiceTotals(b.items || [], b.vatRate || 20, b.discountType || 'percentage', b.discountValue || 0)
           aValue = aTotals.total
           bValue = bTotals.total
           break
@@ -184,7 +184,7 @@ const InvoiceList = () => {
             <span className="stat-value">
               {formatCurrency(
                 invoices.reduce((sum, invoice) => {
-                  const totals = calculateInvoiceTotals(invoice.items, invoice.vatRate)
+                  const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20, invoice.discountType || 'percentage', invoice.discountValue || 0)
                   return sum + totals.total
                 }, 0)
               )}
@@ -225,7 +225,7 @@ const InvoiceList = () => {
             </div>
 
             {filteredInvoices.map((invoice, index) => {
-              const totals = calculateInvoiceTotals(invoice.items, invoice.vatRate)
+              const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20, invoice.discountType || 'percentage', invoice.discountValue || 0)
               return (
                 <motion.div
                   key={invoice.id}
@@ -254,6 +254,13 @@ const InvoiceList = () => {
                   
                   <div className="table-cell amount">
                     <strong>{formatCurrency(totals.total)}</strong>
+                    {totals.discount > 0 && (
+                      <div className="discount-indicator">
+                        <span className="discount-badge">
+                          -{formatCurrency(totals.discount)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="table-cell">
@@ -270,7 +277,7 @@ const InvoiceList = () => {
                         </Button>
                       </Link>
                       
-                      <Link to={`/invoices/${invoice.id}`}>
+                      <Link to={`/invoices/${invoice.id}/edit`}>
                         <Button variant="ghost" size="sm" title="Edit">
                           <FiEdit />
                         </Button>
