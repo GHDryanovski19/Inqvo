@@ -1,78 +1,48 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { 
-  FiFileText, 
-  FiUsers, 
-  FiDollarSign, 
-  FiTrendingUp,
-  FiPlus,
-  FiEye,
-  FiEdit
-} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { FiPlus, FiFileText, FiDollarSign, FiClock, FiAlertTriangle, FiTrendingUp, FiUsers, FiCalendar } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
-import { format } from 'date-fns'
-import Button from '../../components/UI/Button/Button'
-import './Dashboard.scss'
+import styles from './Dashboard.module.scss'
 
 const Dashboard = () => {
-  const { invoices, clients, formatCurrency, calculateInvoiceTotals } = useApp()
+  const { t } = useTranslation()
+  const { invoices, clients, settings } = useApp()
+  const [stats, setStats] = useState({
+    totalInvoices: 0,
+    totalRevenue: 0,
+    pendingInvoices: 0,
+    overdueInvoices: 0
+  })
 
-  // Calculate dashboard stats
-  const totalInvoices = invoices.length
-  const totalClients = clients.length
-  
-  const totalRevenue = invoices.reduce((sum, invoice) => {
-    const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20)
-    return sum + totals.total
-  }, 0)
+  useEffect(() => {
+    calculateStats()
+  }, [invoices])
 
-  const pendingInvoices = invoices.filter(invoice => invoice.status === 'pending')
-  const pendingAmount = pendingInvoices.reduce((sum, invoice) => {
-    const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20)
-    return sum + totals.total
-  }, 0)
+  const calculateStats = () => {
+    const totalInvoices = invoices.length
+    const totalRevenue = invoices
+      .filter(invoice => invoice.status === 'paid')
+      .reduce((sum, invoice) => sum + (invoice.total || 0), 0)
+    const pendingInvoices = invoices.filter(invoice => invoice.status === 'sent').length
+    const overdueInvoices = invoices.filter(invoice => {
+      if (invoice.status !== 'sent') return false
+      const dueDate = new Date(invoice.dueDate)
+      return dueDate < new Date()
+    }).length
 
-  // Recent invoices
+    setStats({
+      totalInvoices,
+      totalRevenue,
+      pendingInvoices,
+      overdueInvoices
+    })
+  }
+
   const recentInvoices = invoices
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .sort((a, b) => new Date(b.issueDate) - new Date(a.issueDate))
     .slice(0, 5)
-
-  // Recent clients
-  const recentClients = clients
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 3)
-
-  const stats = [
-    {
-      title: 'Total Invoices',
-      value: totalInvoices,
-      icon: FiFileText,
-      color: 'var(--color-lime)',
-      link: '/invoices'
-    },
-    {
-      title: 'Total Clients',
-      value: totalClients,
-      icon: FiUsers,
-      color: 'var(--color-green)',
-      link: '/clients'
-    },
-    {
-      title: 'Total Revenue',
-      value: formatCurrency(totalRevenue),
-      icon: FiDollarSign,
-      color: 'var(--color-success)',
-      link: '/invoices'
-    },
-    {
-      title: 'Pending Amount',
-      value: formatCurrency(pendingAmount),
-      icon: FiTrendingUp,
-      color: 'var(--color-warning)',
-      link: '/invoices'
-    }
-  ]
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,188 +55,141 @@ const Dashboard = () => {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
   }
 
-  return (
-    <div className="dashboard">
-      <motion.div
-        className="dashboard__header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div>
-          <h1>Welcome to Inkblot Studio</h1>
-          <p>Manage your invoices and clients with ease</p>
-        </div>
-        <Link to="/invoices/create">
-          <Button variant="primary" size="lg">
-            <FiPlus />
-            Create Invoice
-          </Button>
-        </Link>
-      </motion.div>
+  const StatCard = ({ icon: Icon, title, value, color, trend }) => (
+    <motion.div
+      className={styles.statCard}
+      variants={itemVariants}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+    >
+      <div className={styles.statIcon} style={{ backgroundColor: color }}>
+        <Icon />
+      </div>
+      <div className={styles.statContent}>
+        <h3>{title}</h3>
+        <p className={styles.statValue}>{value}</p>
+        {trend && <span className={styles.trend}>{trend}</span>}
+      </div>
+    </motion.div>
+  )
 
-      {/* Stats Cards */}
+  const InvoiceCard = ({ invoice }) => (
+    <Link to={`/invoice/preview/${invoice.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <motion.div
-        className="dashboard__stats"
+        className={styles.invoiceCard}
+        variants={itemVariants}
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.2 }}
+      >
+        <div className={styles.invoiceHeader}>
+          <h4>#{invoice.invoiceNumber}</h4>
+          <span className={`${styles.status} ${styles[invoice.status]}`}>
+            {t(`invoice.status.${invoice.status}`)}
+          </span>
+        </div>
+        <p className={styles.clientName}>{invoice.client?.name || 'Unknown Client'}</p>
+        <div className={styles.invoiceDetails}>
+          <span>€{invoice.total?.toFixed(2) || '0.00'}</span>
+          <span>{new Date(invoice.issueDate).toLocaleDateString()}</span>
+        </div>
+      </motion.div>
+    </Link>
+  )
+
+  return (
+    <div className={styles.dashboard}>
+      <motion.div
+        className={styles.container}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {stats.map((stat, index) => {
-          const Icon = stat.icon
-          return (
-            <motion.div
-              key={stat.title}
-              className="stat-card"
-              variants={itemVariants}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            >
-              <Link to={stat.link} className="stat-card__link">
-                <div className="stat-card__icon" style={{ backgroundColor: stat.color }}>
-                  <Icon />
-                </div>
-                <div className="stat-card__content">
-                  <h3 className="stat-card__value">{stat.value}</h3>
-                  <p className="stat-card__title">{stat.title}</p>
-                </div>
-              </Link>
-            </motion.div>
-          )
-        })}
-      </motion.div>
+        {/* Welcome Section */}
+        <motion.div className={styles.welcomeSection} variants={itemVariants}>
+          <h1>{t('dashboard.welcome')}</h1>
+          <p>Manage your invoices and track your business growth</p>
+        </motion.div>
 
-      <div className="dashboard__content">
+        {/* Stats Grid */}
+        <div className={styles.statsGrid}>
+          <StatCard
+            icon={FiFileText}
+            title={t('dashboard.stats.totalInvoices')}
+            value={stats.totalInvoices}
+            color="#6366f1"
+          />
+          <StatCard
+            icon={FiDollarSign}
+            title={t('dashboard.stats.totalRevenue')}
+            value={`€${stats.totalRevenue.toFixed(2)}`}
+            color="#10b981"
+          />
+          <StatCard
+            icon={FiClock}
+            title={t('dashboard.stats.pendingInvoices')}
+            value={stats.pendingInvoices}
+            color="#f59e0b"
+          />
+          <StatCard
+            icon={FiAlertTriangle}
+            title={t('dashboard.stats.overdueInvoices')}
+            value={stats.overdueInvoices}
+            color="#ef4444"
+          />
+        </div>
+
+        {/* Quick Actions */}
+        <motion.div className={styles.quickActions} variants={itemVariants}>
+          <h2>{t('dashboard.quickActions')}</h2>
+          <div className={styles.actionButtons}>
+            <Link to="/invoice/create" className={styles.actionButton}>
+              <FiPlus />
+              <span>{t('dashboard.createNewInvoice')}</span>
+            </Link>
+            <Link to="/settings" className={styles.actionButton}>
+              <FiUsers />
+              <span>{t('client.title')}</span>
+            </Link>
+          </div>
+        </motion.div>
+
         {/* Recent Invoices */}
-        <motion.div
-          className="dashboard__section"
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className="section-header">
-            <h2>Recent Invoices</h2>
-            <Link to="/invoices">
-              <Button variant="ghost" size="sm">
-                View All
-              </Button>
+        <motion.div className={styles.recentInvoices} variants={itemVariants}>
+          <div className={styles.sectionHeader}>
+            <h2>{t('dashboard.recentInvoices')}</h2>
+            <Link to="/invoices" className={styles.viewAll}>
+              {t('dashboard.viewAllInvoices')}
             </Link>
           </div>
           
-          <div className="invoices-list">
-            {recentInvoices.length > 0 ? (
-              recentInvoices.map((invoice) => {
-                const totals = calculateInvoiceTotals(invoice.items || [], invoice.vatRate || 20)
-                return (
-                  <motion.div
-                    key={invoice.id}
-                    className="invoice-item"
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="invoice-item__info">
-                      <h4>{invoice.number}</h4>
-                      <p>{invoice.client?.name || 'Unknown Client'}</p>
-                      <span className="invoice-item__date">
-                        {format(new Date(invoice.issueDate), 'MMM dd, yyyy')}
-                      </span>
-                    </div>
-                    <div className="invoice-item__amount">
-                      <span className="amount">{formatCurrency(totals.total)}</span>
-                      <span className={`status status--${invoice.status}`}>
-                        {invoice.status}
-                      </span>
-                    </div>
-                    <div className="invoice-item__actions">
-                      <Link to={`/invoices/${invoice.id}/preview`}>
-                        <Button variant="ghost" size="sm">
-                          <FiEye />
-                        </Button>
-                      </Link>
-                      <Link to={`/invoices/${invoice.id}`}>
-                        <Button variant="ghost" size="sm">
-                          <FiEdit />
-                        </Button>
-                      </Link>
-                    </div>
-                  </motion.div>
-                )
-              })
-            ) : (
-              <div className="empty-state">
-                <FiFileText size={48} />
-                <h3>No invoices yet</h3>
-                <p>Create your first invoice to get started</p>
-                <Link to="/invoices/create">
-                  <Button variant="primary">
-                    <FiPlus />
-                    Create Invoice
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </div>
+          {recentInvoices.length > 0 ? (
+            <div className={styles.invoicesGrid}>
+              {recentInvoices.map((invoice) => (
+                <InvoiceCard key={invoice.id} invoice={invoice} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <FiFileText />
+              <h3>{t('invoice.list.noInvoices')}</h3>
+              <p>{t('invoice.list.createFirst')}</p>
+              <Link to="/invoice/create" className={styles.createButton}>
+                {t('dashboard.createNewInvoice')}
+              </Link>
+            </div>
+          )}
         </motion.div>
-
-        {/* Recent Clients */}
-        <motion.div
-          className="dashboard__section"
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className="section-header">
-            <h2>Recent Clients</h2>
-            <Link to="/clients">
-              <Button variant="ghost" size="sm">
-                View All
-              </Button>
-            </Link>
-          </div>
-          
-          <div className="clients-list">
-            {recentClients.length > 0 ? (
-              recentClients.map((client) => (
-                <motion.div
-                  key={client.id}
-                  className="client-item"
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="client-item__avatar">
-                    {client.name.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="client-item__info">
-                    <h4>{client.name}</h4>
-                    <p>{client.email}</p>
-                    <span className="client-item__country">{client.country}</span>
-                  </div>
-                  <Link to={`/clients/${client.id}`}>
-                    <Button variant="ghost" size="sm">
-                      <FiEdit />
-                    </Button>
-                  </Link>
-                </motion.div>
-              ))
-            ) : (
-              <div className="empty-state">
-                <FiUsers size={48} />
-                <h3>No clients yet</h3>
-                <p>Add your first client to get started</p>
-                <Link to="/clients">
-                  <Button variant="primary">
-                    <FiPlus />
-                    Add Client
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </div>
-        </motion.div>
-      </div>
+      </motion.div>
     </div>
   )
 }

@@ -246,6 +246,35 @@ export const AppProvider = ({ children }) => {
     }
   }, [state.invoices, state.clients, state.settings])
 
+  // Apply theme colors dynamically
+  useEffect(() => {
+    const applyThemeColors = () => {
+      const root = document.documentElement
+      const { primaryColor, secondaryColor } = state.settings.theme
+      
+      // Convert hex to RGB for CSS custom properties
+      const hexToRgb = (hex) => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+        return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null
+      }
+      
+      const primaryRgb = hexToRgb(primaryColor)
+      const secondaryRgb = hexToRgb(secondaryColor)
+      
+      if (primaryRgb) {
+        root.style.setProperty('--primary-color', primaryColor)
+        root.style.setProperty('--primary-rgb', primaryRgb)
+      }
+      
+      if (secondaryRgb) {
+        root.style.setProperty('--secondary-color', secondaryColor)
+        root.style.setProperty('--secondary-rgb', secondaryRgb)
+      }
+    }
+    
+    applyThemeColors()
+  }, [state.settings.theme])
+
   // Load data on mount
   useEffect(() => {
     loadData()

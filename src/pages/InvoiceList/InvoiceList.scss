@@ -1,3 +1,7 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
+
 .invoice-list {
   max-width: 1200px;
   margin: 0 auto;
@@ -7,22 +11,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-xxl);
+  margin-bottom: $spacing-2xl;
   
   h1 {
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-gray);
+    margin-bottom: $spacing-sm;
+    color: $text-color;
   }
   
   p {
-    color: var(--color-gray-medium);
+    color: $text-secondary;
     margin: 0;
   }
   
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--spacing-lg);
+    gap: $spacing-lg;
   }
 }
 
@@ -31,8 +35,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-xl);
-  gap: var(--spacing-lg);
+  margin-bottom: $spacing-xl;
+  gap: $spacing-lg;
   
   @media (max-width: 768px) {
     flex-direction: column;
@@ -43,19 +47,19 @@
 .filters-left {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: $spacing-md;
   flex: 1;
   
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: $spacing-sm;
   }
 }
 
 .filters-right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: $spacing-sm;
 }
 
 .search-box {
@@ -64,25 +68,25 @@
   
   svg {
     position: absolute;
-    left: var(--spacing-md);
+    left: $spacing-md;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-gray-medium);
+    color: $text-secondary;
     width: 16px;
     height: 16px;
   }
   
   input {
     width: 100%;
-    padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) calc(var(--spacing-md) * 2 + 16px);
-    border: 1px solid var(--color-gray-light);
-    border-radius: var(--radius-md);
+    padding: $spacing-md $spacing-md $spacing-md calc($spacing-md * 2 + 16px);
+    border: 1px solid $border-light;
+    border-radius: $radius-md;
     font-size: 1rem;
     
     &:focus {
       outline: none;
-      border-color: var(--color-lime);
-      box-shadow: 0 0 0 3px rgba(152, 201, 60, 0.1);
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
     }
   }
   
@@ -93,17 +97,17 @@
 
 .filter-select,
 .sort-select {
-  padding: var(--spacing-md);
-  border: 1px solid var(--color-gray-light);
-  border-radius: var(--radius-md);
-  background: var(--color-white);
+  padding: $spacing-md;
+  border: 1px solid $border-light;
+  border-radius: $radius-md;
+  background: $surface-color;
   font-size: 1rem;
   min-width: 150px;
   
   &:focus {
     outline: none;
-    border-color: var(--color-lime);
-    box-shadow: 0 0 0 3px rgba(152, 201, 60, 0.1);
+    border-color: $primary-color;
+          box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
   }
 }
 
@@ -111,46 +115,46 @@
 .invoice-list__stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
 }
 
 .stat-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  background: var(--color-white);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  gap: $spacing-md;
+  background: $surface-color;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
   
   svg {
     width: 24px;
     height: 24px;
-    color: var(--color-lime);
+    color: $primary-color;
   }
   
   .stat-value {
     display: block;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--color-gray);
+    color: $text-color;
     line-height: 1;
   }
   
   .stat-label {
     display: block;
     font-size: 0.875rem;
-    color: var(--color-gray-medium);
-    margin-top: var(--spacing-xs);
+    color: $text-secondary;
+    margin-top: $spacing-xs;
   }
 }
 
 // Table
 .invoice-list__content {
-  background: var(--color-white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  background: $surface-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
   overflow: hidden;
 }
 
@@ -161,11 +165,11 @@
 .table-header {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 120px;
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg);
-  background: var(--color-gray-light);
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $border-light;
   font-weight: 600;
-  color: var(--color-gray);
+  color: $text-color;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -178,13 +182,13 @@
 .table-row {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 120px;
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg);
-  border-bottom: 1px solid var(--color-gray-light);
-  transition: all var(--transition-fast);
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $border-light;
+  transition: all $transition-fast;
   
   &:hover {
-    background: var(--color-gray-light);
+    background: $hover-color;
   }
   
   &:last-child {
@@ -194,178 +198,241 @@
   @media (max-width: 1024px) {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-lg);
-    border-bottom: 2px solid var(--color-gray-light);
+    gap: $spacing-sm;
+    padding: $spacing-lg;
+    border-bottom: 2px solid $border-light;
   }
 }
 
 .table-cell {
   display: flex;
   align-items: center;
+  gap: $spacing-sm;
   
   @media (max-width: 1024px) {
     justify-content: space-between;
+    padding: $spacing-xs 0;
     
     &::before {
       content: attr(data-label);
       font-weight: 600;
-      color: var(--color-gray-medium);
+      color: $text-secondary;
       font-size: 0.875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      min-width: 100px;
     }
   }
 }
 
 .invoice-number {
   font-weight: 600;
-  color: var(--color-gray);
+  color: $primary-color;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-.client-info {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-xs);
-  
-  .client-name {
-    font-weight: 500;
-    color: var(--color-gray);
-  }
-  
-  .client-email {
-    font-size: 0.875rem;
-    color: var(--color-gray-medium);
-  }
+.client-name {
+  font-weight: 500;
+  color: $text-color;
 }
 
 .amount {
   font-weight: 600;
-  color: var(--color-gray);
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-xs);
+  color: $text-color;
 }
 
-.discount-indicator {
-  .discount-badge {
-    background: rgba(81, 207, 102, 0.2);
-    color: var(--color-success);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-}
-
-.actions {
-  justify-content: flex-end;
-}
-
-.action-buttons {
-  display: flex;
-  gap: var(--spacing-xs);
-  
-  @media (max-width: 1024px) {
-    justify-content: flex-end;
-  }
-}
-
-.delete-btn {
-  color: var(--color-error) !important;
-  
-  &:hover {
-    background: rgba(255, 107, 107, 0.1) !important;
-  }
-}
-
-// Status Badges
-.status-badge {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   
-  &.status--draft {
-    background: var(--color-gray-light);
-    color: var(--color-gray-medium);
+  &.draft {
+    background: color.adjust($warning-rgb, $alpha: 0.1);
+    color: $warning-color;
   }
   
-  &.status--pending {
-    background: rgba(255, 212, 59, 0.2);
-    color: #b8860b;
+  &.sent {
+    background: color.adjust($info-rgb, $alpha: 0.1);
+    color: $info-color;
   }
   
-  &.status--paid {
-    background: rgba(81, 207, 102, 0.2);
-    color: var(--color-success);
+  &.paid {
+    background: color.adjust($success-rgb, $alpha: 0.1);
+    color: $success-color;
   }
   
-  &.status--overdue {
-    background: rgba(255, 107, 107, 0.2);
-    color: var(--color-error);
+  &.overdue {
+    background: color.adjust($error-rgb, $alpha: 0.1);
+    color: $error-color;
+  }
+  
+  &.cancelled {
+    background: rgba($text-secondary, 0.1);
+    color: $text-secondary;
+  }
+}
+
+.date {
+  color: $text-secondary;
+  font-size: 0.875rem;
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-xs;
+  
+  @media (max-width: 1024px) {
+    justify-content: flex-end;
+    margin-top: $spacing-sm;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: $radius-sm;
+  background: $bg-secondary;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all $transition-fast;
+  
+  &:hover {
+    background: $primary-color;
+    color: white;
+    transform: translateY(-1px);
+  }
+  
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+// Ensure Button component variants work properly
+.btn {
+  &.btn--ghost {
+    background: transparent;
+    color: $text-secondary;
+    border: 1px solid transparent;
+    
+    &:hover {
+      background: $hover-color;
+      color: $text-color;
+    }
+  }
+  
+  &.btn--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: 0.875rem;
+    min-height: 32px;
   }
 }
 
 // Empty State
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-xxl);
   text-align: center;
-  color: var(--color-gray-medium);
+  padding: $spacing-2xl;
+  color: $text-secondary;
   
   svg {
-    margin-bottom: var(--spacing-lg);
+    font-size: 4rem;
+    margin-bottom: $spacing-lg;
     opacity: 0.5;
   }
   
   h3 {
-    margin: 0 0 var(--spacing-sm) 0;
-    color: var(--color-gray);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0 0 $spacing-md 0;
   }
   
   p {
-    margin: 0 0 var(--spacing-lg) 0;
+    font-size: 1rem;
+    margin: 0 0 $spacing-xl 0;
   }
 }
 
-// Responsive Design
-@media (max-width: 1024px) {
-  .invoice-list__stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.create-button {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  background: $primary-color;
+  color: white;
+  text-decoration: none;
+  border-radius: $radius-md;
+  font-weight: 500;
+  transition: all $transition-fast;
   
-  .stat-item {
-    padding: var(--spacing-md);
+  &:hover {
+    background: $primary-dark;
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+    text-decoration: none;
+    color: white;
+  }
+}
+
+// Pagination
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+  
+  .page-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    background: $surface-color;
+    color: $text-color;
+    cursor: pointer;
+    transition: all $transition-fast;
     
-    .stat-value {
-      font-size: 1.25rem;
+    &:hover {
+      background: $hover-color;
+      border-color: $primary-color;
+    }
+    
+    &.active {
+      background: $primary-color;
+      color: white;
+      border-color: $primary-color;
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
-}
-
-@media (max-width: 768px) {
-  .invoice-list__stats {
-    grid-template-columns: 1fr;
-  }
   
-  .filters-left {
-    gap: var(--spacing-sm);
-  }
-  
-  .search-box {
-    min-width: auto;
-  }
-  
-  .filter-select,
-  .sort-select {
-    min-width: auto;
+  .page-info {
+    color: $text-secondary;
+    font-size: 0.875rem;
+    margin: 0 $spacing-md;
   }
 } 

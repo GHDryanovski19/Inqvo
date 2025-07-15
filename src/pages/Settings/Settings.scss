@@ -1,3 +1,7 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
+
 .settings {
   max-width: 1200px;
   margin: 0 auto;
@@ -7,37 +11,37 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-xxl);
+  margin-bottom: $spacing-2xl;
   
   h1 {
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-gray);
+    margin-bottom: $spacing-sm;
+    color: $text-color;
   }
   
   p {
-    color: var(--color-gray-medium);
+    color: $text-secondary;
     margin: 0;
   }
   
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--spacing-lg);
+    gap: $spacing-lg;
   }
 }
 
 .settings__content {
-  background: var(--color-white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  background: $surface-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
   overflow: hidden;
 }
 
 // Tabs
 .settings__tabs {
   display: flex;
-  border-bottom: 1px solid var(--color-gray-light);
-  background: var(--color-gray-light);
+  border-bottom: 1px solid $border-light;
+  background: $border-light;
   
   @media (max-width: 768px) {
     flex-direction: column;
@@ -47,15 +51,15 @@
 .tab-button {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-lg) var(--spacing-xl);
+  gap: $spacing-sm;
+  padding: $spacing-lg $spacing-xl;
   border: none;
   background: none;
-  color: var(--color-gray-medium);
+  color: $text-secondary;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all $transition-fast;
   border-bottom: 3px solid transparent;
   
   svg {
@@ -64,14 +68,14 @@
   }
   
   &:hover {
-    color: var(--color-gray);
+    color: $text-color;
     background: rgba(255, 255, 255, 0.5);
   }
   
   &.active {
-    color: var(--color-lime);
-    background: var(--color-white);
-    border-bottom-color: var(--color-lime);
+    color: $primary-color;
+    background: $surface-color;
+    border-bottom-color: $primary-color;
   }
   
   @media (max-width: 768px) {
@@ -81,43 +85,43 @@
     
     &.active {
       border-bottom: none;
-      border-right-color: var(--color-lime);
+      border-right-color: $primary-color;
     }
   }
 }
 
 // Tab Content
 .settings__tab-content {
-  padding: var(--spacing-xl);
+  padding: $spacing-xl;
   
   @media (max-width: 768px) {
-    padding: var(--spacing-lg);
+    padding: $spacing-lg;
   }
 }
 
 .tab-panel {
   h2 {
-    margin: 0 0 var(--spacing-sm) 0;
-    color: var(--color-gray);
+    margin: 0 0 $spacing-sm 0;
+    color: $text-color;
     font-size: 1.5rem;
   }
   
   > p {
-    color: var(--color-gray-medium);
-    margin: 0 0 var(--spacing-xl) 0;
+    color: $text-secondary;
+    margin: 0 0 $spacing-xl 0;
   }
 }
 
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: $spacing-xl;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg);
+  gap: $spacing-lg;
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -127,61 +131,61 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: $spacing-sm;
   
   label {
     font-weight: 500;
-    color: var(--color-gray);
+    color: $text-color;
     font-size: 0.875rem;
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
+    gap: $spacing-xs;
     
     svg {
       width: 14px;
       height: 14px;
-      color: var(--color-gray-medium);
+      color: $text-secondary;
     }
   }
   
   input,
   select {
-    padding: var(--spacing-md);
-    border: 1px solid var(--color-gray-light);
-    border-radius: var(--radius-md);
+    padding: $spacing-md;
+    border: 1px solid $border-light;
+    border-radius: $radius-md;
     font-size: 1rem;
-    transition: all var(--transition-fast);
+    transition: all $transition-fast;
     
     &:focus {
       outline: none;
-      border-color: var(--color-lime);
-      box-shadow: 0 0 0 3px rgba(152, 201, 60, 0.1);
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
     }
     
     &.error {
-      border-color: var(--color-error);
-      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+      border-color: $error-color;
+      box-shadow: 0 0 0 3px color.adjust($error-rgb, $alpha: 0.1);
     }
   }
 }
 
 .error-message {
-  color: var(--color-error);
+  color: $error-color;
   font-size: 0.875rem;
-  margin-top: var(--spacing-xs);
+  margin-top: $spacing-xs;
 }
 
 // Checkbox
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: $spacing-sm;
   cursor: pointer;
   
   input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--color-lime);
+    accent-color: $primary-color;
   }
   
   span {
@@ -192,17 +196,17 @@
 // Color Input
 .color-input {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: $spacing-sm;
   align-items: center;
 }
 
 .color-picker {
   width: 50px;
   height: 40px;
-  border: 1px solid var(--color-gray-light);
-  border-radius: var(--radius-md);
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
   cursor: pointer;
-  padding: 0;
+  background: none;
   
   &::-webkit-color-swatch-wrapper {
     padding: 0;
@@ -210,165 +214,130 @@
   
   &::-webkit-color-swatch {
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: $radius-md;
   }
 }
 
-.color-text {
-  flex: 1;
-  font-family: monospace;
+// Buttons
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  border: none;
+  border-radius: $radius-md;
   font-size: 0.875rem;
-}
-
-// Theme Preview
-.theme-preview {
-  background: var(--color-gray-light);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-lg);
-  margin-top: var(--spacing-lg);
-  
-  h3 {
-    margin: 0 0 var(--spacing-md) 0;
-    color: var(--color-gray);
-    font-size: 1rem;
-  }
-}
-
-.preview-buttons {
-  display: flex;
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-}
-
-// Responsive Design
-@media (max-width: 768px) {
-  .settings__header {
-    margin-bottom: var(--spacing-lg);
-  }
-  
-  .settings__tabs {
-    flex-direction: column;
-  }
-  
-  .tab-button {
-    justify-content: center;
-    border-bottom: none;
-    border-right: 3px solid transparent;
-    
-    &.active {
-      border-bottom: none;
-      border-right-color: var(--color-lime);
-    }
-  }
-  
-  .settings__tab-content {
-    padding: var(--spacing-lg);
-  }
-  
-  .form-section {
-    gap: var(--spacing-lg);
-  }
-  
-  .color-input {
-    flex-direction: column;
-    align-items: flex-start;
-    
-    .color-picker {
-      width: 100%;
-      height: 50px;
-    }
-  }
-}
-
-// Data Management Styles
-.data-actions {
-  display: flex;
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
-  margin-bottom: var(--spacing-lg);
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-}
-
-.data-stats {
-  display: flex;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
-  background: var(--color-gray-light);
-  border-radius: var(--radius-md);
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: var(--spacing-md);
-  }
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-  
-  .stat-label {
-    font-size: 0.875rem;
-    color: var(--color-gray-medium);
-    font-weight: 500;
-  }
-  
-  .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-gray);
-  }
-}
-
-.import-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  align-items: flex-start;
-}
-
-.import-note {
-  font-size: 0.875rem;
-  color: var(--color-gray-medium);
-  margin: 0;
-}
-
-.danger-zone {
-  border: 2px solid var(--color-error);
-  background: rgba(255, 107, 107, 0.05);
-  
-  h3 {
-    color: var(--color-error);
-  }
-}
-
-.danger-actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  align-items: flex-start;
-}
-
-.danger-button {
-  border-color: var(--color-error);
-  color: var(--color-error);
-  
-  &:hover {
-    background: var(--color-error);
-    color: white;
-  }
-}
-
-.danger-note {
-  font-size: 0.875rem;
-  color: var(--color-error);
-  margin: 0;
   font-weight: 500;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-decoration: none;
+  
+  &.primary {
+    background: $primary-color;
+    color: white;
+    
+    &:hover {
+      background: $primary-dark;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  &.secondary {
+    background: $bg-secondary;
+    color: $text-color;
+    border: 1px solid $border-color;
+    
+    &:hover {
+      background: $hover-color;
+    }
+  }
+  
+  &.danger {
+    background: $error-color;
+    color: white;
+    
+    &:hover {
+      background: $error-dark;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+// Danger Zone
+.danger-zone {
+  border: 1px solid $error-color;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  background: color.adjust($error-rgb, $alpha: 0.05);
+  
+  h3 {
+    color: $error-color;
+    margin: 0 0 $spacing-md 0;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  p {
+    color: $text-secondary;
+    margin: 0 0 $spacing-lg 0;
+  }
+}
+
+// Success Message
+.success-message {
+  background: color.adjust($success-rgb, $alpha: 0.1);
+  border: 1px solid $success-color;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  color: $success-color;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Loading State
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid $border-color;
+    border-top-color: $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

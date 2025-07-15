@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
 import { 
   FiArrowLeft, 
@@ -8,7 +8,11 @@ import {
   FiEdit, 
   FiPrinter,
   FiMail,
-  FiShare2
+  FiShare2,
+  FiEye,
+  FiCopy,
+  FiCheck,
+  FiX
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
@@ -21,6 +25,8 @@ const InvoicePreview = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals } = useApp()
+  const [isLoading, setIsLoading] = useState(false)
+  const [copied, setCopied] = useState(false)
   
   const invoice = invoices.find(inv => inv.id === id)
   
@@ -28,12 +34,23 @@ const InvoicePreview = () => {
     return (
       <div className="invoice-preview">
         <div className="error-state">
-          <h2>Invoice Not Found</h2>
-          <p>The invoice you're looking for doesn't exist.</p>
-          <Button variant="primary" onClick={() => navigate('/invoices')}>
-            <FiArrowLeft />
-            Back to Invoices
-          </Button>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="error-content"
+          >
+            <div className="error-icon">📄</div>
+            <h2>Invoice Not Found</h2>
+            <p>The invoice you're looking for doesn't exist or has been removed.</p>
+            <Button 
+              variant="primary" 
+              onClick={() => navigate('/invoices')}
+              className="back-button"
+            >
+              <FiArrowLeft />
+              Back to Invoices
+            </Button>
+          </motion.div>
         </div>
       </div>
     )
@@ -51,6 +68,7 @@ const InvoicePreview = () => {
   }
 
   const handleExport = async () => {
+    setIsLoading(true)
     try {
       const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
       if (result.success) {
@@ -61,30 +79,25 @@ const InvoicePreview = () => {
     } catch (error) {
       toast.error('Failed to export PDF')
       console.error('Export error:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleShare = async () => {
     try {
-      // Generate PDF first
-      const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
-      
-      if (result.success) {
-        // Check if Web Share API is available
-        if (navigator.share) {
-          await navigator.share({
-            title: `Invoice ${invoice.number}`,
-            text: `Invoice ${invoice.number} from ${settings.company.name}`,
-            url: window.location.href
-          })
-          toast.success('Invoice shared successfully')
-        } else {
-          // Fallback: copy link to clipboard
-          await navigator.clipboard.writeText(window.location.href)
-          toast.success('Invoice link copied to clipboard')
-        }
+      if (navigator.share) {
+        await navigator.share({
+          title: `Invoice ${invoice.number}`,
+          text: `Invoice ${invoice.number} from ${settings.company.name}`,
+          url: window.location.href
+        })
+        toast.success('Invoice shared successfully')
       } else {
-        toast.error('Failed to prepare invoice for sharing')
+        await navigator.clipboard.writeText(window.location.href)
+        setCopied(true)
+        toast.success('Invoice link copied to clipboard')
+        setTimeout(() => setCopied(false), 2000)
       }
     } catch (error) {
       toast.error('Failed to share invoice')
@@ -95,13 +108,8 @@ const InvoicePreview = () => {
   const handleSendEmail = () => {
     try {
       const { subject, body } = generateInvoiceEmail(invoice, settings, formatCurrency)
-      
-      // Create mailto link
       const mailtoLink = `mailto:${invoice.client?.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-      
-      // Open default email client
       window.open(mailtoLink, '_blank')
-      
       toast.success('Email client opened with invoice details')
     } catch (error) {
       toast.error('Failed to generate email')
@@ -109,10 +117,37 @@ const InvoicePreview = () => {
     }
   }
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'draft': return '#6B7280'
+      case 'sent': return '#3B82F6'
+      case 'paid': return '#10B981'
+      case 'overdue': return '#EF4444'
+      case 'cancelled': return '#9CA3AF'
+      default: return '#6B7280'
+    }
+  }
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'draft': return '📝'
+      case 'sent': return '📤'
+      case 'paid': return '✅'
+      case 'overdue': return '⚠️'
+      case 'cancelled': return '❌'
+      default: return '📄'
+    }
+  }
+
   return (
     <div className="invoice-preview">
-      {/* Header */}
-      <div className="invoice-preview__header">
+      {/* Modern Header */}
+      <motion.div 
+        className="invoice-preview__header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="header-left">
           <Button
             variant="ghost"
@@ -120,101 +155,147 @@ const InvoicePreview = () => {
             className="back-btn"
           >
             <FiArrowLeft />
-            Back to Invoices
+            <span>Back to Invoices</span>
           </Button>
-          <div>
+          
+          <div className="header-info">
             <h1>Invoice Preview</h1>
-            <p>{invoice.number}</p>
+            <div className="invoice-meta">
+              <span className="invoice-number">{invoice.number}</span>
+              <div className="status-indicator" style={{ backgroundColor: getStatusColor(invoice.status) }}>
+                <span className="status-icon">{getStatusIcon(invoice.status)}</span>
+                <span className="status-text">{invoice.status}</span>
+              </div>
+            </div>
           </div>
         </div>
         
         <div className="header-actions">
-          <Button variant="outline" onClick={handlePrint}>
-            <FiPrinter />
-            Print
-          </Button>
-          <Button variant="outline" onClick={handleExport}>
-            <FiDownload />
-            Export PDF
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => {
-              try {
-                const result = exportInvoiceToCSV(invoice, formatCurrency)
-                if (result.success) {
-                  toast.success(`CSV exported successfully: ${result.filename}`)
-                } else {
-                  toast.error(`Export failed: ${result.error}`)
+          <div className="action-group">
+            <Button 
+              variant="outline" 
+              onClick={handlePrint}
+              className="action-btn"
+              title="Print Invoice"
+            >
+              <FiPrinter />
+              <span>Print</span>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              onClick={handleExport}
+              className="action-btn"
+              loading={isLoading}
+              title="Export as PDF"
+            >
+              <FiDownload />
+              <span>PDF</span>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                try {
+                  const result = exportInvoiceToCSV(invoice, formatCurrency)
+                  if (result.success) {
+                    toast.success(`CSV exported successfully: ${result.filename}`)
+                  } else {
+                    toast.error(`Export failed: ${result.error}`)
+                  }
+                } catch (error) {
+                  toast.error('Failed to export CSV')
+                  console.error('CSV export error:', error)
                 }
-              } catch (error) {
-                toast.error('Failed to export CSV')
-                console.error('CSV export error:', error)
-              }
-            }}
+              }}
+              className="action-btn"
+              title="Export as CSV"
+            >
+              <FiDownload />
+              <span>CSV</span>
+            </Button>
+          </div>
+          
+          <div className="action-group">
+            <Button 
+              variant="outline" 
+              onClick={handleSendEmail}
+              className="action-btn"
+              title="Send via Email"
+            >
+              <FiMail />
+              <span>Email</span>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              onClick={handleShare}
+              className="action-btn"
+              title="Share Invoice"
+            >
+              {copied ? <FiCheck /> : <FiShare2 />}
+              <span>{copied ? 'Copied' : 'Share'}</span>
+            </Button>
+          </div>
+          
+          <Button 
+            variant="primary" 
+            onClick={() => navigate(`/invoice/edit/${id}`)}
+            className="edit-btn"
           >
-            <FiDownload />
-            Export CSV
-          </Button>
-          <Button variant="outline" onClick={handleSendEmail}>
-            <FiMail />
-            Send Email
-          </Button>
-          <Button variant="outline" onClick={handleShare}>
-            <FiShare2 />
-            Share
-          </Button>
-          <Button variant="primary" onClick={() => navigate(`/invoices/${id}/edit`)}>
             <FiEdit />
-            Edit Invoice
+            <span>Edit Invoice</span>
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Invoice Document */}
       <motion.div
         className="invoice-document"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
       >
-        {/* Invoice Header */}
-        <div className="invoice-header">
-          <div className="company-info">
+        {/* Company & Invoice Header */}
+        <div className="document-header">
+          <div className="company-section">
             <div className="company-logo">
               {settings.company.logo ? (
                 <img src={settings.company.logo} alt={settings.company.name} />
               ) : (
                 <div className="logo-placeholder">
-                  {settings.company.name.charAt(0)}
+                  <span>{settings.company.name.charAt(0)}</span>
                 </div>
               )}
             </div>
+            
             <div className="company-details">
-              <h2>{settings.company.name}</h2>
-              {settings.company.address && <p>{settings.company.address}</p>}
-              {settings.company.city && settings.company.postalCode && (
-                <p>{settings.company.postalCode} {settings.company.city}</p>
-              )}
-              {settings.company.country && <p>{settings.company.country}</p>}
-              {settings.company.vatNumber && <p>VAT: {settings.company.vatNumber}</p>}
+              <h2 className="company-name">{settings.company.name}</h2>
+              <div className="company-address">
+                {settings.company.address && <p>{settings.company.address}</p>}
+                {settings.company.city && settings.company.postalCode && (
+                  <p>{settings.company.postalCode} {settings.company.city}</p>
+                )}
+                {settings.company.country && <p>{settings.company.country}</p>}
+                {settings.company.vatNumber && <p className="vat-number">VAT: {settings.company.vatNumber}</p>}
+              </div>
             </div>
           </div>
           
-          <div className="invoice-meta">
-            <div className="invoice-number">
-              <h1>{invoice.number}</h1>
-              <span className={`status-badge status--${invoice.status}`}>
-                {invoice.status}
-              </span>
+          <div className="invoice-details">
+            <div className="invoice-title">
+              <h1>INVOICE</h1>
+              <div className="invoice-number-display">{invoice.number}</div>
             </div>
+            
             <div className="invoice-dates">
-              <div className="date-item">
-                <label>Issue Date:</label>
-                <span>{format(new Date(invoice.issueDate), 'dd MMM yyyy')}</span>
+              <div className="date-row">
+                <span className="date-label">Issue Date:</span>
+                <span className="date-value">{format(new Date(invoice.issueDate), 'dd MMM yyyy')}</span>
               </div>
-              <div className="date-item">
-                <label>Due Date:</label>
-                <span>{format(new Date(invoice.dueDate), 'dd MMM yyyy')}</span>
+              <div className="date-row">
+                <span className="date-label">Due Date:</span>
+                <span className="date-value">{format(new Date(invoice.dueDate), 'dd MMM yyyy')}</span>
               </div>
             </div>
           </div>
@@ -222,104 +303,107 @@ const InvoicePreview = () => {
 
         {/* Client Information */}
         <div className="client-section">
-          <h3>Bill To:</h3>
-          <div className="client-info">
-            <h4>{invoice.client?.name || 'Unknown Client'}</h4>
-            {invoice.client?.company && <p>{invoice.client.company}</p>}
-            {invoice.client?.email && <p>{invoice.client.email}</p>}
-            {invoice.client?.phone && <p>{invoice.client.phone}</p>}
-            {invoice.client?.address && <p>{invoice.client.address}</p>}
-            {invoice.client?.city && invoice.client?.postalCode && (
-              <p>{invoice.client.postalCode} {invoice.client.city}</p>
-            )}
-            {invoice.client?.country && <p>{invoice.client.country}</p>}
-            {invoice.client?.vatNumber && <p>VAT: {invoice.client.vatNumber}</p>}
+          <h3 className="section-title">Bill To:</h3>
+          <div className="client-card">
+            <h4 className="client-name">{invoice.client?.name || 'Unknown Client'}</h4>
+            <div className="client-details">
+              {invoice.client?.company && <p className="client-company">{invoice.client.company}</p>}
+              {invoice.client?.email && <p className="client-email">{invoice.client.email}</p>}
+              {invoice.client?.phone && <p className="client-phone">{invoice.client.phone}</p>}
+              {invoice.client?.address && <p className="client-address">{invoice.client.address}</p>}
+              {invoice.client?.city && invoice.client?.postalCode && (
+                <p className="client-location">{invoice.client.postalCode} {invoice.client.city}</p>
+              )}
+              {invoice.client?.country && <p className="client-country">{invoice.client.country}</p>}
+              {invoice.client?.vatNumber && <p className="client-vat">VAT: {invoice.client.vatNumber}</p>}
+            </div>
           </div>
         </div>
 
-        {/* Invoice Items */}
-        <div className="invoice-items">
-          <div className="items-header">
-            <div className="item-description">Description</div>
-            <div className="item-quantity">Qty</div>
-            <div className="item-rate">Rate</div>
-            <div className="item-amount">Amount</div>
-          </div>
-          
-          {invoice.items.map((item, index) => (
-            <div key={item.id || index} className="invoice-item">
-              <div className="item-description">
-                <strong>{item.description}</strong>
-                {item.unit && <span className="item-unit">per {item.unit}</span>}
-              </div>
-              <div className="item-quantity">{item.quantity}</div>
-              <div className="item-rate">{formatCurrency(item.rate)}</div>
-              <div className="item-amount">{formatCurrency((item.quantity || 0) * (item.rate || 0))}</div>
+        {/* Invoice Items Table */}
+        <div className="invoice-items-section">
+          <div className="items-table">
+            <div className="table-header">
+              <div className="header-cell description">Description</div>
+              <div className="header-cell quantity">Quantity</div>
+              <div className="header-cell rate">Rate</div>
+              <div className="header-cell amount">Amount</div>
             </div>
-          ))}
+            
+            <div className="table-body">
+              {invoice.items.map((item, index) => (
+                <motion.div 
+                  key={item.id || index} 
+                  className="table-row"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <div className="table-cell description">
+                    <div className="item-info">
+                      <span className="item-name">{item.description}</span>
+                      {item.unit && <span className="item-unit">per {item.unit}</span>}
+                    </div>
+                  </div>
+                  <div className="table-cell quantity">
+                    <span>{item.quantity}</span>
+                  </div>
+                  <div className="table-cell rate">
+                    <span>{formatCurrency(item.rate)}</span>
+                  </div>
+                  <div className="table-cell amount">
+                    <span className="item-total">{formatCurrency(item.quantity * item.rate)}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Invoice Totals */}
         <div className="invoice-totals">
           <div className="totals-table">
-            <div className="total-row">
-              <span>Subtotal:</span>
-              <span>{formatCurrency(totals.subtotal)}</span>
+            <div className="total-row subtotal">
+              <span className="total-label">Subtotal:</span>
+              <span className="total-value">{formatCurrency(totals.subtotal)}</span>
             </div>
             
             {totals.discount > 0 && (
-              <div className="total-row discount-row">
-                <span>
-                  Discount ({invoice.discountType === 'percentage' ? `${invoice.discountValue}%` : formatCurrency(invoice.discountValue)}):
+              <div className="total-row discount">
+                <span className="total-label">
+                  Discount {totals.discountType === 'percentage' ? `(${totals.discountValue}%)` : ''}:
                 </span>
-                <span>-{formatCurrency(totals.discount)}</span>
+                <span className="total-value discount-value">-{formatCurrency(totals.discount)}</span>
               </div>
             )}
             
-            <div className="total-row">
-              <span>VAT ({invoice.vatRate}%):</span>
-              <span>{formatCurrency(totals.vat)}</span>
+            <div className="total-row vat">
+              <span className="total-label">VAT ({totals.vatRate}%):</span>
+              <span className="total-value">{formatCurrency(totals.vat)}</span>
             </div>
             
-            <div className="total-row total-row--final">
-              <span>Total:</span>
-              <span>{formatCurrency(totals.total)}</span>
+            <div className="total-row grand-total">
+              <span className="total-label">Total:</span>
+              <span className="total-value">{formatCurrency(totals.total)}</span>
             </div>
           </div>
         </div>
 
-        {/* Payment Information */}
-        {settings.company.iban && (
-          <div className="payment-info">
-            <h3>Payment Information</h3>
-            <div className="payment-details">
-              <div className="payment-item">
-                <label>Bank Account:</label>
-                <span>{settings.company.iban}</span>
-              </div>
-              <div className="payment-item">
-                <label>Account Holder:</label>
-                <span>{settings.company.name}</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Notes */}
+        {/* Invoice Notes */}
         {invoice.notes && (
           <div className="invoice-notes">
-            <h3>Notes</h3>
+            <h4>Notes:</h4>
             <p>{invoice.notes}</p>
           </div>
         )}
 
-        {/* Footer */}
-        <div className="invoice-footer">
-          <p>Thank you for your business!</p>
-          <p className="footer-note">
-            This invoice was generated by Inkblot Studio Invoice System
-          </p>
-        </div>
+        {/* Invoice Terms */}
+        {invoice.terms && (
+          <div className="invoice-terms">
+            <h4>Terms & Conditions:</h4>
+            <p>{invoice.terms}</p>
+          </div>
+        )}
       </motion.div>
     </div>
   )

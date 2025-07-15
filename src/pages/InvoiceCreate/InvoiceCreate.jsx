@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import { 
   FiSave, 
   FiEye, 
@@ -20,6 +21,7 @@ import './InvoiceCreate.scss'
 
 const InvoiceCreate = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { 
     clients, 
     settings, 
@@ -118,7 +120,7 @@ const InvoiceCreate = () => {
     <div className="invoice-create">
       <div className="invoice-create__header">
         <div>
-          <h1>Create New Invoice</h1>
+          <h1>{t('invoice.create.title')}</h1>
           <p>Fill in the details below to create a professional invoice</p>
         </div>
         <div className="invoice-create__actions">
@@ -127,7 +129,7 @@ const InvoiceCreate = () => {
             onClick={() => setShowPreview(!showPreview)}
           >
             <FiEye />
-            {showPreview ? 'Hide Preview' : 'Preview'}
+            {showPreview ? t('common.hide') : t('common.preview')}
           </Button>
           <Button
             variant="primary"
@@ -135,7 +137,7 @@ const InvoiceCreate = () => {
             loading={isSubmitting}
           >
             <FiSave />
-            Save Invoice
+            {t('invoice.create.saveInvoice')}
           </Button>
         </div>
       </div>
@@ -148,10 +150,10 @@ const InvoiceCreate = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h2>Invoice Details</h2>
+            <h2>{t('invoice.create.invoiceDetails')}</h2>
             <div className="form-grid">
               <div className="form-group">
-                <label>Invoice Number</label>
+                <label>{t('invoice.form.invoiceNumber')}</label>
                 <input
                   type="text"
                   {...register('number', { required: 'Invoice number is required' })}
@@ -161,7 +163,7 @@ const InvoiceCreate = () => {
               </div>
 
               <div className="form-group">
-                <label>Issue Date</label>
+                <label>{t('invoice.form.issueDate')}</label>
                 <div className="input-with-icon">
                   <FiCalendar />
                   <input
@@ -174,7 +176,7 @@ const InvoiceCreate = () => {
               </div>
 
               <div className="form-group">
-                <label>Due Date</label>
+                <label>{t('invoice.form.dueDate')}</label>
                 <div className="input-with-icon">
                   <FiCalendar />
                   <input
@@ -187,12 +189,12 @@ const InvoiceCreate = () => {
               </div>
 
               <div className="form-group">
-                <label>Status</label>
+                <label>{t('common.status')}</label>
                 <select {...register('status')}>
-                  <option value="draft">Draft</option>
-                  <option value="pending">Pending</option>
-                  <option value="paid">Paid</option>
-                  <option value="overdue">Overdue</option>
+                  <option value="draft">{t('invoice.status.draft')}</option>
+                  <option value="pending">{t('invoice.status.pending')}</option>
+                  <option value="paid">{t('invoice.status.paid')}</option>
+                  <option value="overdue">{t('invoice.status.overdue')}</option>
                 </select>
               </div>
             </div>
@@ -205,16 +207,16 @@ const InvoiceCreate = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <h2>Client Information</h2>
+            <h2>{t('client_information')}</h2>
             <div className="form-group">
-              <label>Select Client</label>
+              <label>{t('select_client')}</label>
               <div className="input-with-icon">
                 <FiUser />
                 <select
                   onChange={(e) => handleClientSelect(e.target.value)}
                   value={selectedClient?.id || ''}
                 >
-                  <option value="">Choose a client...</option>
+                  <option value="">{t('choose_client')}</option>
                   {clients.map(client => (
                     <option key={client.id} value={client.id}>
                       {client.name} - {client.email}
@@ -227,7 +229,7 @@ const InvoiceCreate = () => {
                   <h4>{selectedClient.name}</h4>
                   <p>{selectedClient.email}</p>
                   {selectedClient.address && <p>{selectedClient.address}</p>}
-                  {selectedClient.vatNumber && <p>VAT: {selectedClient.vatNumber}</p>}
+                  {selectedClient.vatNumber && <p>{t('vat')}: {selectedClient.vatNumber}</p>}
                 </div>
               )}
             </div>
@@ -241,19 +243,19 @@ const InvoiceCreate = () => {
             transition={{ delay: 0.2 }}
           >
             <div className="section-header">
-              <h2>Invoice Items</h2>
+              <h2>{t('invoice_items')}</h2>
               <Button variant="outline" size="sm" onClick={addItem}>
                 <FiPlus />
-                Add Item
+                {t('add_item')}
               </Button>
             </div>
 
             <div className="invoice-items">
               <div className="items-header">
-                <span>Description</span>
-                <span>Quantity</span>
-                <span>Rate (€)</span>
-                <span>Amount (€)</span>
+                <span>{t('description')}</span>
+                <span>{t('quantity')}</span>
+                <span>{t('rate')}</span>
+                <span>{t('amount')}</span>
                 <span></span>
               </div>
 
@@ -268,9 +270,9 @@ const InvoiceCreate = () => {
                   <div className="item-description">
                     <input
                       type="text"
-                      placeholder="Item description"
+                      placeholder={t('item_description')}
                       {...register(`items.${index}.description`, { 
-                        required: 'Description is required' 
+                        required: t('description_required') 
                       })}
                       className={errors.items?.[index]?.description ? 'error' : ''}
                     />
@@ -282,8 +284,8 @@ const InvoiceCreate = () => {
                       min="0"
                       step="0.01"
                       {...register(`items.${index}.quantity`, { 
-                        required: 'Quantity is required',
-                        min: { value: 0, message: 'Quantity must be positive' }
+                        required: t('quantity_required'),
+                        min: { value: 0, message: t('quantity_must_be_positive') }
                       })}
                       className={errors.items?.[index]?.quantity ? 'error' : ''}
                     />
@@ -295,8 +297,8 @@ const InvoiceCreate = () => {
                       min="0"
                       step="0.01"
                       {...register(`items.${index}.rate`, { 
-                        required: 'Rate is required',
-                        min: { value: 0, message: 'Rate must be positive' }
+                        required: t('rate_required'),
+                        min: { value: 0, message: t('rate_must_be_positive') }
                       })}
                       className={errors.items?.[index]?.rate ? 'error' : ''}
                     />
@@ -330,19 +332,19 @@ const InvoiceCreate = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <h2>Tax & Totals</h2>
+            <h2>{t('tax_totals')}</h2>
             <div className="form-grid">
               <div className="form-group">
-                <label>VAT Rate (%)</label>
+                <label>{t('vat_rate')}</label>
                 <input
                   type="number"
                   min="0"
                   max="100"
                   step="0.01"
                   {...register('vatRate', { 
-                    required: 'VAT rate is required',
-                    min: { value: 0, message: 'VAT rate must be positive' },
-                    max: { value: 100, message: 'VAT rate cannot exceed 100%' }
+                    required: t('vat_rate_required'),
+                    min: { value: 0, message: t('vat_rate_must_be_positive') },
+                    max: { value: 100, message: t('vat_rate_cannot_exceed_100') }
                   })}
                   className={errors.vatRate ? 'error' : ''}
                 />
@@ -352,23 +354,23 @@ const InvoiceCreate = () => {
 
             {/* Discount Section */}
             <div className="discount-section">
-              <h3>Discount</h3>
+              <h3>{t('discount')}</h3>
               <div className="form-grid">
                 <div className="form-group">
-                  <label>Discount Type</label>
+                  <label>{t('discount_type')}</label>
                   <select {...register('discountType')}>
-                    <option value="percentage">Percentage (%)</option>
-                    <option value="fixed">Fixed Amount (€)</option>
+                    <option value="percentage">{t('percentage')}</option>
+                    <option value="fixed">{t('fixed_amount')}</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Discount Value</label>
+                  <label>{t('discount_value')}</label>
                   <input
                     type="number"
                     min="0"
                     step="0.01"
                     {...register('discountValue', { 
-                      min: { value: 0, message: 'Discount must be positive' }
+                      min: { value: 0, message: t('discount_must_be_positive') }
                     })}
                     className={errors.discountValue ? 'error' : ''}
                     placeholder={watchedDiscountType === 'percentage' ? '0.00' : '0.00'}
@@ -380,23 +382,26 @@ const InvoiceCreate = () => {
 
             <div className="invoice-totals">
               <div className="total-row">
-                <span>Subtotal:</span>
+                <span>{t('subtotal')}:</span>
                 <span>{formatCurrency(totals.subtotal)}</span>
               </div>
               {totals.discount > 0 && (
                 <div className="total-row total-row--discount">
                   <span>
-                    Discount ({watchedDiscountType === 'percentage' ? `${watchedDiscountValue}%` : formatCurrency(watchedDiscountValue)}):
+                    {t('discount_message', {
+                      type: watchedDiscountType === 'percentage' ? t('percentage') : t('fixed_amount'),
+                      value: watchedDiscountType === 'percentage' ? `${watchedDiscountValue}%` : formatCurrency(watchedDiscountValue)
+                    })}
                   </span>
                   <span>-{formatCurrency(totals.discount)}</span>
                 </div>
               )}
               <div className="total-row">
-                <span>VAT ({watchedVatRate}%):</span>
+                <span>{t('vat_message', { rate: watchedVatRate })}:</span>
                 <span>{formatCurrency(totals.vat)}</span>
               </div>
               <div className="total-row total-row--total">
-                <span>Total:</span>
+                <span>{t('total')}:</span>
                 <span>{formatCurrency(totals.total)}</span>
               </div>
             </div>
@@ -409,10 +414,10 @@ const InvoiceCreate = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <h2>Additional Notes</h2>
+            <h2>{t('additional_notes')}</h2>
             <div className="form-group">
               <textarea
-                placeholder="Add any additional notes or terms..."
+                placeholder={t('add_notes_or_terms')}
                 rows="4"
                 {...register('notes')}
               />
@@ -427,10 +432,10 @@ const InvoiceCreate = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h2>Invoice Preview</h2>
+            <h2>{t('invoice_preview')}</h2>
             <div className="preview-content">
               {/* Preview content will be implemented */}
-              <p>Preview functionality will be implemented in the next iteration</p>
+              <p>{t('preview_functionality_will_be_implemented')}</p>
             </div>
           </motion.div>
         )}

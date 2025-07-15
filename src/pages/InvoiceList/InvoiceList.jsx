@@ -281,13 +281,13 @@ const InvoiceList = () => {
                   
                   <div className="table-cell actions">
                     <div className="action-buttons">
-                      <Link to={`/invoices/${invoice.id}/preview`}>
+                      <Link to={`/invoice/preview/${invoice.id}`}>
                         <Button variant="ghost" size="sm" title="Preview">
                           <FiEye />
                         </Button>
                       </Link>
                       
-                      <Link to={`/invoices/${invoice.id}/edit`}>
+                      <Link to={`/invoice/edit/${invoice.id}`}>
                         <Button variant="ghost" size="sm" title="Edit">
                           <FiEdit />
                         </Button>

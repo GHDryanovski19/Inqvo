@@ -1,99 +1,103 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use 'sass:color';
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
+  gap: $spacing-sm;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: $radius-md;
   font-family: inherit;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all $transition-fast;
   position: relative;
   overflow: hidden;
   
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(152, 201, 60, 0.2);
+    box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.2);
   }
   
   // Sizes
   &--sm {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: $spacing-sm $spacing-md;
     font-size: 0.875rem;
     min-height: 32px;
   }
   
   &--md {
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: $spacing-md $spacing-lg;
     font-size: 1rem;
     min-height: 40px;
   }
   
   &--lg {
-    padding: var(--spacing-lg) var(--spacing-xl);
+    padding: $spacing-lg $spacing-xl;
     font-size: 1.125rem;
     min-height: 48px;
   }
   
   // Variants
   &--primary {
-    background: var(--color-lime);
-    color: var(--color-white);
+    background: $primary-color;
+    color: white;
     
     &:hover:not(.btn--disabled) {
-      background: var(--color-green);
+      background: $primary-dark;
       transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
+      box-shadow: $shadow-md;
     }
     
     &:active:not(.btn--disabled) {
       transform: translateY(0);
-      box-shadow: var(--shadow-sm);
+      box-shadow: $shadow-sm;
     }
   }
   
   &--secondary {
-    background: var(--color-gray-light);
-    color: var(--color-gray);
+    background: $border-light;
+    color: $text-color;
     
     &:hover:not(.btn--disabled) {
-      background: var(--color-gray-medium);
-      color: var(--color-white);
+      background: $text-secondary;
+      color: white;
     }
   }
   
   &--outline {
     background: transparent;
-    color: var(--color-gray);
-    border: 1px solid var(--color-gray-medium);
+    color: $text-color;
+    border: 1px solid $text-secondary;
     
     &:hover:not(.btn--disabled) {
-      border-color: var(--color-lime);
-      color: var(--color-lime);
-      background: rgba(152, 201, 60, 0.05);
+      border-color: $primary-color;
+      color: $primary-color;
+      background: color.adjust($primary-rgb, $alpha: 0.05);
     }
   }
   
   &--ghost {
     background: transparent;
-    color: var(--color-gray-medium);
+    color: $text-secondary;
     
     &:hover:not(.btn--disabled) {
-      background: var(--color-gray-light);
-      color: var(--color-gray);
+      background: $border-light;
+      color: $text-color;
     }
   }
   
   &--danger {
-    background: var(--color-error);
-    color: var(--color-white);
+    background: $error-color;
+    color: white;
     
     &:hover:not(.btn--disabled) {
-      background: #e74c3c;
+      background: $error-dark;
       transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
+      box-shadow: $shadow-md;
     }
   }
   
@@ -131,8 +135,8 @@
 .btn__content {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  transition: opacity var(--transition-fast);
+  gap: $spacing-sm;
+  transition: opacity $transition-fast;
 }
 
 @keyframes spin {
@@ -147,22 +151,22 @@
 // Button Group
 .btn-group {
   display: inline-flex;
-  border-radius: var(--radius-md);
+  border-radius: $radius-md;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: $shadow-sm;
   
   .btn {
     border-radius: 0;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     
     &:first-child {
-      border-top-left-radius: var(--radius-md);
-      border-bottom-left-radius: var(--radius-md);
+      border-top-left-radius: $radius-md;
+      border-bottom-left-radius: $radius-md;
     }
     
     &:last-child {
-      border-top-right-radius: var(--radius-md);
-      border-bottom-right-radius: var(--radius-md);
+      border-top-right-radius: $radius-md;
+      border-bottom-right-radius: $radius-md;
       border-right: none;
     }
   }

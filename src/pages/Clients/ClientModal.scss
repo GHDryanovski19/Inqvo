@@ -1,5 +1,6 @@
-@use '../../styles/variables.scss' as *;
-@use '../../styles/mixins.scss' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
 
 .clientModal {
   position: fixed;
@@ -17,7 +18,7 @@
   animation: fadeIn 0.3s ease-out;
 
   .modalContainer {
-    background: var(--surface-color);
+    background: $surface-color;
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     width: 100%;
@@ -25,27 +26,27 @@
     max-height: 90vh;
     overflow: hidden;
     animation: slideUp 0.3s ease-out;
-    border: 1px solid var(--border-color);
+    border: 1px solid $border-color;
 
     .modalHeader {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border-color);
-      background: var(--surface-color);
+      border-bottom: 1px solid $border-color;
+      background: $surface-color;
 
       h2 {
         margin: 0;
         font-size: 1.5rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: $text-color;
       }
 
       .closeButton {
         background: none;
         border: none;
-        color: var(--text-secondary);
+        color: $text-secondary;
         cursor: pointer;
         padding: 0.5rem;
         border-radius: 8px;
@@ -55,8 +56,8 @@
         justify-content: center;
 
         &:hover {
-          background: var(--hover-color);
-          color: var(--text-primary);
+          background: $hover-color;
+          color: $text-color;
         }
 
         svg {
@@ -93,7 +94,7 @@
           label {
             font-size: 0.875rem;
             font-weight: 500;
-            color: var(--text-primary);
+            color: $text-color;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -102,11 +103,11 @@
             svg {
               width: 16px;
               height: 16px;
-              color: var(--text-secondary);
+              color: $text-secondary;
             }
 
             .required {
-              color: var(--error-color);
+              color: $error-color;
               margin-left: 0.25rem;
             }
           }
@@ -115,27 +116,27 @@
           textarea,
           select {
             padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
+            border: 1px solid $border-color;
             border-radius: 8px;
             font-size: 0.875rem;
-            background: var(--input-bg);
-            color: var(--text-primary);
+            background: $input-bg;
+            color: $text-color;
             transition: all 0.2s ease;
             font-family: inherit;
 
             &:focus {
               outline: none;
-              border-color: var(--primary-color);
-              box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+              border-color: $primary-color;
+              box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
             }
 
             &::placeholder {
-              color: var(--text-tertiary);
+              color: $text-tertiary;
             }
 
             &.error {
-              border-color: var(--error-color);
-              box-shadow: 0 0 0 3px rgba(var(--error-rgb), 0.1);
+              border-color: $error-color;
+              box-shadow: 0 0 0 3px color.adjust($error-rgb, $alpha: 0.1);
             }
           }
 
@@ -147,7 +148,7 @@
 
           .errorMessage {
             font-size: 0.75rem;
-            color: var(--error-color);
+            color: $error-color;
             margin-top: 0.25rem;
             display: flex;
             align-items: center;
@@ -165,7 +166,7 @@
         margin: 2rem 0;
         border: none;
         height: 1px;
-        background: var(--border-color);
+        background: $border-color;
         position: relative;
 
         &::before {
@@ -174,9 +175,9 @@
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: var(--surface-color);
+          background: $surface-color;
           padding: 0 1rem;
-          color: var(--text-secondary);
+          color: $text-secondary;
           font-size: 0.75rem;
           font-weight: 500;
           text-transform: uppercase;
@@ -193,41 +194,70 @@
         input[type="checkbox"] {
           width: 18px;
           height: 18px;
-          accent-color: var(--primary-color);
+          accent-color: $primary-color;
           cursor: pointer;
         }
 
         label {
           font-size: 0.875rem;
-          color: var(--text-primary);
+          color: $text-color;
           cursor: pointer;
-          margin: 0;
+          user-select: none;
         }
       }
-    }
 
-    .modalFooter {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding: 1.5rem 2rem;
-      border-top: 1px solid var(--border-color);
-      background: var(--surface-color);
-
-      @media (max-width: 768px) {
-        flex-direction: column-reverse;
-        gap: 0.75rem;
+      .formActions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        padding-top: 1rem;
+        border-top: 1px solid $border-color;
 
         button {
-          width: 100%;
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-size: 0.875rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          border: none;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          &.cancelButton {
+            background: $bg-secondary;
+            color: $text-color;
+            border: 1px solid $border-color;
+
+            &:hover {
+              background: $hover-color;
+            }
+          }
+
+          &.saveButton {
+            background: $primary-color;
+            color: white;
+
+            &:hover {
+              background: $primary-dark;
+              transform: translateY(-1px);
+              box-shadow: $shadow-md;
+            }
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+              transform: none;
+              box-shadow: none;
+            }
+          }
         }
       }
     }
   }
 }
 
-// Animations
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -240,62 +270,10 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.95);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-// Focus trap for accessibility
-.clientModal:focus-within {
-  outline: none;
-}
-
-// Scrollbar styling for modal content
-.modalContent {
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--surface-color);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 3px;
-
-    &:hover {
-      background: var(--text-tertiary);
-    }
-  }
-}
-
-// Loading state
-.clientModal.loading {
-  .modalContainer {
-    opacity: 0.7;
-    pointer-events: none;
-  }
-}
-
-// Success state
-.clientModal.success {
-  .modalContainer {
-    animation: successPulse 0.6s ease-out;
-  }
-}
-
-@keyframes successPulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
+    transform: translateY(0);
   }
 } 

@@ -1,6 +1,9 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-gray-light) 0%, var(--color-white) 100%);
+  background: linear-gradient(135deg, $border-light 0%, $surface-color 100%);
 }
 
 // Page Transitions
@@ -37,8 +40,8 @@
     content: '';
     width: 32px;
     height: 32px;
-    border: 3px solid var(--color-gray-light);
-    border-top: 3px solid var(--color-lime);
+    border: 3px solid $border-light;
+    border-top: 3px solid $primary-color;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
