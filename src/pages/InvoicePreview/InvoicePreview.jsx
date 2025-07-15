@@ -12,6 +12,9 @@ import {
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
+import { exportInvoiceToPDF, exportInvoiceToCSV } from '../../utils/pdfExport'
+import { generateInvoiceEmail } from '../../utils/emailExport'
+import toast from 'react-hot-toast'
 import './InvoicePreview.scss'
 
 const InvoicePreview = () => {
@@ -47,19 +50,63 @@ const InvoicePreview = () => {
     window.print()
   }
 
-  const handleExport = () => {
-    // PDF export functionality will be implemented
-    console.log('Export to PDF')
+  const handleExport = async () => {
+    try {
+      const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+      if (result.success) {
+        toast.success(`PDF exported successfully: ${result.filename}`)
+      } else {
+        toast.error(`Export failed: ${result.error}`)
+      }
+    } catch (error) {
+      toast.error('Failed to export PDF')
+      console.error('Export error:', error)
+    }
   }
 
-  const handleShare = () => {
-    // Share functionality will be implemented
-    console.log('Share invoice')
+  const handleShare = async () => {
+    try {
+      // Generate PDF first
+      const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+      
+      if (result.success) {
+        // Check if Web Share API is available
+        if (navigator.share) {
+          await navigator.share({
+            title: `Invoice ${invoice.number}`,
+            text: `Invoice ${invoice.number} from ${settings.company.name}`,
+            url: window.location.href
+          })
+          toast.success('Invoice shared successfully')
+        } else {
+          // Fallback: copy link to clipboard
+          await navigator.clipboard.writeText(window.location.href)
+          toast.success('Invoice link copied to clipboard')
+        }
+      } else {
+        toast.error('Failed to prepare invoice for sharing')
+      }
+    } catch (error) {
+      toast.error('Failed to share invoice')
+      console.error('Share error:', error)
+    }
   }
 
   const handleSendEmail = () => {
-    // Email functionality will be implemented
-    console.log('Send via email')
+    try {
+      const { subject, body } = generateInvoiceEmail(invoice, settings, formatCurrency)
+      
+      // Create mailto link
+      const mailtoLink = `mailto:${invoice.client?.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      
+      // Open default email client
+      window.open(mailtoLink, '_blank')
+      
+      toast.success('Email client opened with invoice details')
+    } catch (error) {
+      toast.error('Failed to generate email')
+      console.error('Email generation error:', error)
+    }
   }
 
   return (
@@ -89,6 +136,25 @@ const InvoicePreview = () => {
           <Button variant="outline" onClick={handleExport}>
             <FiDownload />
             Export PDF
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              try {
+                const result = exportInvoiceToCSV(invoice, formatCurrency)
+                if (result.success) {
+                  toast.success(`CSV exported successfully: ${result.filename}`)
+                } else {
+                  toast.error(`Export failed: ${result.error}`)
+                }
+              } catch (error) {
+                toast.error('Failed to export CSV')
+                console.error('CSV export error:', error)
+              }
+            }}
+          >
+            <FiDownload />
+            Export CSV
           </Button>
           <Button variant="outline" onClick={handleSendEmail}>
             <FiMail />

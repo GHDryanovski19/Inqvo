@@ -28,6 +28,7 @@ import {
   generateBackupFilename,
   validateImportedData 
 } from '../../utils/dataExport'
+import { exportInvoiceToPDF } from '../../utils/pdfExport'
 import './Settings.scss'
 
 const Settings = () => {
@@ -175,6 +176,33 @@ const Settings = () => {
     if (window.confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
       dispatch({ type: 'CLEAR_ALL_DATA' })
       toast.success('All data cleared successfully')
+    }
+  }
+
+  const handleBulkPDFExport = async () => {
+    if (invoices.length === 0) {
+      toast.error('No invoices to export')
+      return
+    }
+
+    try {
+      toast.loading('Generating PDFs...', { id: 'bulk-export' })
+      
+      for (let i = 0; i < invoices.length; i++) {
+        const invoice = invoices[i]
+        const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+        if (result.success) {
+          console.log(`Exported: ${result.filename}`)
+        }
+        
+        // Update progress
+        toast.loading(`Generating PDFs... (${i + 1}/${invoices.length})`, { id: 'bulk-export' })
+      }
+      
+      toast.success(`Successfully exported ${invoices.length} invoices`, { id: 'bulk-export' })
+    } catch (error) {
+      toast.error('Bulk export failed', { id: 'bulk-export' })
+      console.error('Bulk export error:', error)
     }
   }
 
@@ -493,6 +521,11 @@ const Settings = () => {
                   <Button variant="outline" onClick={handleExportBackup}>
                     <FiDatabase />
                     Create Backup
+                  </Button>
+                  
+                  <Button variant="outline" onClick={handleBulkPDFExport}>
+                    <FiDownload />
+                    Export All PDFs
                   </Button>
                 </div>
 

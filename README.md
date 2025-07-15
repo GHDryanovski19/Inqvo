@@ -32,6 +32,13 @@ A modern, professional-grade web application for generating and managing invoice
 - **Data Encryption**: AES encryption for sensitive data
 - **Clear Data**: Safe data clearing with confirmation
 
+### 📄 **Export Features**
+- **PDF Export**: Professional, print-ready PDF invoices
+- **CSV Export**: Invoice items as CSV for accounting
+- **Bulk PDF Export**: Export all invoices at once
+- **Email Integration**: Generate email content with mailto links
+- **Share Functionality**: Web Share API with clipboard fallback
+
 ### 🎨 **Modern UI/UX**
 - **Responsive Design**: Mobile-first responsive layout
 - **Framer Motion**: Smooth animations and transitions
@@ -146,6 +153,27 @@ src/
 2. Click **Import Data**
 3. Select a previously exported JSON file
 4. Data will be validated and imported automatically
+
+### Exporting Invoices
+
+#### PDF Export
+1. **Single Invoice**: Go to invoice preview and click "Export PDF"
+2. **Bulk Export**: Go to Settings → Data Management → "Export All PDFs"
+3. **From List**: Click the download icon in the invoice list
+
+#### CSV Export
+1. Go to invoice preview and click "Export CSV"
+2. Download invoice items as CSV for accounting software
+
+#### Email Integration
+1. Go to invoice preview and click "Send Email"
+2. Opens default email client with pre-filled content
+3. Attach the generated PDF manually
+
+#### Sharing
+1. Go to invoice preview and click "Share"
+2. Uses Web Share API on mobile devices
+3. Falls back to clipboard copy on desktop
 
 ## 🎨 Customization
 

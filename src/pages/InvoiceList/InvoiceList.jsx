@@ -18,10 +18,11 @@ import { useApp } from '../../contexts/AppContext'
 import { format } from 'date-fns'
 import Button from '../../components/UI/Button/Button'
 import toast from 'react-hot-toast'
+import { exportInvoiceToPDF } from '../../utils/pdfExport'
 import './InvoiceList.scss'
 
 const InvoiceList = () => {
-  const { invoices, clients, formatCurrency, calculateInvoiceTotals, dispatch } = useApp()
+  const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals, dispatch } = useApp()
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [sortBy, setSortBy] = useState('date')
@@ -85,9 +86,18 @@ const InvoiceList = () => {
     }
   }
 
-  const handleExportInvoice = (invoice) => {
-    // Export functionality will be implemented
-    toast.success('Export functionality coming soon!')
+  const handleExportInvoice = async (invoice) => {
+    try {
+      const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+      if (result.success) {
+        toast.success(`PDF exported successfully: ${result.filename}`)
+      } else {
+        toast.error(`Export failed: ${result.error}`)
+      }
+    } catch (error) {
+      toast.error('Failed to export PDF')
+      console.error('Export error:', error)
+    }
   }
 
   const statusOptions = [
