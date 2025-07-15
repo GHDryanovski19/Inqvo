@@ -1,0 +1,301 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.clientModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+
+  .modalContainer {
+    background: var(--surface-color);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: slideUp 0.3s ease-out;
+    border: 1px solid var(--border-color);
+
+    .modalHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--surface-color);
+
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .closeButton {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: var(--hover-color);
+          color: var(--text-primary);
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .modalContent {
+      padding: 2rem;
+      overflow-y: auto;
+      max-height: calc(90vh - 140px);
+
+      .formGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .formGroup {
+          display: flex;
+          flex-direction: column;
+
+          &.fullWidth {
+            grid-column: 1 / -1;
+          }
+
+          label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            svg {
+              width: 16px;
+              height: 16px;
+              color: var(--text-secondary);
+            }
+
+            .required {
+              color: var(--error-color);
+              margin-left: 0.25rem;
+            }
+          }
+
+          input,
+          textarea,
+          select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            font-family: inherit;
+
+            &:focus {
+              outline: none;
+              border-color: var(--primary-color);
+              box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+            }
+
+            &::placeholder {
+              color: var(--text-tertiary);
+            }
+
+            &.error {
+              border-color: var(--error-color);
+              box-shadow: 0 0 0 3px rgba(var(--error-rgb), 0.1);
+            }
+          }
+
+          textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+          }
+
+          .errorMessage {
+            font-size: 0.75rem;
+            color: var(--error-color);
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            svg {
+              width: 12px;
+              height: 12px;
+            }
+          }
+        }
+      }
+
+      .sectionDivider {
+        margin: 2rem 0;
+        border: none;
+        height: 1px;
+        background: var(--border-color);
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: var(--surface-color);
+          padding: 0 1rem;
+          color: var(--text-secondary);
+          font-size: 0.75rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      .checkboxGroup {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+
+        input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          accent-color: var(--primary-color);
+          cursor: pointer;
+        }
+
+        label {
+          font-size: 0.875rem;
+          color: var(--text-primary);
+          cursor: pointer;
+          margin: 0;
+        }
+      }
+    }
+
+    .modalFooter {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--surface-color);
+
+      @media (max-width: 768px) {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Focus trap for accessibility
+.clientModal:focus-within {
+  outline: none;
+}
+
+// Scrollbar styling for modal content
+.modalContent {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--surface-color);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--text-tertiary);
+    }
+  }
+}
+
+// Loading state
+.clientModal.loading {
+  .modalContainer {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+// Success state
+.clientModal.success {
+  .modalContainer {
+    animation: successPulse 0.6s ease-out;
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+} 

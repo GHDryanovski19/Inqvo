@@ -1,0 +1,333 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xxl);
+  
+  h1 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-gray);
+  }
+  
+  p {
+    color: var(--color-gray-medium);
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
+  }
+}
+
+// Stats Cards
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.stat-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  
+  &:hover {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.stat-card__link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  text-decoration: none;
+  color: inherit;
+}
+
+.stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-lg);
+  color: var(--color-white);
+  
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.stat-card__content {
+  flex: 1;
+}
+
+.stat-card__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-gray);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1;
+}
+
+.stat-card__title {
+  color: var(--color-gray-medium);
+  margin: 0;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Content Sections
+.dashboard__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-xl);
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard__section {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  
+  h2 {
+    margin: 0;
+    color: var(--color-gray);
+  }
+}
+
+// Invoices List
+.invoices-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.invoice-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    border-color: var(--color-lime);
+    background: rgba(152, 201, 60, 0.02);
+  }
+}
+
+.invoice-item__info {
+  flex: 1;
+  
+  h4 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-gray);
+    font-size: 1rem;
+  }
+  
+  p {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-gray-medium);
+    font-size: 0.875rem;
+  }
+}
+
+.invoice-item__date {
+  font-size: 0.75rem;
+  color: var(--color-gray-medium);
+}
+
+.invoice-item__amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  margin: 0 var(--spacing-lg);
+  
+  .amount {
+    font-weight: 600;
+    color: var(--color-gray);
+  }
+}
+
+.invoice-item__actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+// Status Badges
+.status {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &--draft {
+    background: var(--color-gray-light);
+    color: var(--color-gray-medium);
+  }
+  
+  &--pending {
+    background: rgba(255, 212, 59, 0.2);
+    color: #b8860b;
+  }
+  
+  &--paid {
+    background: rgba(81, 207, 102, 0.2);
+    color: var(--color-success);
+  }
+  
+  &--overdue {
+    background: rgba(255, 107, 107, 0.2);
+    color: var(--color-error);
+  }
+}
+
+// Clients List
+.clients-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.client-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    border-color: var(--color-lime);
+    background: rgba(152, 201, 60, 0.02);
+  }
+}
+
+.client-item__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--color-lime);
+  color: var(--color-white);
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.client-item__info {
+  flex: 1;
+  
+  h4 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-gray);
+    font-size: 1rem;
+  }
+  
+  p {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-gray-medium);
+    font-size: 0.875rem;
+  }
+}
+
+.client-item__country {
+  font-size: 0.75rem;
+  color: var(--color-gray-medium);
+}
+
+// Empty States
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xxl);
+  text-align: center;
+  color: var(--color-gray-medium);
+  
+  svg {
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+  }
+  
+  h3 {
+    margin: 0 0 var(--spacing-sm) 0;
+    color: var(--color-gray);
+  }
+  
+  p {
+    margin: 0 0 var(--spacing-lg) 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .dashboard__stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .stat-card__icon {
+    width: 48px;
+    height: 48px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  .stat-card__value {
+    font-size: 1.5rem;
+  }
+  
+  .invoice-item,
+  .client-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+  
+  .invoice-item__amount {
+    align-items: flex-start;
+    margin: 0;
+  }
+  
+  .invoice-item__actions {
+    align-self: flex-end;
+  }
+} 

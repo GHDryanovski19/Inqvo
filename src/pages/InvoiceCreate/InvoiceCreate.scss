@@ -1,0 +1,326 @@
+.invoice-create {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.invoice-create__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xxl);
+  
+  h1 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-gray);
+  }
+  
+  p {
+    color: var(--color-gray-medium);
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
+  }
+}
+
+.invoice-create__actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.invoice-create__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+  
+  @media (min-width: 1200px) {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.invoice-create__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.invoice-create__preview {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  height: fit-content;
+  position: sticky;
+  top: var(--spacing-xl);
+  
+  h2 {
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-gray);
+  }
+}
+
+// Form Sections
+.form-section {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  
+  h2 {
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-gray);
+    font-size: 1.25rem;
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  
+  h2 {
+    margin: 0;
+  }
+}
+
+// Form Grid
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Form Groups
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  
+  label {
+    font-weight: 500;
+    color: var(--color-gray);
+    font-size: 0.875rem;
+  }
+  
+  input,
+  select,
+  textarea {
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+    
+    &:focus {
+      outline: none;
+      border-color: var(--color-lime);
+      box-shadow: 0 0 0 3px rgba(152, 201, 60, 0.1);
+    }
+    
+    &.error {
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+}
+
+// Input with Icon
+.input-with-icon {
+  position: relative;
+  
+  svg {
+    position: absolute;
+    left: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-medium);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+  }
+  
+  input,
+  select {
+    padding-left: calc(var(--spacing-md) * 2 + 16px);
+  }
+}
+
+// Selected Client
+.selected-client {
+  background: var(--color-gray-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  
+  h4 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-gray);
+    font-size: 1rem;
+  }
+  
+  p {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-gray-medium);
+    font-size: 0.875rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Invoice Items
+.invoice-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.items-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 60px;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-gray-light);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  color: var(--color-gray);
+  font-size: 0.875rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+}
+
+.invoice-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 60px;
+  gap: var(--spacing-md);
+  align-items: center;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    border-color: var(--color-lime);
+    background: rgba(152, 201, 60, 0.02);
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+}
+
+.item-description input {
+  width: 100%;
+}
+
+.item-quantity input,
+.item-rate input {
+  width: 100%;
+  text-align: right;
+}
+
+.item-amount {
+  text-align: right;
+  font-weight: 600;
+  color: var(--color-gray);
+}
+
+.item-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.remove-btn {
+  color: var(--color-error) !important;
+  
+  &:hover {
+    background: rgba(255, 107, 107, 0.1) !important;
+  }
+}
+
+// Invoice Totals
+.invoice-totals {
+  background: var(--color-gray-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  font-size: 1rem;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  &--total {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-gray);
+    border-bottom: none;
+    padding-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+    border-top: 2px solid var(--color-lime);
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .invoice-create__header {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .form-section {
+    padding: var(--spacing-lg);
+  }
+  
+  .items-header,
+  .invoice-item {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+  
+  .item-amount {
+    text-align: left;
+  }
+  
+  .item-actions {
+    justify-content: flex-end;
+  }
+  
+  .total-row {
+    font-size: 0.875rem;
+    
+    &--total {
+      font-size: 1rem;
+    }
+  }
+} 
