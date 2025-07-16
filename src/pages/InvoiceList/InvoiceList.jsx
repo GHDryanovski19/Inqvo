@@ -169,9 +169,9 @@ const InvoiceList = () => {
 
             <SortDirectionButton
               direction={sortOrder}
-              onChange={setSortOrder}
-              size="sm"
-              variant="outline"
+              onToggle={setSortOrder}
+              variant="chevron"
+              className="sort-direction-button--sm"
             />
           </div>
         </div>

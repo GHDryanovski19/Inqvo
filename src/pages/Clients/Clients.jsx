@@ -24,7 +24,7 @@ import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
 import PageHeader from '../../components/UI/PageHeader'
-import SortDirectionButton from '../../components/UI/SortDirectionButton'
+
 import ClientModal from './ClientModal'
 import toast from 'react-hot-toast'
 import './Clients.scss'
