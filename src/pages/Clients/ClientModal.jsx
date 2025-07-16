@@ -100,9 +100,16 @@ const ClientModal = ({ client, onSave, onClose }) => {
                 <p>{client ? t('client.editDescription') : t('client.addDescription')}</p>
               </div>
             </div>
-            <button className="close-btn" onClick={onClose} aria-label={t('common.close')}>
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly
+              onClick={onClose}
+              aria-label={t('common.close')}
+              className="close-btn"
+            >
               <FiX />
-            </button>
+            </Button>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="modal-form">

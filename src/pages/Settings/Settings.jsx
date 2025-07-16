@@ -273,14 +273,16 @@ const Settings = () => {
           {tabs.map((tab) => {
             const Icon = tab.icon
             return (
-              <button
+              <Button
                 key={tab.id}
-                className={`tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                variant={activeTab === tab.id ? 'primary' : 'ghost'}
+                size="md"
                 onClick={() => setActiveTab(tab.id)}
+                className="tab-button"
               >
                 <Icon />
                 {tab.label}
-              </button>
+              </Button>
             )
           })}
         </div>

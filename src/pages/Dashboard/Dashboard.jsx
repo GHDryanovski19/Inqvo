@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { FiPlus, FiFileText, FiDollarSign, FiClock, FiAlertTriangle, FiTrendingUp, FiUsers, FiCalendar } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import PageHeader from '../../components/UI/PageHeader'
+import Button from '../../components/UI/Button/Button'
 import { containerVariants, itemVariants, cardHover } from '../../utils/animations'
 import styles from './Dashboard.module.scss'
 
@@ -100,10 +101,10 @@ const Dashboard = () => {
           subtitle="Manage your invoices and track your business growth"
           icon={<FiTrendingUp />}
           action={
-            <Link to="/invoice/create" className={styles.actionButton}>
+            <Button variant="primary" size="md" as={Link} to="/invoice/create">
               <FiPlus />
-              <span>{t('dashboard.createNewInvoice')}</span>
-            </Link>
+              {t('dashboard.createNewInvoice')}
+            </Button>
           }
         />
 
@@ -139,14 +140,14 @@ const Dashboard = () => {
         <motion.div className={styles.quickActions} variants={itemVariants}>
           <h2>{t('dashboard.quickActions')}</h2>
           <div className={styles.actionButtons}>
-            <Link to="/invoice/create" className={styles.actionButton}>
+            <Button variant="primary" size="md" as={Link} to="/invoice/create">
               <FiPlus />
-              <span>{t('dashboard.createNewInvoice')}</span>
-            </Link>
-            <Link to="/clients" className={styles.actionButton}>
+              {t('dashboard.createNewInvoice')}
+            </Button>
+            <Button variant="outline" size="md" as={Link} to="/clients">
               <FiUsers />
-              <span>{t('client.title')}</span>
-            </Link>
+              {t('client.title')}
+            </Button>
           </div>
         </motion.div>
 
@@ -154,9 +155,9 @@ const Dashboard = () => {
         <motion.div className={styles.recentInvoices} variants={itemVariants}>
           <div className={styles.sectionHeader}>
             <h2>{t('dashboard.recentInvoices')}</h2>
-            <Link to="/invoices" className={styles.viewAll}>
+            <Button variant="ghost" size="sm" as={Link} to="/invoices">
               {t('dashboard.viewAllInvoices')}
-            </Link>
+            </Button>
           </div>
           
           {recentInvoices.length > 0 ? (
@@ -170,9 +171,9 @@ const Dashboard = () => {
               <FiFileText />
               <h3>{t('invoice.list.noInvoices')}</h3>
               <p>{t('invoice.list.createFirst')}</p>
-              <Link to="/invoice/create" className={styles.createButton}>
+              <Button variant="primary" size="md" as={Link} to="/invoice/create">
                 {t('dashboard.createNewInvoice')}
-              </Link>
+              </Button>
             </div>
           )}
         </motion.div>

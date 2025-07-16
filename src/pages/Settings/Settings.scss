@@ -49,41 +49,19 @@
 }
 
 .tab-button {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-lg $spacing-xl;
-  border: none;
-  background: none;
-  color: $text-secondary;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all $transition-fast;
+  // Custom styling for tab buttons using Button component
+  border-radius: 0;
   border-bottom: 3px solid transparent;
   
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  &:hover {
-    color: $text-color;
-    background: rgba(255, 255, 255, 0.5);
-  }
-  
-  &.active {
-    color: $primary-color;
-    background: $surface-color;
+  &.btn--primary {
     border-bottom-color: $primary-color;
   }
   
   @media (max-width: 768px) {
-    justify-content: center;
     border-bottom: none;
     border-right: 3px solid transparent;
     
-    &.active {
+    &.btn--primary {
       border-bottom: none;
       border-right-color: $primary-color;
     }
@@ -218,59 +196,7 @@
   }
 }
 
-// Buttons
-.button {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-md $spacing-lg;
-  border: none;
-  border-radius: $radius-md;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all $transition-fast;
-  text-decoration: none;
-  
-  &.primary {
-    background: $primary-color;
-    color: white;
-    
-    &:hover {
-      background: $primary-dark;
-      transform: translateY(-1px);
-      box-shadow: $shadow-md;
-    }
-  }
-  
-  &.secondary {
-    background: $bg-secondary;
-    color: $text-color;
-    border: 1px solid $border-color;
-    
-    &:hover {
-      background: $hover-color;
-    }
-  }
-  
-  &.danger {
-    background: $error-color;
-    color: white;
-    
-    &:hover {
-      background: $error-dark;
-      transform: translateY(-1px);
-      box-shadow: $shadow-md;
-    }
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-}
+// Buttons - using Button component instead
 
 // Danger Zone
 .danger-zone {

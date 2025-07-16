@@ -83,25 +83,7 @@ input, textarea, select {
   }
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  @include interactive-button;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
+// Button styles are handled by the Button component
 
 // Utility classes
 .text-center { text-align: center; }

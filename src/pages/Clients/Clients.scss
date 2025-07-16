@@ -58,14 +58,7 @@
         gap: $spacing-sm;
       }
       
-      button {
-        min-width: 140px;
-        justify-content: center;
-        
-        @media (max-width: 768px) {
-          min-width: auto;
-        }
-      }
+      // Using Button component instead
     }
   }
 }
@@ -241,16 +234,7 @@
       border-radius: $radius-lg;
       padding: $spacing-xs;
       
-      button {
-        border-radius: $radius-md;
-        transition: all $transition-normal;
-        
-        &.btn--primary {
-          background: $primary-color;
-          color: white;
-          box-shadow: $shadow-sm;
-        }
-      }
+      // Using Button component instead
     }
   }
 }
@@ -619,22 +603,7 @@
       display: flex;
       gap: $spacing-xs;
       
-      button {
-        width: 36px;
-        height: 36px;
-        border-radius: $radius-md;
-        transition: all $transition-normal;
-        
-        &:hover {
-          background: rgba($primary-rgb, 0.1);
-          color: $primary-color;
-        }
-        
-        &.delete-btn:hover {
-          background: rgba($error-rgb, 0.1);
-          color: $error-color;
-        }
-      }
+      // Using Button component instead
     }
   }
 }

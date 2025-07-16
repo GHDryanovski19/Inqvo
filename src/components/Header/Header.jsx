@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiGlobe, FiChevronDown, FiHome, FiFileText, FiSettings, FiUsers } from 'react-icons/fi'
 import { slideDown, dropdownMenu } from '../../utils/animations'
+import Button from '../UI/Button/Button'
 import styles from './Header.module.scss'
 
 const Header = ({ onLanguageChange }) => {
@@ -77,17 +78,19 @@ const Header = ({ onLanguageChange }) => {
 
         <div className={styles.actions}>
           <div className={styles.languageSwitcher} ref={languageRef}>
-            <button
-              className={styles.languageButton}
+            <Button
+              variant="ghost"
+              size="md"
               onClick={() => setIsLanguageOpen(!isLanguageOpen)}
               aria-label={t('header.changeLanguage')}
+              className={styles.languageButton}
             >
               <FiGlobe />
               <span className={styles.currentLanguage}>
                 {currentLanguage.flag} {currentLanguage.code.toUpperCase()}
               </span>
               <FiChevronDown className={`${styles.chevron} ${isLanguageOpen ? styles.rotated : ''}`} />
-            </button>
+            </Button>
 
             <AnimatePresence>
               {isLanguageOpen && (
@@ -96,14 +99,16 @@ const Header = ({ onLanguageChange }) => {
                   {...dropdownMenu}
                 >
                 {languages.map((lang) => (
-                  <button
+                  <Button
                     key={lang.code}
-                    className={`${styles.languageOption} ${lang.code === i18n.language ? styles.active : ''}`}
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleLanguageChange(lang.code)}
+                    className={`${styles.languageOption} ${lang.code === i18n.language ? styles.active : ''}`}
                   >
                     <span className={styles.flag}>{lang.flag}</span>
                     <span className={styles.name}>{lang.name}</span>
-                  </button>
+                  </Button>
                 ))}
               </motion.div>
             )}

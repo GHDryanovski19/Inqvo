@@ -77,23 +77,7 @@
 }
 
 .sidebar__close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: none;
-  color: $text-secondary;
-  cursor: pointer;
-  border-radius: $radius-sm;
-  transition: all $transition-fast;
-  
-  &:hover {
-    background: $border-light;
-    color: $text-color;
-  }
-  
+  // Using Button component - minimal custom styling
   @media (min-width: 1024px) {
     display: none;
   }
@@ -201,23 +185,7 @@
 }
 
 .header__menu-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: none;
-  color: $text-secondary;
-  cursor: pointer;
-  border-radius: $radius-md;
-  transition: all $transition-fast;
-  
-  &:hover {
-    background: $border-light;
-    color: $text-color;
-  }
-  
+  // Using Button component - minimal custom styling
   @media (min-width: 1024px) {
     display: none;
   }

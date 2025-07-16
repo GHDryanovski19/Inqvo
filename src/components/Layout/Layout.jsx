@@ -91,12 +91,15 @@ const Layout = () => {
               <span className="logo__text">Inkblot Studio</span>
             </div>
           </div>
-          <button
-            className="sidebar__close"
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
             onClick={() => setSidebarOpen(false)}
+            className="sidebar__close"
           >
             <FiX />
-          </button>
+          </Button>
         </div>
 
         <nav className="sidebar__nav">
@@ -148,12 +151,15 @@ const Layout = () => {
         {/* Header */}
         <header className="header">
           <div className="header__left">
-            <button
-              className="header__menu-btn"
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly
               onClick={() => setSidebarOpen(true)}
+              className="header__menu-btn"
             >
               <FiMenu />
-            </button>
+            </Button>
             <h1 className="header__title">
               {navigation.find(item => item.path === location.pathname)?.label || 'Dashboard'}
             </h1>

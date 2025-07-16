@@ -90,31 +90,8 @@
   }
   
   .close-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: $surface-color;
-    border: 1px solid $border-light;
-    border-radius: $radius-lg;
-    color: $text-secondary;
-    cursor: pointer;
-    transition: all $transition-normal;
+    // Using Button component - minimal custom styling
     flex-shrink: 0;
-    
-    &:hover {
-      background: color.adjust($error-rgb, $alpha: 0.1);
-      color: $error-color;
-      border-color: $error-color;
-      transform: scale(1.05);
-    }
-    
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
 }
 

@@ -132,26 +132,13 @@
 }
 
 .languageButton {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-  font-weight: 500;
+  // Using Button component - minimal custom styling
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-  }
-
-  svg {
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2) !important;
   }
 }
 
@@ -183,33 +170,14 @@
 }
 
 .languageOption {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  // Using Button component - minimal custom styling
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  color: $text-color;
-  font-size: 0.9rem;
-
-  &:hover {
-    background: $light-gray;
-  }
-
+  justify-content: flex-start;
+  border-radius: 0;
+  
   &.active {
-    background: $primary-color;
-    color: white;
-  }
-
-  .flag {
-    font-size: 1.2rem;
-  }
-
-  .name {
-    font-weight: 500;
+    background: $primary-color !important;
+    color: white !important;
   }
 }
 
