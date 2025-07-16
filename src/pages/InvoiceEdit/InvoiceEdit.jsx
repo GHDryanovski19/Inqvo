@@ -263,29 +263,28 @@ const InvoiceEdit = () => {
             <h2>Client Information</h2>
             <div className="form-group">
               <label>Select Client</label>
-              <div className="input-with-icon">
-                <FiUser />
-                <select
-                  onChange={(e) => handleClientSelect(e.target.value)}
-                  value={selectedClient?.id || ''}
-                >
-                  <option value="">Choose a client...</option>
-                  {clients.map(client => (
-                    <option key={client.id} value={client.id}>
-                      {client.name} - {client.email}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {selectedClient && (
-                <div className="selected-client">
-                  <h4>{selectedClient.name}</h4>
-                  <p>{selectedClient.email}</p>
-                  {selectedClient.address && <p>{selectedClient.address}</p>}
-                  {selectedClient.vatNumber && <p>VAT: {selectedClient.vatNumber}</p>}
-                </div>
-              )}
+              <Dropdown
+                options={[
+                  { value: '', label: 'Choose a client...' },
+                  ...clients.map(client => ({
+                    value: client.id,
+                    label: `${client.name} - ${client.email}`
+                  }))
+                ]}
+                value={selectedClient?.id || ''}
+                onChange={handleClientSelect}
+                placeholder="Choose a client..."
+                icon={<FiUser />}
+              />
             </div>
+            {selectedClient && (
+              <div className="selected-client">
+                <h4>{selectedClient.name}</h4>
+                <p>{selectedClient.email}</p>
+                {selectedClient.address && <p>{selectedClient.address}</p>}
+                {selectedClient.vatNumber && <p>VAT: {selectedClient.vatNumber}</p>}
+              </div>
+            )}
           </motion.div>
 
           {/* Invoice Items */}

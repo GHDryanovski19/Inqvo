@@ -17,6 +17,7 @@ import {
 import { useApp } from '../../contexts/AppContext'
 import { format } from 'date-fns'
 import Button from '../../components/UI/Button/Button'
+import Dropdown from '../../components/UI/Dropdown'
 import toast from 'react-hot-toast'
 import { exportInvoiceToPDF } from '../../utils/pdfExport'
 import './InvoiceList.scss'
@@ -143,31 +144,26 @@ const InvoiceList = () => {
             />
           </div>
 
-          <select
+          <Dropdown
+            options={statusOptions}
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="filter-select"
-          >
-            {statusOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            onChange={setStatusFilter}
+            placeholder="Filter by status"
+            size="sm"
+          />
         </div>
 
         <div className="filters-right">
-          <select
+          <Dropdown
+            options={sortOptions.map(option => ({
+              ...option,
+              label: `Sort by ${option.label}`
+            }))}
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="sort-select"
-          >
-            {sortOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                Sort by {option.label}
-              </option>
-            ))}
-          </select>
+            onChange={setSortBy}
+            placeholder="Sort by"
+            size="sm"
+          />
 
           <Button
             variant="outline"

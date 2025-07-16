@@ -95,21 +95,7 @@
   }
 }
 
-.filter-select,
-.sort-select {
-  padding: $spacing-md;
-  border: 1px solid $border-light;
-  border-radius: $radius-md;
-  background: $surface-color;
-  font-size: 1rem;
-  min-width: 150px;
-  
-  &:focus {
-    outline: none;
-    border-color: $primary-color;
-          box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
-  }
-}
+// Old select styles removed - now using custom Dropdown component
 
 // Stats
 .invoice-list__stats {

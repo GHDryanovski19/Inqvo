@@ -22,6 +22,7 @@ import {
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
+import Dropdown from '../../components/UI/Dropdown'
 import ClientModal from './ClientModal'
 import toast from 'react-hot-toast'
 import './Clients.scss'
@@ -447,25 +448,29 @@ const Clients = () => {
           </div>
           
           <div className="filter-controls">
-            <select
+            <Dropdown
+              options={[
+                { value: 'all', label: t('client.filters.all') },
+                { value: 'active', label: t('client.filters.active') },
+                { value: 'inactive', label: t('client.filters.inactive') }
+              ]}
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="filter-select"
-            >
-              <option value="all">{t('client.filters.all')}</option>
-              <option value="active">{t('client.filters.active')}</option>
-              <option value="inactive">{t('client.filters.inactive')}</option>
-            </select>
+              onChange={setFilterStatus}
+              placeholder={t('client.filters.all')}
+              size="sm"
+            />
             
-            <select
+            <Dropdown
+              options={[
+                { value: 'name', label: t('client.sort.name') },
+                { value: 'company', label: t('client.sort.company') },
+                { value: 'date', label: t('client.sort.date') }
+              ]}
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="sort-select"
-            >
-              <option value="name">{t('client.sort.name')}</option>
-              <option value="company">{t('client.sort.company')}</option>
-              <option value="date">{t('client.sort.date')}</option>
-            </select>
+              onChange={setSortBy}
+              placeholder={t('client.sort.name')}
+              size="sm"
+            />
           </div>
         </div>
         

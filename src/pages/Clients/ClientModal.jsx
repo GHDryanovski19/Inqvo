@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiX, FiUser, FiMail, FiPhone, FiMapPin, FiGlobe, FiBriefcase, FiHash, FiFileText } from 'react-icons/fi'
 import Button from '../../components/UI/Button/Button'
+import Dropdown from '../../components/UI/Dropdown'
 import './ClientModal.scss'
 
 const ClientModal = ({ client, onSave, onClose }) => {
@@ -280,13 +281,15 @@ const ClientModal = ({ client, onSave, onClose }) => {
                     <label htmlFor="status">
                       {t('client.form.status')}
                     </label>
-                    <select
-                      id="status"
-                      {...register('status')}
-                    >
-                      <option value="active">{t('client.status.active')}</option>
-                      <option value="inactive">{t('client.status.inactive')}</option>
-                    </select>
+                    <Dropdown
+                      options={[
+                        { value: 'active', label: t('client.status.active') },
+                        { value: 'inactive', label: t('client.status.inactive') }
+                      ]}
+                      value={watch('status')}
+                      onChange={(value) => setValue('status', value)}
+                      placeholder={t('client.status.active')}
+                    />
                   </div>
                 </div>
               </div>

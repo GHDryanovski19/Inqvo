@@ -221,28 +221,7 @@
         flex-direction: column;
       }
       
-      .filter-select,
-      .sort-select {
-        padding: $spacing-md $spacing-lg;
-        border: 1px solid $border-light;
-        border-radius: $radius-lg;
-        background: $surface-color;
-        font-size: 0.875rem;
-        color: $text-color;
-        cursor: pointer;
-        transition: all $transition-normal;
-        
-        &:focus {
-          outline: none;
-          border-color: $primary-color;
-          box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
-        }
-        
-        option {
-          background: $surface-color;
-          color: $text-color;
-        }
-      }
+      // Old select styles removed - now using custom Dropdown component
     }
   }
   

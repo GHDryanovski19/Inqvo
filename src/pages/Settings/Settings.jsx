@@ -315,23 +315,25 @@ const Settings = () => {
                       <FiGlobe />
                       Country *
                     </label>
-                    <select
-                      {...register('companyCountry', { required: 'Country is required' })}
-                      className={errors.companyCountry ? 'error' : ''}
-                    >
-                      <option value="">Select country</option>
-                      <option value="Bulgaria">Bulgaria</option>
-                      <option value="Germany">Germany</option>
-                      <option value="France">France</option>
-                      <option value="Italy">Italy</option>
-                      <option value="Spain">Spain</option>
-                      <option value="Netherlands">Netherlands</option>
-                      <option value="Belgium">Belgium</option>
-                      <option value="Austria">Austria</option>
-                      <option value="Switzerland">Switzerland</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                    </select>
-                    {errors.companyCountry && <span className="error-message">{errors.companyCountry.message}</span>}
+                    <Dropdown
+                      options={[
+                        { value: '', label: 'Select country' },
+                        { value: 'Bulgaria', label: 'Bulgaria' },
+                        { value: 'Germany', label: 'Germany' },
+                        { value: 'France', label: 'France' },
+                        { value: 'Italy', label: 'Italy' },
+                        { value: 'Spain', label: 'Spain' },
+                        { value: 'Netherlands', label: 'Netherlands' },
+                        { value: 'Belgium', label: 'Belgium' },
+                        { value: 'Austria', label: 'Austria' },
+                        { value: 'Switzerland', label: 'Switzerland' },
+                        { value: 'United Kingdom', label: 'United Kingdom' }
+                      ]}
+                      value={watch('companyCountry')}
+                      onChange={(value) => setValue('companyCountry', value)}
+                      placeholder="Select country"
+                      error={errors.companyCountry?.message}
+                    />
                   </div>
                 </div>
 
