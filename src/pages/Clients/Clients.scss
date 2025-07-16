@@ -221,7 +221,14 @@
         flex-direction: column;
       }
       
-      // Old select styles removed - now using custom Dropdown component
+      // Custom styling for dropdown components to prevent text wrapping
+      .dropdown-container {
+        min-width: 180px; // Increased from default to prevent text wrapping
+        
+        @media (max-width: 768px) {
+          min-width: 100%;
+        }
+      }
     }
   }
   

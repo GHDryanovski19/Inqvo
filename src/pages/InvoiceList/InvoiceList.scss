@@ -54,12 +54,30 @@
     flex-direction: column;
     gap: $spacing-sm;
   }
+  
+  // Custom styling for dropdown components to prevent text wrapping
+  .dropdown-container {
+    min-width: 160px; // Increased from default to prevent text wrapping
+    
+    @media (max-width: 768px) {
+      min-width: 100%;
+    }
+  }
 }
 
 .filters-right {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
+  
+  // Custom styling for dropdown components to prevent text wrapping
+  .dropdown-container {
+    min-width: 160px; // Increased from default to prevent text wrapping
+    
+    @media (max-width: 768px) {
+      min-width: 100%;
+    }
+  }
 }
 
 .search-box {
