@@ -18,6 +18,12 @@
   overflow: hidden;
   white-space: nowrap;
   
+  // Ensure Link elements behave like buttons
+  &:is(a) {
+    text-decoration: none;
+    color: inherit;
+  }
+  
   // Sizes with consistent heights
   &--sm {
     padding: $spacing-sm $spacing-md;

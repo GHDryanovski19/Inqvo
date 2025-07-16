@@ -126,7 +126,7 @@ const InvoiceList = () => {
         subtitle="Manage and track all your invoices"
         icon={<FiFileText />}
         action={
-          <Link to="/invoices/create">
+          <Link to="/invoice/create">
             <Button variant="primary" size="md">
               <FiPlus />
               Create Invoice
@@ -330,7 +330,7 @@ const InvoiceList = () => {
               }
             </p>
             {!searchTerm && statusFilter === 'all' && (
-              <Link to="/invoices/create">
+              <Link to="/invoice/create">
                 <Button variant="primary">
                   <FiPlus />
                   Create Invoice
