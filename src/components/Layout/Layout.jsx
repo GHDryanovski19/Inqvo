@@ -122,7 +122,7 @@ const Layout = () => {
           <div className="sidebar__actions">
             <Button
               variant="outline"
-              size="sm"
+              size="md"
               onClick={handleExport}
               className="sidebar__action-btn"
             >
@@ -162,7 +162,7 @@ const Layout = () => {
           <div className="header__right">
             {location.pathname === '/invoices' && (
               <Link to="/invoices/create">
-                <Button variant="primary" size="sm">
+                <Button variant="primary" size="md">
                   <FiPlus />
                   New Invoice
                 </Button>

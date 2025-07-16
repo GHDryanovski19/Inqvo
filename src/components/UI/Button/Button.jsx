@@ -12,6 +12,9 @@ const Button = ({
   onClick,
   type = 'button',
   className = '',
+  compact = false,
+  fullWidth = false,
+  iconOnly = false,
   ...props
 }) => {
   const baseClass = 'btn'
@@ -19,8 +22,11 @@ const Button = ({
   const sizeClass = `btn--${size}`
   const stateClass = disabled ? 'btn--disabled' : ''
   const loadingClass = loading ? 'btn--loading' : ''
+  const compactClass = compact ? 'btn--compact' : ''
+  const fullWidthClass = fullWidth ? 'btn--full-width' : ''
+  const iconOnlyClass = iconOnly ? 'btn--icon-only' : ''
   
-  const buttonClass = `${baseClass} ${variantClass} ${sizeClass} ${stateClass} ${loadingClass} ${className}`.trim()
+  const buttonClass = `${baseClass} ${variantClass} ${sizeClass} ${stateClass} ${loadingClass} ${compactClass} ${fullWidthClass} ${iconOnlyClass} ${className}`.trim()
 
   const handleClick = (e) => {
     if (!disabled && !loading && onClick) {

@@ -133,50 +133,7 @@ const InvoiceList = () => {
             </Button>
           </Link>
         }
-      >
-        {/* Filters and Search */}
-        <div className="invoice-list__filters">
-          <div className="filters-left">
-            <div className="search-box">
-              <FiSearch />
-              <input
-                type="text"
-                placeholder="Search invoices..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
-            <Dropdown
-              options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
-              placeholder="Filter by status"
-              size="sm"
-            />
-          </div>
-
-          <div className="filters-right">
-            <Dropdown
-              options={sortOptions.map(option => ({
-                ...option,
-                label: `Sort by ${option.label}`
-              }))}
-              value={sortBy}
-              onChange={setSortBy}
-              placeholder="Sort by"
-              size="sm"
-            />
-
-            <SortDirectionButton
-              direction={sortOrder}
-              onToggle={setSortOrder}
-              variant="chevron"
-              className="sort-direction-button--sm"
-            />
-          </div>
-        </div>
-      </PageHeader>
+      />
 
       {/* Invoice Stats */}
       <div className="invoice-list__stats">
@@ -216,6 +173,49 @@ const InvoiceList = () => {
             <span className="stat-value">{clients.length}</span>
             <span className="stat-label">Active Clients</span>
           </div>
+        </div>
+      </div>
+
+      {/* Filters and Search */}
+      <div className="invoice-list__filters">
+        <div className="filters-left">
+          <div className="search-box">
+            <FiSearch />
+            <input
+              type="text"
+              placeholder="Search invoices..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <Dropdown
+            options={statusOptions}
+            value={statusFilter}
+            onChange={setStatusFilter}
+            placeholder="Filter by status"
+            size="sm"
+          />
+        </div>
+
+        <div className="filters-right">
+          <Dropdown
+            options={sortOptions.map(option => ({
+              ...option,
+              label: `Sort by ${option.label}`
+            }))}
+            value={sortBy}
+            onChange={setSortBy}
+            placeholder="Sort by"
+            size="sm"
+          />
+
+          <SortDirectionButton
+            direction={sortOrder}
+            onToggle={setSortOrder}
+            variant="chevron"
+            className="sort-direction-button--sm"
+          />
         </div>
       </div>
 

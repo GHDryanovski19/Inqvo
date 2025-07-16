@@ -16,44 +16,63 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  @include interactive-button;
+  white-space: nowrap;
   
-  // Sizes
+  // Sizes with consistent heights
   &--sm {
     padding: $spacing-sm $spacing-md;
     font-size: 0.875rem;
-    min-height: 32px;
+    min-height: 36px;
+    min-width: 80px;
   }
   
   &--md {
     padding: $spacing-md $spacing-lg;
     font-size: 1rem;
-    min-height: 40px;
+    min-height: 44px;
+    min-width: 100px;
   }
   
   &--lg {
     padding: $spacing-lg $spacing-xl;
     font-size: 1.125rem;
-    min-height: 48px;
+    min-height: 52px;
+    min-width: 120px;
   }
   
   // Variants
   &--primary {
     background: $primary-color;
     color: white;
+    transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
       background: $primary-dark;
+      box-shadow: 0 4px 12px rgba($primary-rgb, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    &:active:not(.btn--disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba($primary-rgb, 0.2);
     }
   }
   
   &--secondary {
     background: $border-light;
     color: $text-color;
+    transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
       background: $text-secondary;
       color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+    }
+    
+    &:active:not(.btn--disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
   }
   
@@ -61,30 +80,53 @@
     background: transparent;
     color: $text-color;
     border: 1px solid $text-secondary;
+    transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
       border-color: $primary-color;
       color: $primary-color;
-      background: color.adjust($primary-rgb, $alpha: 0.05);
+      background: rgba($primary-rgb, 0.08);
+      box-shadow: 0 2px 8px rgba($primary-rgb, 0.15);
+    }
+    
+    &:active:not(.btn--disabled) {
+      background: rgba($primary-rgb, 0.12);
+      transform: translateY(1px);
     }
   }
   
   &--ghost {
     background: transparent;
     color: $text-secondary;
+    transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
       background: $border-light;
       color: $text-color;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+    
+    &:active:not(.btn--disabled) {
+      transform: translateY(0);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     }
   }
   
   &--danger {
     background: $error-color;
     color: white;
+    transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
       background: $error-dark;
+      box-shadow: 0 4px 12px rgba($error-rgb, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    &:active:not(.btn--disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba($error-rgb, 0.2);
     }
   }
   
@@ -100,6 +142,36 @@
     
     .btn__content {
       opacity: 0;
+    }
+  }
+  
+  // Special modifiers for consistent sizing
+  &--compact {
+    padding: $spacing-xs $spacing-sm;
+    min-width: auto;
+    min-height: 32px;
+    font-size: 0.875rem;
+  }
+  
+  &--full-width {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  &--icon-only {
+    min-width: auto;
+    width: 36px;
+    height: 36px;
+    padding: $spacing-xs;
+    
+    &.btn--md {
+      width: 44px;
+      height: 44px;
+    }
+    
+    &.btn--lg {
+      width: 52px;
+      height: 52px;
     }
   }
 }
@@ -156,5 +228,16 @@
       border-bottom-right-radius: $radius-md;
       border-right: none;
     }
+  }
+}
+
+// Button Row for consistent spacing
+.btn-row {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  
+  .btn {
+    flex-shrink: 0;
   }
 } 
