@@ -240,7 +240,8 @@
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  overflow: hidden;
+  // Remove overflow: hidden to prevent dropdown clipping
+  position: relative;
 }
 
 .form-step {

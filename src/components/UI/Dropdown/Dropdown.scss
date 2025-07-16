@@ -236,6 +236,15 @@
   overflow-y: auto;
   overflow-x: hidden;
   
+  // Prevent clipping by ensuring it's above other elements
+  transform: translateZ(0);
+  
+  // Auto-adjust position if near bottom of viewport
+  &[data-position="top"] {
+    top: auto;
+    bottom: calc(100% + 4px);
+  }
+  
   // Custom scrollbar
   &::-webkit-scrollbar {
     width: 6px;

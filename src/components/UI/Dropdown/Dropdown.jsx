@@ -20,6 +20,7 @@ const Dropdown = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null)
+  const [menuPosition, setMenuPosition] = useState('bottom')
   const dropdownRef = useRef(null)
 
   // Find selected option
@@ -51,6 +52,24 @@ const Dropdown = ({
     if (isOpen) {
       document.addEventListener('keydown', handleEscape)
       return () => document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen])
+
+  // Calculate menu position to prevent clipping
+  useEffect(() => {
+    if (isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const menuHeight = 240 // max-height from CSS
+      const spaceBelow = viewportHeight - rect.bottom
+      const spaceAbove = rect.top
+      
+      // If there's not enough space below but enough space above, position above
+      if (spaceBelow < menuHeight && spaceAbove > menuHeight) {
+        setMenuPosition('top')
+      } else {
+        setMenuPosition('bottom')
+      }
     }
   }, [isOpen])
 
@@ -87,9 +106,9 @@ const Dropdown = ({
   const dropdownVariants = {
     hidden: { 
       opacity: 0, 
-      y: -10,
+      y: menuPosition === 'top' ? 10 : -10,
       scale: 0.95,
-      transformOrigin: 'top'
+      transformOrigin: menuPosition === 'top' ? 'bottom' : 'top'
     },
     visible: { 
       opacity: 1, 
@@ -102,7 +121,7 @@ const Dropdown = ({
     },
     exit: { 
       opacity: 0, 
-      y: -10,
+      y: menuPosition === 'top' ? 10 : -10,
       scale: 0.95,
       transition: {
         duration: 0.15,
@@ -173,6 +192,7 @@ const Dropdown = ({
           {isOpen && (
             <motion.div
               className="dropdown__menu"
+              data-position={menuPosition}
               variants={dropdownVariants}
               initial="hidden"
               animate="visible"
