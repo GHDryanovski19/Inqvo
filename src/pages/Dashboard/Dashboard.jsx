@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FiPlus, FiFileText, FiDollarSign, FiClock, FiAlertTriangle, FiTrendingUp, FiUsers, FiCalendar } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
+import PageHeader from '../../components/UI/PageHeader'
 import styles from './Dashboard.module.scss'
 
 const Dashboard = () => {
@@ -114,11 +115,17 @@ const Dashboard = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Welcome Section */}
-        <motion.div className={styles.welcomeSection} variants={itemVariants}>
-          <h1>{t('dashboard.welcome')}</h1>
-          <p>Manage your invoices and track your business growth</p>
-        </motion.div>
+        <PageHeader
+          title={t('dashboard.welcome')}
+          subtitle="Manage your invoices and track your business growth"
+          icon={<FiTrendingUp />}
+          action={
+            <Link to="/invoice/create" className={styles.actionButton}>
+              <FiPlus />
+              <span>{t('dashboard.createNewInvoice')}</span>
+            </Link>
+          }
+        />
 
         {/* Stats Grid */}
         <div className={styles.statsGrid}>

@@ -23,6 +23,8 @@ import {
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
+import PageHeader from '../../components/UI/PageHeader'
+import SortDirectionButton from '../../components/UI/SortDirectionButton'
 import ClientModal from './ClientModal'
 import toast from 'react-hot-toast'
 import './Clients.scss'
@@ -359,17 +361,15 @@ const Clients = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Header Section */}
-      <motion.div className="clients__header" variants={itemVariants}>
-        <div className="header-content">
-          <div>
-            <h1>{t('client.title')}</h1>
-            <p>{t('client.subtitle')}</p>
-          </div>
+      <PageHeader
+        title={t('client.title')}
+        subtitle={t('client.subtitle')}
+        icon={<FiUser />}
+        action={
           <div className="header-actions">
             <Button
               variant="outline"
-              size="md"
+              size="sm"
               onClick={handleExportClients}
               title={t('client.export')}
             >
@@ -385,8 +385,70 @@ const Clients = () => {
               {t('client.addClient')}
             </Button>
           </div>
+        }
+      >
+        {/* Controls Section */}
+        <div className="clients__controls">
+          <div className="controls-left">
+            <div className="search-box">
+              <FiSearch />
+              <input
+                type="text"
+                placeholder={t('client.searchPlaceholder')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            
+            <div className="filter-controls">
+              <Dropdown
+                options={[
+                  { value: 'all', label: t('client.filters.all') },
+                  { value: 'active', label: t('client.filters.active') },
+                  { value: 'inactive', label: t('client.filters.inactive') }
+                ]}
+                value={filterStatus}
+                onChange={setFilterStatus}
+                placeholder={t('client.filters.all')}
+                size="sm"
+              />
+              
+              <Dropdown
+                options={[
+                  { value: 'name', label: t('client.sort.name') },
+                  { value: 'company', label: t('client.sort.company') },
+                  { value: 'date', label: t('client.sort.date') }
+                ]}
+                value={sortBy}
+                onChange={setSortBy}
+                placeholder={t('client.sort.name')}
+                size="sm"
+              />
+            </div>
+          </div>
+          
+          <div className="controls-right">
+            <div className="view-toggle">
+              <Button
+                variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                title={t('client.view.grid')}
+              >
+                <FiGrid />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'primary' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                title={t('client.view.list')}
+              >
+                <FiList />
+              </Button>
+            </div>
+          </div>
         </div>
-      </motion.div>
+      </PageHeader>
 
       {/* Stats Section */}
       <motion.div className="clients__stats" variants={itemVariants}>
@@ -434,67 +496,7 @@ const Clients = () => {
         </div>
       </motion.div>
 
-      {/* Controls Section */}
-      <motion.div className="clients__controls" variants={itemVariants}>
-        <div className="controls-left">
-          <div className="search-box">
-            <FiSearch />
-            <input
-              type="text"
-              placeholder={t('client.searchPlaceholder')}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          
-          <div className="filter-controls">
-            <Dropdown
-              options={[
-                { value: 'all', label: t('client.filters.all') },
-                { value: 'active', label: t('client.filters.active') },
-                { value: 'inactive', label: t('client.filters.inactive') }
-              ]}
-              value={filterStatus}
-              onChange={setFilterStatus}
-              placeholder={t('client.filters.all')}
-              size="sm"
-            />
-            
-            <Dropdown
-              options={[
-                { value: 'name', label: t('client.sort.name') },
-                { value: 'company', label: t('client.sort.company') },
-                { value: 'date', label: t('client.sort.date') }
-              ]}
-              value={sortBy}
-              onChange={setSortBy}
-              placeholder={t('client.sort.name')}
-              size="sm"
-            />
-          </div>
-        </div>
-        
-        <div className="controls-right">
-          <div className="view-toggle">
-            <Button
-              variant={viewMode === 'grid' ? 'primary' : 'ghost'}
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              title={t('client.view.grid')}
-            >
-              <FiGrid />
-            </Button>
-            <Button
-              variant={viewMode === 'list' ? 'primary' : 'ghost'}
-              size="sm"
-              onClick={() => setViewMode('list')}
-              title={t('client.view.list')}
-            >
-              <FiList />
-            </Button>
-          </div>
-        </div>
-      </motion.div>
+
 
       {/* Content Section */}
       <motion.div className="clients__content" variants={itemVariants}>

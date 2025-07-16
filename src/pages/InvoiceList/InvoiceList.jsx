@@ -18,6 +18,8 @@ import { useApp } from '../../contexts/AppContext'
 import { format } from 'date-fns'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
+import PageHeader from '../../components/UI/PageHeader'
+import SortDirectionButton from '../../components/UI/SortDirectionButton'
 import toast from 'react-hot-toast'
 import { exportInvoiceToPDF } from '../../utils/pdfExport'
 import './InvoiceList.scss'
@@ -118,62 +120,62 @@ const InvoiceList = () => {
 
   return (
     <div className="invoice-list">
-      <div className="invoice-list__header">
-        <div>
-          <h1>Invoices</h1>
-          <p>Manage and track all your invoices</p>
-        </div>
-        <Link to="/invoices/create">
-          <Button variant="primary" size="lg">
-            <FiPlus />
-            Create Invoice
-          </Button>
-        </Link>
-      </div>
+      <PageHeader
+        title="Invoices"
+        subtitle="Manage and track all your invoices"
+        icon={<FiFileText />}
+        action={
+          <Link to="/invoices/create">
+            <Button variant="primary" size="md">
+              <FiPlus />
+              Create Invoice
+            </Button>
+          </Link>
+        }
+      >
+        {/* Filters and Search */}
+        <div className="invoice-list__filters">
+          <div className="filters-left">
+            <div className="search-box">
+              <FiSearch />
+              <input
+                type="text"
+                placeholder="Search invoices..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
 
-      {/* Filters and Search */}
-      <div className="invoice-list__filters">
-        <div className="filters-left">
-          <div className="search-box">
-            <FiSearch />
-            <input
-              type="text"
-              placeholder="Search invoices..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+            <Dropdown
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              placeholder="Filter by status"
+              size="sm"
             />
           </div>
 
-          <Dropdown
-            options={statusOptions}
-            value={statusFilter}
-            onChange={setStatusFilter}
-            placeholder="Filter by status"
-            size="sm"
-          />
-        </div>
+          <div className="filters-right">
+            <Dropdown
+              options={sortOptions.map(option => ({
+                ...option,
+                label: `Sort by ${option.label}`
+              }))}
+              value={sortBy}
+              onChange={setSortBy}
+              placeholder="Sort by"
+              size="sm"
+            />
 
-        <div className="filters-right">
-          <Dropdown
-            options={sortOptions.map(option => ({
-              ...option,
-              label: `Sort by ${option.label}`
-            }))}
-            value={sortBy}
-            onChange={setSortBy}
-            placeholder="Sort by"
-            size="sm"
-          />
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-          >
-            {sortOrder === 'asc' ? '↑' : '↓'}
-          </Button>
+            <SortDirectionButton
+              direction={sortOrder}
+              onChange={setSortOrder}
+              size="sm"
+              variant="outline"
+            />
+          </div>
         </div>
-      </div>
+      </PageHeader>
 
       {/* Invoice Stats */}
       <div className="invoice-list__stats">

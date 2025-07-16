@@ -21,6 +21,7 @@ import {
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
+import PageHeader from '../../components/UI/PageHeader'
 import toast from 'react-hot-toast'
 import { 
   exportData, 
@@ -249,21 +250,22 @@ const Settings = () => {
 
   return (
     <div className="settings">
-      <div className="settings__header">
-        <div>
-          <h1>Settings</h1>
-          <p>Configure your company information and application preferences</p>
-        </div>
-        <Button
-          variant="primary"
-          size="lg"
-          onClick={handleSubmit(onSubmit)}
-          loading={isSubmitting}
-        >
-          <FiSave />
-          Save Settings
-        </Button>
-      </div>
+      <PageHeader
+        title="Settings"
+        subtitle="Configure your company information and application preferences"
+        icon={<FiSettings />}
+        action={
+          <Button
+            variant="primary"
+            size="md"
+            onClick={handleSubmit(onSubmit)}
+            loading={isSubmitting}
+          >
+            <FiSave />
+            Save Settings
+          </Button>
+        }
+      />
 
       <div className="settings__content">
         {/* Tabs */}

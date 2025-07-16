@@ -1,0 +1,108 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.sort-direction-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-normal;
+  background: transparent;
+  color: $text-secondary;
+  
+  // Sizes
+  &--sm {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  &--md {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  &--lg {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  // Variants
+  &--outline {
+    border: 1px solid $border-light;
+    background: $surface-color;
+    
+    &:hover {
+      border-color: $primary-color;
+      color: $primary-color;
+      background: rgba($primary-rgb, 0.05);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+    }
+  }
+  
+  &--ghost {
+    &:hover {
+      background: $bg-secondary;
+      color: $text-color;
+    }
+    
+    &:focus {
+      outline: none;
+      background: $bg-secondary;
+      box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+    }
+  }
+  
+  &--filled {
+    background: $bg-secondary;
+    color: $text-color;
+    
+    &:hover {
+      background: $bg-tertiary;
+      color: $primary-color;
+    }
+    
+    &:focus {
+      outline: none;
+      background: $bg-tertiary;
+      box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+    }
+  }
+  
+  // States
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      background: transparent;
+      color: $text-secondary;
+    }
+  }
+  
+  // Focus styles for accessibility
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-rgb, 0.15);
+  }
+  
+  // Icon styling
+  svg {
+    width: 1em;
+    height: 1em;
+    transition: transform $transition-fast;
+  }
+  
+  &:hover svg {
+    transform: scale(1.1);
+  }
+} 
