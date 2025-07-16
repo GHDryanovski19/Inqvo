@@ -1,35 +1,71 @@
 @use 'sass:color';
 
-// Color Palette
-$primary-color: #98C93C;
-$primary-dark: #2A9245;
-$primary-light: #b8e066;
-$primary-rgb: rgb(152, 201, 60); // Use as: color.adjust($primary-rgb, $alpha: 0.1)
+// CSS Custom Properties (CSS Variables) for theming
+:root {
+  // Primary Colors
+  --primary-color: #98C93C;
+  --primary-dark: #2A9245;
+  --primary-light: #b8e066;
+  --primary-rgb: 152, 201, 60;
+  
+  // Secondary Colors
+  --secondary-color: #2A9245;
+  --secondary-rgb: 42, 146, 69;
+  --secondary-light: #4aad5a;
+  --secondary-dark: #1f7a3a;
+  
+  // Status Colors
+  --success-color: #10b981;
+  --success-rgb: 16, 185, 129;
+  --success-dark: #059669;
+  --success-light: #d1fae5;
+  
+  --warning-color: #f59e0b;
+  --warning-rgb: 245, 158, 11;
+  --warning-dark: #d97706;
+  --warning-light: #fef3c7;
+  
+  --error-color: #ef4444;
+  --error-rgb: 239, 68, 68;
+  --error-dark: #dc2626;
+  --error-light: #fee2e2;
+  
+  --info-color: #3b82f6;
+  --info-rgb: 59, 130, 246;
+  --info-dark: #2563eb;
+  --info-light: #dbeafe;
+}
 
-$secondary-color: #2A9245;
-$secondary-rgb: rgb(42, 146, 69);
-$secondary-light: #4aad5a;
-$secondary-dark: #1f7a3a;
+// SCSS Variables (fallback to CSS custom properties)
+$primary-color: var(--primary-color, #98C93C);
+$primary-dark: var(--primary-dark, #2A9245);
+$primary-light: var(--primary-light, #b8e066);
+$primary-rgb: var(--primary-rgb, 152, 201, 60);
 
-$success-color: #52c41a;
-$success-dark: #389e0d;
-$success-light: #b7eb8f;
-$success-rgb: rgb(82, 196, 26);
+$secondary-color: var(--secondary-color, #2A9245);
+$secondary-rgb: var(--secondary-rgb, 42, 146, 69);
+$secondary-light: var(--secondary-light, #4aad5a);
+$secondary-dark: var(--secondary-dark, #1f7a3a);
 
-$warning-color: #ffd43b;
-$warning-rgb: rgb(245, 158, 11);
-$warning-light: #fff3bf;
-$warning-dark: #b8860b;
+$success-color: var(--success-color, #10b981);
+$success-rgb: var(--success-rgb, 16, 185, 129);
+$success-dark: var(--success-dark, #059669);
+$success-light: var(--success-light, #d1fae5);
 
-$error-color: #ff6b6b;
-$error-dark: #e74c3c;
-$error-light: #ffb3b3;
-$error-rgb: rgb(255, 107, 107);
+$warning-color: var(--warning-color, #f59e0b);
+$warning-rgb: var(--warning-rgb, 245, 158, 11);
+$warning-dark: var(--warning-dark, #d97706);
+$warning-light: var(--warning-light, #fef3c7);
 
-$info-color: #38bdf8;
-$info-dark: #0ea5e9;
-$info-light: #bae6fd;
-$info-rgb: rgb(56, 189, 248);
+$error-color: var(--error-color, #ef4444);
+$error-rgb: var(--error-rgb, 239, 68, 68);
+$error-dark: var(--error-dark, #dc2626);
+$error-light: var(--error-light, #fee2e2);
+
+$info-color: var(--info-color, #3b82f6);
+$info-rgb: var(--info-rgb, 59, 130, 246);
+$info-dark: var(--info-dark, #2563eb);
+$info-light: var(--info-light, #dbeafe);
 
 // Neutral Colors
 $text-color: #22223b;

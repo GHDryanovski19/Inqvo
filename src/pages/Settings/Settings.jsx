@@ -38,6 +38,7 @@ import {
   validateImportedData 
 } from '../../utils/dataExport'
 import { exportInvoiceToPDF } from '../../utils/pdfExport'
+import { applyTheme, applyPresetTheme } from '../../utils/theme'
 import './Settings.scss'
 
 const Settings = () => {
@@ -103,6 +104,30 @@ const Settings = () => {
       }
     }
   }, [watchedIban, watchedBankCode, generateBICFromIBAN, setValue])
+
+  // Apply theme changes when theme values change
+  React.useEffect(() => {
+    const currentTheme = {
+      primaryColor: watch('primaryColor'),
+      secondaryColor: watch('secondaryColor'),
+      successColor: watch('successColor'),
+      warningColor: watch('warningColor'),
+      errorColor: watch('errorColor'),
+      infoColor: watch('infoColor')
+    }
+    
+    // Only apply if we have at least one color value
+    if (Object.values(currentTheme).some(color => color)) {
+      applyTheme(currentTheme)
+    }
+  }, [
+    watch('primaryColor'),
+    watch('secondaryColor'),
+    watch('successColor'),
+    watch('warningColor'),
+    watch('errorColor'),
+    watch('infoColor')
+  ])
 
   const onSubmit = async (data) => {
     try {
@@ -819,12 +844,16 @@ const Settings = () => {
                   <Button 
                     variant="outline" 
                     onClick={() => {
-                      setValue('primaryColor', '#98C93C')
-                      setValue('secondaryColor', '#2A9245')
-                      setValue('successColor', '#10b981')
-                      setValue('warningColor', '#f59e0b')
-                      setValue('errorColor', '#ef4444')
-                      setValue('infoColor', '#3b82f6')
+                      const theme = applyPresetTheme('defaultGreen')
+                      if (theme) {
+                        setValue('primaryColor', theme.primaryColor)
+                        setValue('secondaryColor', theme.secondaryColor)
+                        setValue('successColor', theme.successColor)
+                        setValue('warningColor', theme.warningColor)
+                        setValue('errorColor', theme.errorColor)
+                        setValue('infoColor', theme.infoColor)
+                        toast.success('Default Green theme applied! 🎨')
+                      }
                     }}
                   >
                     <FiCheck />
@@ -834,12 +863,16 @@ const Settings = () => {
                   <Button 
                     variant="outline" 
                     onClick={() => {
-                      setValue('primaryColor', '#6366f1')
-                      setValue('secondaryColor', '#4f46e5')
-                      setValue('successColor', '#10b981')
-                      setValue('warningColor', '#f59e0b')
-                      setValue('errorColor', '#ef4444')
-                      setValue('infoColor', '#3b82f6')
+                      const theme = applyPresetTheme('professionalBlue')
+                      if (theme) {
+                        setValue('primaryColor', theme.primaryColor)
+                        setValue('secondaryColor', theme.secondaryColor)
+                        setValue('successColor', theme.successColor)
+                        setValue('warningColor', theme.warningColor)
+                        setValue('errorColor', theme.errorColor)
+                        setValue('infoColor', theme.infoColor)
+                        toast.success('Professional Blue theme applied! 🎨')
+                      }
                     }}
                   >
                     <FiCheck />
@@ -849,12 +882,16 @@ const Settings = () => {
                   <Button 
                     variant="outline" 
                     onClick={() => {
-                      setValue('primaryColor', '#f97316')
-                      setValue('secondaryColor', '#ea580c')
-                      setValue('successColor', '#10b981')
-                      setValue('warningColor', '#f59e0b')
-                      setValue('errorColor', '#ef4444')
-                      setValue('infoColor', '#3b82f6')
+                      const theme = applyPresetTheme('creativeOrange')
+                      if (theme) {
+                        setValue('primaryColor', theme.primaryColor)
+                        setValue('secondaryColor', theme.secondaryColor)
+                        setValue('successColor', theme.successColor)
+                        setValue('warningColor', theme.warningColor)
+                        setValue('errorColor', theme.errorColor)
+                        setValue('infoColor', theme.infoColor)
+                        toast.success('Creative Orange theme applied! 🎨')
+                      }
                     }}
                   >
                     <FiCheck />

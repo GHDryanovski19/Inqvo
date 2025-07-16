@@ -220,7 +220,7 @@
   
   &.error {
     border-color: $error-color;
-    box-shadow: 0 0 0 3px color.adjust($error-rgb, $alpha: 0.1);
+    box-shadow: 0 0 0 3px rgba(var(--error-rgb, 239, 68, 68), 0.1);
   }
   
   &:disabled {

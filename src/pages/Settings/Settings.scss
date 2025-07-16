@@ -122,12 +122,12 @@
     &:focus {
       outline: none;
       border-color: $primary-color;
-      box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 152, 201, 60), 0.1);
     }
     
     &.error {
       border-color: $error-color;
-      box-shadow: 0 0 0 3px color.adjust($error-rgb, $alpha: 0.1);
+      box-shadow: 0 0 0 3px rgba(var(--error-rgb, 239, 68, 68), 0.1);
     }
   }
 }
@@ -208,7 +208,7 @@
   svg {
     width: 18px;
     height: 18px;
-    color: $primary-color;
+    color: var(--primary-color, $primary-color);
   }
 }
 
@@ -257,23 +257,23 @@
         font-weight: 500;
         
         &.status--success {
-          background: rgba($success-rgb, 0.1);
-          color: $success-color;
+          background: rgba(var(--success-rgb, $success-rgb), 0.1);
+          color: var(--success-color, $success-color);
         }
         
         &.status--warning {
-          background: rgba($warning-rgb, 0.1);
-          color: $warning-color;
+          background: rgba(var(--warning-rgb, $warning-rgb), 0.1);
+          color: var(--warning-color, $warning-color);
         }
         
         &.status--error {
-          background: rgba($error-rgb, 0.1);
-          color: $error-color;
+          background: rgba(var(--error-rgb, $error-rgb), 0.1);
+          color: var(--error-color, $error-color);
         }
         
         &.status--info {
-          background: rgba($info-rgb, 0.1);
-          color: $info-color;
+          background: rgba(var(--info-rgb, $info-rgb), 0.1);
+          color: var(--info-color, $info-color);
         }
       }
     }
@@ -315,17 +315,17 @@
     align-items: center;
     gap: $spacing-md;
     
-    .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: $radius-md;
-      background: rgba($primary-rgb, 0.1);
-      color: $primary-color;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-    }
+          .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: $radius-md;
+        background: rgba(var(--primary-rgb, $primary-rgb), 0.1);
+        color: var(--primary-color, $primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+      }
     
     .stat-content {
       display: flex;
@@ -368,7 +368,7 @@
       svg {
         width: 20px;
         height: 20px;
-        color: $primary-color;
+        color: var(--primary-color, $primary-color);
       }
       
       h4 {
@@ -404,7 +404,7 @@
       svg {
         width: 20px;
         height: 20px;
-        color: $primary-color;
+        color: var(--primary-color, $primary-color);
       }
       
       h4 {
@@ -467,7 +467,7 @@
       svg {
         width: 20px;
         height: 20px;
-        color: $primary-color;
+        color: var(--primary-color, $primary-color);
       }
       
       h4 {
@@ -494,7 +494,7 @@
   border: 1px solid $error-color;
   border-radius: $radius-lg;
   padding: $spacing-xl;
-  background: color.adjust($error-rgb, $alpha: 0.05);
+  background: rgba(var(--error-rgb, 239, 68, 68), 0.05);
   
   h3 {
     color: $error-color;
@@ -519,7 +519,7 @@
       background: white;
       border-radius: $radius-md;
       padding: $spacing-lg;
-      border: 1px solid color.adjust($error-rgb, $alpha: 0.2);
+      border: 1px solid rgba(var(--error-rgb, 239, 68, 68), 0.2);
       
       .danger-header {
         display: flex;
@@ -572,7 +572,7 @@
 
 // Success Message
 .success-message {
-  background: color.adjust($success-rgb, $alpha: 0.1);
+  background: rgba(var(--success-rgb, 34, 197, 94), 0.1);
   border: 1px solid $success-color;
   border-radius: $radius-md;
   padding: $spacing-md;

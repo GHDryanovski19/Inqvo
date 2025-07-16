@@ -63,7 +63,7 @@
     &:hover {
       color: $primary-color;
       border-color: $primary-color;
-      background: rgba($primary-color, 0.05);
+      background: rgba(var(--primary-rgb), 0.05);
     }
     
     svg {
@@ -114,7 +114,7 @@
     &:hover {
       color: $primary-color;
       border-color: $primary-color;
-      background: rgba($primary-color, 0.05);
+      background: rgba(var(--primary-rgb), 0.05);
     }
     
     svg {
@@ -177,6 +177,7 @@
 
 .form-step {
   padding: 2rem;
+  background: rgba(var(--primary-rgb), 0.05);
   
   @media (max-width: 768px) {
     padding: 1.5rem;
@@ -328,7 +329,7 @@
       &:hover {
         color: $primary-color;
         border-color: $primary-color;
-        background: rgba($primary-color, 0.05);
+        background: rgba(var(--primary-rgb), 0.05);
       }
       
       svg {

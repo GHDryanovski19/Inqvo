@@ -32,12 +32,12 @@
       }
       
       &--active {
-        background: rgba($primary-rgb, 0.1);
-        border-color: $primary-color;
-        color: $primary-color;
+        background: rgba(var(--primary-rgb, $primary-rgb), 0.1);
+        border-color: var(--primary-color, $primary-color);
+        color: var(--primary-color, $primary-color);
         
         .tab__icon {
-          background: $primary-color;
+          background: var(--primary-color, $primary-color);
           color: white;
         }
       }
@@ -73,10 +73,10 @@
       }
       
       &--completed {
-        color: $success-color;
+        color: var(--success-color, $success-color);
         
         .tab__icon {
-          background: $success-color;
+          background: var(--success-color, $success-color);
           color: white;
         }
       }
@@ -93,7 +93,7 @@
         .tab__progress-line {
           width: 0;
           height: 100%;
-          background: $success-color;
+          background: var(--success-color, $success-color);
           transition: width 0.3s ease;
         }
       }
@@ -157,7 +157,7 @@
 // Focus styles for accessibility
 .tab:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba($primary-rgb, 0.3);
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, $primary-rgb), 0.3);
   border-radius: $radius-lg;
 }
 

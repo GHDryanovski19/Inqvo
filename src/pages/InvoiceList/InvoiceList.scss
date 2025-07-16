@@ -104,7 +104,7 @@
     &:focus {
       outline: none;
       border-color: $primary-color;
-      box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
     }
   }
   
@@ -259,27 +259,27 @@
   letter-spacing: 0.5px;
   
   &.draft {
-    background: color.adjust($warning-rgb, $alpha: 0.1);
+    background: rgba(var(--warning-rgb), 0.1);
     color: $warning-color;
   }
   
   &.sent {
-    background: color.adjust($info-rgb, $alpha: 0.1);
+    background: rgba(var(--info-rgb), 0.1);
     color: $info-color;
   }
   
   &.paid {
-    background: color.adjust($success-rgb, $alpha: 0.1);
+    background: rgba(var(--success-rgb), 0.1);
     color: $success-color;
   }
   
   &.overdue {
-    background: color.adjust($error-rgb, $alpha: 0.1);
+    background: rgba(var(--error-rgb), 0.1);
     color: $error-color;
   }
   
   &.cancelled {
-    background: rgba($text-secondary, 0.1);
+    background: rgba(var(--text-secondary-rgb), 0.1);
     color: $text-secondary;
   }
 }

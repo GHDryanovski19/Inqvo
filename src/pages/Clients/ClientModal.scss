@@ -37,7 +37,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, $primary-color 0%, color.adjust($primary-color, $lightness: 20%) 100%);
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
   }
 }
 
@@ -48,7 +48,7 @@
   justify-content: space-between;
   padding: $spacing-2xl;
   border-bottom: 1px solid $border-light;
-  background: linear-gradient(135deg, $surface-color 0%, color.adjust($surface-color, $lightness: 1%) 100%);
+  background: linear-gradient(135deg, $surface-color 0%, var(--surface-color, $surface-color) 0%, var(--primary-light, $surface-color) 100%);
   
   .header-content {
     display: flex;
@@ -62,7 +62,7 @@
       justify-content: center;
       width: 48px;
       height: 48px;
-      background: linear-gradient(135deg, $primary-color 0%, color.adjust($primary-color, $lightness: 15%) 100%);
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
       border-radius: $radius-lg;
       color: white;
       flex-shrink: 0;
@@ -237,7 +237,7 @@
     &:focus {
       outline: none;
       border-color: $primary-color;
-      box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 152, 201, 60), 0.1);
     }
     
     &::placeholder {
@@ -246,7 +246,7 @@
     
     &.error {
       border-color: $error-color;
-      box-shadow: 0 0 0 3px color.adjust($error-rgb, $alpha: 0.1);
+      box-shadow: 0 0 0 3px rgba(var(--error-rgb, 239, 68, 68), 0.1);
     }
   }
   
@@ -291,7 +291,7 @@
 .modal-footer {
   padding: $spacing-2xl;
   border-top: 1px solid $border-light;
-  background: linear-gradient(135deg, $surface-color 0%, color.adjust($surface-color, $lightness: 1%) 100%);
+  background: linear-gradient(135deg, $surface-color 0%, var(--surface-color, $surface-color) 0%, var(--primary-light, $surface-color) 100%);
   
   .footer-actions {
     display: flex;
@@ -387,7 +387,7 @@
   input,
   select,
   textarea {
-    background: color.adjust($surface-color, $lightness: -2%);
+    background: color-mix(in srgb, var(--surface-color, #ffffff) 98%, black);
   }
 }
 
@@ -397,7 +397,7 @@
   select,
   textarea {
     border-color: $success-color;
-    box-shadow: 0 0 0 3px color.adjust($success-rgb, $alpha: 0.1);
+    box-shadow: 0 0 0 3px rgba(var(--success-rgb, 34, 197, 94), 0.1);
   }
 }
 
@@ -437,7 +437,7 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 
-    0 0 0 3px rgba($primary-rgb, 0.1),
+    0 0 0 3px rgba(var(--primary-rgb, 152, 201, 60), 0.1),
     0 0 0 1px $primary-color;
 }
 
@@ -449,7 +449,7 @@
   input,
   select,
   textarea {
-    background: color.adjust($surface-color, $lightness: -2%);
+    background: color-mix(in srgb, var(--surface-color, #ffffff) 98%, black);
     cursor: not-allowed;
   }
 } 

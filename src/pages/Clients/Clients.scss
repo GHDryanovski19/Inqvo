@@ -197,7 +197,7 @@
         &:focus {
           outline: none;
           border-color: $primary-color;
-          box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+          box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
         }
         
         &::placeholder {
@@ -344,12 +344,12 @@
       transition: all $transition-normal;
       
       &:hover {
-        background: rgba($primary-rgb, 0.1);
+        background: rgba(var(--primary-rgb), 0.1);
         color: $primary-color;
       }
       
       &.delete-btn:hover {
-        background: rgba($error-rgb, 0.1);
+        background: rgba(var(--error-rgb), 0.1);
         color: $error-color;
       }
     }
@@ -413,7 +413,7 @@
       color: $text-color;
       font-weight: 600;
       padding: $spacing-sm $spacing-md;
-      background: rgba($primary-rgb, 0.05);
+      background: rgba(var(--primary-rgb), 0.05);
       border-radius: $radius-md;
       border-left: 3px solid $primary-color;
     }
@@ -422,7 +422,7 @@
   .client-card__notes {
     margin-bottom: $spacing-lg;
     padding: $spacing-md;
-    background: rgba($warning-rgb, 0.05);
+    background: rgba(var(--warning-rgb), 0.05);
     border-radius: $radius-md;
     border-left: 3px solid $warning-color;
     
@@ -460,12 +460,12 @@
         letter-spacing: 0.5px;
         
         &--active {
-          background: rgba($success-rgb, 0.1);
+          background: rgba(var(--success-rgb), 0.1);
           color: $success-color;
         }
         
         &--inactive {
-          background: rgba($error-rgb, 0.1);
+          background: rgba(var(--error-rgb), 0.1);
           color: $error-color;
         }
       }
@@ -593,7 +593,7 @@
       color: $text-color;
       font-weight: 600;
       padding: $spacing-sm $spacing-md;
-      background: rgba($primary-rgb, 0.05);
+      background: rgba(var(--primary-rgb), 0.05);
       border-radius: $radius-md;
       border-left: 3px solid $primary-color;
       white-space: nowrap;

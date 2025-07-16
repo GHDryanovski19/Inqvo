@@ -48,37 +48,36 @@
   
   // Variants
   &--primary {
-    background: $primary-color;
+    background: var(--primary-color, $primary-color);
     color: white;
     transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
-      background: $primary-dark;
-      box-shadow: 0 4px 12px rgba($primary-rgb, 0.3);
+      background: var(--primary-dark, $primary-dark);
+      box-shadow: 0 4px 12px rgba(var(--primary-rgb, $primary-rgb), 0.3);
       transform: translateY(-1px);
     }
     
     &:active:not(.btn--disabled) {
       transform: translateY(0);
-      box-shadow: 0 2px 6px rgba($primary-rgb, 0.2);
+      box-shadow: 0 2px 6px rgba(var(--primary-rgb, $primary-rgb), 0.2);
     }
   }
   
   &--secondary {
-    background: $border-light;
-    color: $text-color;
+    background: var(--secondary-color, $secondary-color);
+    color: white;
     transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
-      background: $text-secondary;
-      color: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background: var(--secondary-dark, $secondary-dark);
+      box-shadow: 0 4px 12px rgba(var(--secondary-rgb, $secondary-rgb), 0.3);
       transform: translateY(-1px);
     }
     
     &:active:not(.btn--disabled) {
       transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 6px rgba(var(--secondary-rgb, $secondary-rgb), 0.2);
     }
   }
   
@@ -89,14 +88,14 @@
     transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
-      border-color: $primary-color;
-      color: $primary-color;
-      background: rgba($primary-rgb, 0.08);
-      box-shadow: 0 2px 8px rgba($primary-rgb, 0.15);
+      border-color: var(--primary-color, $primary-color);
+      color: var(--primary-color, $primary-color);
+      background: rgba(var(--primary-rgb, $primary-rgb), 0.08);
+      box-shadow: 0 2px 8px rgba(var(--primary-rgb, $primary-rgb), 0.15);
     }
     
     &:active:not(.btn--disabled) {
-      background: rgba($primary-rgb, 0.12);
+      background: rgba(var(--primary-rgb, $primary-rgb), 0.12);
       transform: translateY(1px);
     }
   }
@@ -120,19 +119,19 @@
   }
   
   &--danger {
-    background: $error-color;
+    background: var(--error-color, $error-color);
     color: white;
     transition: all $transition-fast ease-out;
     
     &:hover:not(.btn--disabled) {
-      background: $error-dark;
-      box-shadow: 0 4px 12px rgba($error-rgb, 0.3);
+      background: var(--error-dark, $error-dark);
+      box-shadow: 0 4px 12px rgba(var(--error-rgb, $error-rgb), 0.3);
       transform: translateY(-1px);
     }
     
     &:active:not(.btn--disabled) {
       transform: translateY(0);
-      box-shadow: 0 2px 6px rgba($error-rgb, 0.2);
+      box-shadow: 0 2px 6px rgba(var(--error-rgb, $error-rgb), 0.2);
     }
   }
   

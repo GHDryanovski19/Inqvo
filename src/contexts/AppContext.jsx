@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { format } from 'date-fns'
 import localforage from 'localforage'
 import CryptoJS from 'crypto-js'
+import { applyTheme } from '../utils/theme'
 
 // Initialize localForage
 localforage.config({
@@ -40,7 +41,11 @@ const initialState = {
     },
     theme: {
       primaryColor: '#98C93C',
-      secondaryColor: '#2A9245'
+      secondaryColor: '#2A9245',
+      successColor: '#10b981',
+      warningColor: '#f59e0b',
+      errorColor: '#ef4444',
+      infoColor: '#3b82f6'
     }
   },
   loading: false,
@@ -179,7 +184,11 @@ const appReducer = (state, action) => {
           },
           theme: {
             primaryColor: '#98C93C',
-            secondaryColor: '#2A9245'
+            secondaryColor: '#2A9245',
+            successColor: '#10b981',
+            warningColor: '#f59e0b',
+            errorColor: '#ef4444',
+            infoColor: '#3b82f6'
           }
         }
       }
@@ -258,31 +267,8 @@ export const AppProvider = ({ children }) => {
 
   // Apply theme colors dynamically
   useEffect(() => {
-    const applyThemeColors = () => {
-      const root = document.documentElement
-      const { primaryColor, secondaryColor } = state.settings.theme
-      
-      // Convert hex to RGB for CSS custom properties
-      const hexToRgb = (hex) => {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-        return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null
-      }
-      
-      const primaryRgb = hexToRgb(primaryColor)
-      const secondaryRgb = hexToRgb(secondaryColor)
-      
-      if (primaryRgb) {
-        root.style.setProperty('--primary-color', primaryColor)
-        root.style.setProperty('--primary-rgb', primaryRgb)
-      }
-      
-      if (secondaryRgb) {
-        root.style.setProperty('--secondary-color', secondaryColor)
-        root.style.setProperty('--secondary-rgb', secondaryRgb)
-      }
-    }
-    
-    applyThemeColors()
+    // Apply theme colors using our theme utility
+    applyTheme(state.settings.theme)
   }, [state.settings.theme])
 
   // Load data on mount

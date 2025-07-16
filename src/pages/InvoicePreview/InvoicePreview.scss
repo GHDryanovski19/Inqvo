@@ -239,7 +239,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 3rem;
-  background: linear-gradient(135deg, #98C93C 0%, color.adjust(#98C93C, $lightness: -10%) 100%);
+  background: linear-gradient(135deg, var(--primary-color, #98C93C) 0%, var(--primary-light, #b8e066) 100%);
   color: white;
   
   @media (max-width: 768px) {
@@ -667,7 +667,7 @@
 }
 
 .amount-in-words {
-  background: linear-gradient(135deg, rgba($primary-color, 0.05) 0%, rgba($primary-color, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05) 0%, rgba(var(--primary-rgb), 0.02) 100%);
   border-left: 4px solid $primary-color;
   
   p {
@@ -780,7 +780,7 @@
   }
   
   .document-header {
-    background: $primary-color !important;
+    background: var(--primary-color) !important;
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
