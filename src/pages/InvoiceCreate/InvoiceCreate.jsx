@@ -34,6 +34,7 @@ const InvoiceCreate = () => {
     generateInvoiceNumber, 
     formatCurrency, 
     calculateInvoiceTotals,
+    translateCity,
     dispatch 
   } = useApp()
 
@@ -139,10 +140,10 @@ const InvoiceCreate = () => {
   }
 
   const steps = [
-    { id: 1, title: 'Basic Info', icon: FiEdit3 },
-    { id: 2, title: 'Client', icon: FiUser },
-    { id: 3, title: 'Items', icon: FiDollarSign },
-    { id: 4, title: 'Review', icon: FiCheck }
+    { id: 1, title: t('invoice.create.basicInfo'), icon: FiEdit3 },
+    { id: 2, title: t('invoice.create.clientInfo'), icon: FiUser },
+    { id: 3, title: t('invoice.create.items'), icon: FiDollarSign },
+    { id: 4, title: t('invoice.create.totals'), icon: FiCheck }
   ]
 
   return (
@@ -223,13 +224,13 @@ const InvoiceCreate = () => {
                 {...animations.formField}
               >
                 <div className="step-header">
-                  <h2>Invoice Details</h2>
-                  <p>Set up the basic invoice information</p>
+                  <h2>{t('invoice.create.basicInfo')}</h2>
+                  <p>{t('invoice.create.invoiceDetails')}</p>
                 </div>
                 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Invoice Number</label>
+                    <label>{t('invoice.form.invoiceNumber')}</label>
                     <input
                       type="text"
                       {...register('number', { required: 'Invoice number is required' })}
@@ -240,7 +241,7 @@ const InvoiceCreate = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Issue Date</label>
+                    <label>{t('invoice.form.issueDate')}</label>
                     <div className="input-with-icon">
                       <FiCalendar />
                       <input
@@ -253,7 +254,7 @@ const InvoiceCreate = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Due Date</label>
+                    <label>{t('invoice.form.dueDate')}</label>
                     <div className="input-with-icon">
                       <FiCalendar />
                       <input
@@ -266,12 +267,12 @@ const InvoiceCreate = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Status</label>
+                    <label>{t('invoice.form.status')}</label>
                     <select {...register('status')}>
-                      <option value="draft">Draft</option>
-                      <option value="sent">Sent</option>
-                      <option value="paid">Paid</option>
-                      <option value="overdue">Overdue</option>
+                      <option value="draft">{t('invoice.status.draft')}</option>
+                      <option value="sent">{t('invoice.status.sent')}</option>
+                      <option value="paid">{t('invoice.status.paid')}</option>
+                      <option value="overdue">{t('invoice.status.overdue')}</option>
                     </select>
                   </div>
                 </div>
@@ -296,20 +297,20 @@ const InvoiceCreate = () => {
                 {...animations.formField}
               >
                 <div className="step-header">
-                  <h2>Select Client</h2>
-                  <p>Choose the client for this invoice</p>
+                  <h2>{t('invoice.create.clientSelection')}</h2>
+                  <p>{t('invoice.create.clientInfo')}</p>
                 </div>
                 
                 <div className="client-selection">
                   <div className="form-group">
-                    <label>Client</label>
+                    <label>{t('invoice.form.selectClient')}</label>
                     <div className="input-with-icon">
                       <FiUser />
                       <select
                         onChange={(e) => handleClientSelect(e.target.value)}
                         value={selectedClient?.id || ''}
                       >
-                        <option value="">Choose a client...</option>
+                        <option value="">{t('invoice.form.selectClientPlaceholder')}</option>
                         {clients.map(client => (
                           <option key={client.id} value={client.id}>
                             {client.name} - {client.email}
@@ -358,8 +359,8 @@ const InvoiceCreate = () => {
                 {...animations.formField}
               >
                 <div className="step-header">
-                  <h2>Invoice Items</h2>
-                  <p>Add the products or services for this invoice</p>
+                  <h2>{t('invoice.create.invoiceItems')}</h2>
+                  <p>{t('invoice.create.items')}</p>
                 </div>
                 
                 <div className="items-section">
@@ -472,8 +473,8 @@ const InvoiceCreate = () => {
                 {...animations.formField}
               >
                 <div className="step-header">
-                  <h2>Review & Save</h2>
-                  <p>Review your invoice before saving</p>
+                  <h2>{t('invoice.create.totalsSection')}</h2>
+                  <p>{t('invoice.create.totals')}</p>
                 </div>
                 
                 <div className="review-section">
@@ -523,36 +524,37 @@ const InvoiceCreate = () => {
                         <input
                           type="text"
                           {...register('transactionPlace')}
-                          placeholder={settings.company.city || t('invoice.form.transactionPlacePlaceholder')}
+                          placeholder={translateCity(settings.company.city)}
                         />
                       </div>
                       
                       <div className="form-group">
-                        <label>Payment Method (Плащане)</label>
+                        <label>{t('invoice.form.paymentMethod')}</label>
                         <select {...register('paymentMethod')}>
-                          <option value="По сметка">По сметка (Bank Transfer)</option>
-                          <option value="В брой">В брой (Cash)</option>
-                          <option value="С карта">С карта (Card)</option>
-                          <option value="Чек">Чек (Check)</option>
+                          <option value="">{t('invoice.form.paymentMethodPlaceholder')}</option>
+                          <option value="bank_transfer">{t('common.paymentMethods.bankTransfer')}</option>
+                          <option value="cash">{t('common.paymentMethods.cash')}</option>
+                          <option value="card">{t('common.paymentMethods.card')}</option>
+                          <option value="check">{t('common.paymentMethods.check')}</option>
                         </select>
                       </div>
                     </div>
                   </div>
                   
                   <div className="form-group">
-                    <label>Notes (Optional)</label>
+                    <label>{t('invoice.form.notes')} ({t('common.optional')})</label>
                     <textarea
                       {...register('notes')}
-                      placeholder="Add any additional notes..."
+                      placeholder={t('invoice.form.notesPlaceholder')}
                       rows={3}
                     />
                   </div>
                   
                   <div className="form-group">
-                    <label>Terms (Optional)</label>
+                    <label>{t('invoice.form.terms')} ({t('common.optional')})</label>
                     <textarea
                       {...register('terms')}
-                      placeholder="Add payment terms..."
+                      placeholder={t('invoice.form.termsPlaceholder')}
                       rows={3}
                     />
                   </div>

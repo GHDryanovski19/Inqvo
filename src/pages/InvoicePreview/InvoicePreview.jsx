@@ -20,16 +20,33 @@ import { exportInvoiceToPDF, exportInvoiceToCSV, convertToBulgarianWords } from 
 import { generateInvoiceEmail } from '../../utils/emailExport'
 import toast from 'react-hot-toast'
 import './InvoicePreview.scss'
+import { useTranslation } from 'react-i18next'
 
 const InvoicePreview = () => {
+  const { t } = useTranslation()
+  const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals, extractVATFromEIK, generateEIKFromVAT, translateCity } = useApp()
   const { id } = useParams()
   const navigate = useNavigate()
-  const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals, extractVATFromEIK, generateEIKFromVAT } = useApp()
   const [isLoading, setIsLoading] = useState(false)
   const [copied, setCopied] = useState(false)
   
   const invoice = invoices.find(inv => inv.id === id)
-  
+
+  // Helper function to get payment method display text
+  const getPaymentMethodText = (method) => {
+    const paymentMethods = {
+      'bank_transfer': t('common.paymentMethods.bankTransfer'),
+      'cash': t('common.paymentMethods.cash'),
+      'card': t('common.paymentMethods.card'),
+      'check': t('common.paymentMethods.check'),
+      'По сметка': t('common.paymentMethods.bankTransfer'), // Legacy support
+      'В брой': t('common.paymentMethods.cash'), // Legacy support
+      'С карта': t('common.paymentMethods.card'), // Legacy support
+      'Чек': t('common.paymentMethods.check') // Legacy support
+    }
+    return paymentMethods[method] || method || t('common.paymentMethods.bankTransfer')
+  }
+
   if (!invoice) {
     return (
       <div className="invoice-preview">
@@ -408,7 +425,7 @@ const InvoicePreview = () => {
         {/* Payment Method */}
         {invoice.paymentMethod && (
           <div className="payment-method">
-            <p><strong>Начин на плащане:</strong> {invoice.paymentMethod}</p>
+            <p><strong>Начин на плащане:</strong> {getPaymentMethodText(invoice.paymentMethod)}</p>
           </div>
         )}
 

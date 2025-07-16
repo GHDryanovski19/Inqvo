@@ -87,6 +87,54 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
     if (!eik) return ''
     return eik.replace(/^BG/i, '').replace(/\D/g, '')
   }
+
+  // Helper function to get payment method display text
+  const getPaymentMethodText = (method) => {
+    const paymentMethods = {
+      'bank_transfer': 'Bank Transfer',
+      'cash': 'Cash',
+      'card': 'Card',
+      'check': 'Check',
+      'По сметка': 'Bank Transfer', // Legacy support
+      'В брой': 'Cash', // Legacy support
+      'С карта': 'Card', // Legacy support
+      'Чек': 'Check' // Legacy support
+    }
+    return paymentMethods[method] || method || 'Bank Transfer'
+  }
+
+  // Helper function to get payment method display text in Bulgarian
+  const getPaymentMethodTextBG = (method) => {
+    const paymentMethods = {
+      'bank_transfer': 'Банков превод',
+      'cash': 'В брой',
+      'card': 'С карта',
+      'check': 'Чек',
+      'По сметка': 'Банков превод', // Legacy support
+      'В брой': 'В брой', // Legacy support
+      'С карта': 'С карта', // Legacy support
+      'Чек': 'Чек' // Legacy support
+    }
+    return paymentMethods[method] || method || 'Банков превод'
+  }
+
+  // Helper function to translate city names
+  const translateCity = (cityName) => {
+    if (!cityName) return ''
+    const cityTranslations = {
+      'София': 'Sofia',
+      'Бургас': 'Burgas',
+      'Варна': 'Varna',
+      'Пловдив': 'Plovdiv',
+      'Русе': 'Ruse',
+      'Стара Загора': 'Stara Zagora',
+      'Плевен': 'Pleven',
+      'Сливен': 'Sliven',
+      'Добрич': 'Dobrich',
+      'Шумен': 'Shumen'
+    }
+    return cityTranslations[cityName] || cityName
+  }
   
   return `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; color: #2c3e50; background: white; padding: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.1);">
@@ -219,11 +267,11 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
             <p style="margin: 6px 0; color: #495057;"><strong>Дата на данъчно събитие:</strong> ${formatDate(invoice.issueDate)}</p>
             <p style="margin: 6px 0; color: #495057;"><strong>Основание на сделката:</strong> ${invoice.transactionBasis || ''}</p>
             <p style="margin: 6px 0; color: #495057;"><strong>Описание на сделката:</strong> ${invoice.transactionDescription || ''}</p>
-            <p style="margin: 6px 0; color: #495057;"><strong>Място на сделката:</strong> ${invoice.transactionPlace || settings.company.city || 'СОФИЯ'}</p>
+            <p style="margin: 6px 0; color: #495057;"><strong>Място на сделката:</strong> ${translateCity(invoice.transactionPlace) || translateCity(settings.company.city) || 'СОФИЯ'}</p>
             <p style="margin: 6px 0; color: #495057;"><strong>Получил:</strong> ${invoice.client?.manager || invoice.client?.name || ''}</p>
           </div>
           <div>
-            <p style="margin: 6px 0; color: #495057;"><strong>Плащане:</strong> ${invoice.paymentMethod || 'По сметка'}</p>
+            <p style="margin: 6px 0; color: #495057;"><strong>Плащане:</strong> ${getPaymentMethodTextBG(invoice.paymentMethod)}</p>
             ${settings.company.iban ? `<p style="margin: 6px 0; color: #495057;"><strong>IBAN:</strong> ${settings.company.iban}</p>` : ''}
             ${settings.company.bank ? `<p style="margin: 6px 0; color: #495057;"><strong>Банка:</strong> ${settings.company.bank}</p>` : ''}
             ${settings.company.bankCode ? `<p style="margin: 6px 0; color: #495057;"><strong>Банков код:</strong> ${settings.company.bankCode}</p>` : ''}

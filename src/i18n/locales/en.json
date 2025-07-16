@@ -69,7 +69,26 @@
     "language": "Language",
     "color": "Color",
     "primary": "Primary",
-    "secondary": "Secondary"
+    "secondary": "Secondary",
+    "paymentMethods": {
+      "bankTransfer": "Bank Transfer",
+      "cash": "Cash",
+      "card": "Card",
+      "check": "Check"
+    },
+    "optional": "Optional",
+    "cities": {
+      "София": "Sofia",
+      "Бургас": "Burgas",
+      "Варна": "Varna",
+      "Пловдив": "Plovdiv",
+      "Русе": "Ruse",
+      "Стара Загора": "Stara Zagora",
+      "Плевен": "Pleven",
+      "Сливен": "Sliven",
+      "Добрич": "Dobrich",
+      "Шумен": "Shumen"
+    }
   },
   "header": {
     "tagline": "Professional Invoice Management",
@@ -192,7 +211,9 @@
       "transactionPlace": "Transaction Place",
       "transactionPlacePlaceholder": "e.g., Sofia",
       "paymentMethod": "Payment Method",
-      "paymentMethodPlaceholder": "e.g., Bank Transfer, Cash"
+      "paymentMethodPlaceholder": "e.g., Bank Transfer, Cash",
+      "notesPlaceholder": "Add any additional notes...",
+      "termsPlaceholder": "Add payment terms..."
     },
     "status": {
       "draft": "Draft",

@@ -18,7 +18,7 @@ const initialState = {
     company: {
       name: 'Inkblot Studio',
       address: '',
-      city: 'София',
+      city: 'Sofia', // Will be translated based on language
       postalCode: '',
       country: 'Bulgaria',
       vatNumber: '',
@@ -157,7 +157,7 @@ const appReducer = (state, action) => {
           company: {
             name: 'Inkblot Studio',
             address: '',
-            city: 'София',
+            city: 'Sofia', // Will be translated based on language
             postalCode: '',
             country: 'Bulgaria',
             vatNumber: '',
@@ -429,6 +429,34 @@ export const AppProvider = ({ children }) => {
     return vat.startsWith('BG') ? vat : `BG${vat}`
   }
 
+  // Helper function to translate city names
+  const translateCity = (cityName) => {
+    if (!cityName) return ''
+    const cityTranslations = {
+      'Sofia': 'Sofia',
+      'София': 'Sofia',
+      'Burgas': 'Burgas',
+      'Бургас': 'Burgas',
+      'Varna': 'Varna',
+      'Варна': 'Varna',
+      'Plovdiv': 'Plovdiv',
+      'Пловдив': 'Plovdiv',
+      'Ruse': 'Ruse',
+      'Русе': 'Ruse',
+      'Stara Zagora': 'Stara Zagora',
+      'Стара Загора': 'Stara Zagora',
+      'Pleven': 'Pleven',
+      'Плевен': 'Pleven',
+      'Sliven': 'Sliven',
+      'Сливен': 'Sliven',
+      'Dobrich': 'Dobrich',
+      'Добрич': 'Dobrich',
+      'Shumen': 'Shumen',
+      'Шумен': 'Shumen'
+    }
+    return cityTranslations[cityName] || cityName
+  }
+
   // Simple translation function (can be enhanced with API later)
   const translateText = async (text, targetLang = 'bg') => {
     if (!text) return text
@@ -520,6 +548,7 @@ export const AppProvider = ({ children }) => {
     generateBICFromIBAN,
     extractVATFromEIK,
     generateEIKFromVAT,
+    translateCity,
     translateText,
     saveData,
     loadData
