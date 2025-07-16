@@ -75,6 +75,20 @@
     "tagline": "Professional Invoice Management",
     "changeLanguage": "Change Language"
   },
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
   "nav": {
     "dashboard": "Dashboard",
     "createInvoice": "Create Invoice",
@@ -182,21 +196,82 @@
   },
   "client": {
     "title": "Clients",
-    "subtitle": "Manage your client database",
+    "subtitle": "Manage your client relationships and information",
     "addClient": "Add Client",
     "editClient": "Edit Client",
     "deleteClient": "Delete Client",
+    "addNewClient": "Add New Client",
+    "editDescription": "Update client information and details",
+    "addDescription": "Create a new client record with complete information",
     "noClients": "No clients found",
-    "createFirst": "Create your first client",
-    "searchPlaceholder": "Search clients...",
+    "createFirst": "Add your first client to get started",
+    "searchNoResults": "Try adjusting your search criteria",
+    "searchPlaceholder": "Search clients by name, email, company...",
+    "export": "Export Clients",
+    "exported": "Clients exported successfully",
+    "exportError": "Failed to export clients",
+    "added": "Client added successfully",
+    "updated": "Client updated successfully",
+    "deleted": "Client deleted successfully",
+    "deleteConfirm": "Are you sure you want to delete this client?",
+    "edit": "Edit",
+    "delete": "Delete",
+    "vat": "VAT Number",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "stats": {
+      "total": "Total Clients",
+      "companies": "Companies",
+      "countries": "Countries",
+      "withEmail": "With Email"
+    },
+    "filters": {
+      "all": "All Clients",
+      "active": "Active Only",
+      "inactive": "Inactive Only"
+    },
+    "sort": {
+      "name": "Sort by Name",
+      "company": "Sort by Company",
+      "date": "Sort by Date"
+    },
+    "view": {
+      "grid": "Grid View",
+      "list": "List View"
+    },
     "form": {
-      "name": "Client Name",
-      "email": "Email",
-      "phone": "Phone",
-      "address": "Address",
+      "basicInfo": "Basic Information",
+      "addressInfo": "Address Information",
+      "businessInfo": "Business Information",
+      "notes": "Notes",
+      "name": "Full Name",
+      "namePlaceholder": "Enter client's full name",
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 2 characters",
       "company": "Company",
-      "taxId": "Tax ID",
-      "website": "Website"
+      "companyPlaceholder": "Enter company name",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter email address",
+      "emailInvalid": "Please enter a valid email address",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter phone number",
+      "address": "Street Address",
+      "addressPlaceholder": "Enter street address",
+      "city": "City",
+      "cityPlaceholder": "Enter city",
+      "postalCode": "Postal Code",
+      "postalCodePlaceholder": "Enter postal code",
+      "country": "Country",
+      "countryPlaceholder": "Enter country",
+      "vatNumber": "VAT Number",
+      "vatNumberPlaceholder": "Enter VAT number",
+      "status": "Status",
+      "notesLabel": "Additional Notes",
+      "notesPlaceholder": "Add any additional notes about this client...",
+      "addClient": "Add Client",
+      "updateClient": "Update Client"
     }
   },
   "settings": {

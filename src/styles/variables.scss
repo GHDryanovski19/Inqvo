@@ -1,15 +1,15 @@
 @use 'sass:color';
 
 // Color Palette
-$primary-color: var(--primary-color, #98C93C);
-$primary-dark: var(--primary-dark, #2A9245);
-$primary-light: var(--primary-light, #b8e066);
+$primary-color: #98C93C;
+$primary-dark: #2A9245;
+$primary-light: #b8e066;
 $primary-rgb: rgb(152, 201, 60); // Use as: color.adjust($primary-rgb, $alpha: 0.1)
 
-$secondary-color: var(--secondary-color, #2A9245);
+$secondary-color: #2A9245;
 $secondary-rgb: rgb(42, 146, 69);
-$secondary-light: var(--secondary-light, #4aad5a);
-$secondary-dark: var(--secondary-dark, #1f7a3a);
+$secondary-light: #4aad5a;
+$secondary-dark: #1f7a3a;
 
 $success-color: #52c41a;
 $success-dark: #389e0d;
@@ -60,6 +60,7 @@ $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
 // Typography
 $font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -92,6 +93,8 @@ $spacing-lg: 1.5rem;
 $spacing-xl: 2rem;
 $spacing-2xl: 3rem;
 $spacing-3xl: 4rem;
+$spacing-4xl: 6rem;
+$spacing-5xl: 8rem;
 
 // Border Radius
 $radius-sm: 0.25rem;

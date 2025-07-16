@@ -3,119 +3,277 @@
 @use 'sass:color';
 
 .clients {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: $spacing-2xl;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $surface-color 0%, #f8f9fa 100%);
 }
 
+// Header Section
 .clients__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: $spacing-2xl;
+  margin-bottom: $spacing-3xl;
   
-  h1 {
-    margin-bottom: $spacing-sm;
-    color: $text-color;
-  }
-  
-  p {
-    color: $text-secondary;
-    margin: 0;
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
+  .header-content {
+    display: flex;
     align-items: flex-start;
-    gap: $spacing-lg;
-  }
-}
-
-// Search
-.clients__search {
-  margin-bottom: $spacing-xl;
-}
-
-.search-box {
-  position: relative;
-  max-width: 400px;
-  
-  svg {
-    position: absolute;
-    left: $spacing-md;
-    top: 50%;
-    transform: translateY(-50%);
-    color: $text-secondary;
-    width: 16px;
-    height: 16px;
-  }
-  
-  input {
-    width: 100%;
-    padding: $spacing-md $spacing-md $spacing-md calc($spacing-md * 2 + 16px);
-    border: 1px solid $border-light;
-    border-radius: $radius-md;
-    font-size: 1rem;
+    justify-content: space-between;
+    gap: $spacing-xl;
     
-    &:focus {
-      outline: none;
-      border-color: $primary-color;
-      box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.1);
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, $primary-color 0%, #b8e066 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 $spacing-sm 0;
+      line-height: 1.2;
+      
+      @media (max-width: 768px) {
+        font-size: 2rem;
+      }
+    }
+    
+    p {
+      font-size: 1.125rem;
+      color: $text-secondary;
+      margin: 0;
+      line-height: 1.6;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: $spacing-md;
+      align-items: center;
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
     }
   }
 }
 
-// Stats
+// Stats Section
 .clients__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: $spacing-lg;
-  margin-bottom: $spacing-xl;
+  margin-bottom: $spacing-3xl;
+  
+  .stat-item {
+    background: $surface-color;
+    border: 1px solid $border-light;
+    border-radius: $radius-xl;
+    padding: $spacing-xl;
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    transition: all $transition-normal;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color 0%, #b8e066 100%);
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+      border-color: $primary-color;
+    }
+    
+    .stat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, $primary-color 0%, #a8d056 100%);
+      border-radius: $radius-lg;
+      color: white;
+      
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    
+    .stat-content {
+      flex: 1;
+      
+      .stat-value {
+        display: block;
+        font-size: 2rem;
+        font-weight: 800;
+        color: $text-color;
+        line-height: 1;
+        margin-bottom: $spacing-xs;
+      }
+      
+      .stat-label {
+        display: block;
+        font-size: 0.875rem;
+        color: $text-secondary;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
 }
 
-.stat-item {
+// Controls Section
+.clients__controls {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
-  background: $surface-color;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
   padding: $spacing-lg;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-sm;
+  background: $surface-color;
+  border: 1px solid $border-light;
+  border-radius: $radius-xl;
   
-  svg {
-    width: 24px;
-    height: 24px;
-    color: $primary-color;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
   }
   
-  .stat-value {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-color;
-    line-height: 1;
+  .controls-left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    flex: 1;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .search-box {
+      position: relative;
+      min-width: 300px;
+      
+      @media (max-width: 768px) {
+        min-width: auto;
+      }
+      
+      svg {
+        position: absolute;
+        left: $spacing-md;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-secondary;
+        width: 18px;
+        height: 18px;
+        z-index: 1;
+      }
+      
+      input {
+        width: 100%;
+        padding: $spacing-md $spacing-md $spacing-md calc($spacing-md * 2 + 18px);
+        border: 1px solid $border-light;
+        border-radius: $radius-lg;
+        font-size: 1rem;
+        background: $surface-color;
+        transition: all $transition-normal;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+        }
+        
+        &::placeholder {
+          color: $text-secondary;
+        }
+      }
+    }
+    
+    .filter-controls {
+      display: flex;
+      gap: $spacing-md;
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+      
+      .filter-select,
+      .sort-select {
+        padding: $spacing-md $spacing-lg;
+        border: 1px solid $border-light;
+        border-radius: $radius-lg;
+        background: $surface-color;
+        font-size: 0.875rem;
+        color: $text-color;
+        cursor: pointer;
+        transition: all $transition-normal;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-rgb, 0.1);
+        }
+        
+        option {
+          background: $surface-color;
+          color: $text-color;
+        }
+      }
+    }
   }
   
-  .stat-label {
-    display: block;
-    font-size: 0.875rem;
-    color: $text-secondary;
-    margin-top: $spacing-xs;
+  .controls-right {
+    .view-toggle {
+      display: flex;
+      gap: $spacing-xs;
+      background: $surface-color;
+      border: 1px solid $border-light;
+      border-radius: $radius-lg;
+      padding: $spacing-xs;
+      
+      button {
+        border-radius: $radius-md;
+        transition: all $transition-normal;
+        
+        &.btn--primary {
+          background: $primary-color;
+          color: white;
+          box-shadow: $shadow-sm;
+        }
+      }
+    }
   }
 }
 
-// Clients Grid
+// Content Section
 .clients__content {
   background: $surface-color;
-  border-radius: $radius-lg;
+  border-radius: $radius-xl;
   box-shadow: $shadow-sm;
   overflow: hidden;
+  border: 1px solid $border-light;
 }
 
+// Grid View
 .clients-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: $spacing-lg;
-  padding: $spacing-xl;
+  padding: $spacing-2xl;
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -123,227 +281,480 @@
   }
 }
 
+// List View
+.clients-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+}
+
+// Client Card (Grid View)
 .client-card {
   background: $surface-color;
   border: 1px solid $border-light;
-  border-radius: $radius-lg;
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  transition: all $transition-normal;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, $primary-color 0%, #b8e066 100%);
+  }
+  
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: $shadow-lg;
+  }
+  
+  .client-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-lg;
+  }
+  
+  .client-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, $primary-color 0%, #a8d056 100%);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.25rem;
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid white;
+      
+      &.active {
+        background: $success-color;
+      }
+      
+      &.inactive {
+        background: $error-color;
+      }
+    }
+  }
+  
+  .client-actions {
+    display: flex;
+    gap: $spacing-xs;
+    
+    .action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: $radius-md;
+      transition: all $transition-normal;
+      
+      &:hover {
+        background: rgba($primary-rgb, 0.1);
+        color: $primary-color;
+      }
+      
+      &.delete-btn:hover {
+        background: rgba($error-rgb, 0.1);
+        color: $error-color;
+      }
+    }
+  }
+  
+  .client-card__content {
+    margin-bottom: $spacing-lg;
+    
+    .client-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $text-color;
+      margin: 0 0 $spacing-sm 0;
+      line-height: 1.3;
+    }
+    
+    .client-company {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      color: $text-secondary;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin: 0 0 $spacing-md 0;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+    
+    .client-info {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-md;
+      
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        font-size: 0.875rem;
+        color: $text-secondary;
+        
+        svg {
+          width: 14px;
+          height: 14px;
+          color: $text-secondary;
+          flex-shrink: 0;
+        }
+        
+        span {
+          word-break: break-word;
+        }
+      }
+    }
+    
+    .client-vat {
+      font-size: 0.875rem;
+      color: $text-color;
+      font-weight: 600;
+      padding: $spacing-sm $spacing-md;
+      background: rgba($primary-rgb, 0.05);
+      border-radius: $radius-md;
+      border-left: 3px solid $primary-color;
+    }
+  }
+  
+  .client-card__notes {
+    margin-bottom: $spacing-lg;
+    padding: $spacing-md;
+    background: rgba($warning-rgb, 0.05);
+    border-radius: $radius-md;
+    border-left: 3px solid $warning-color;
+    
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: $text-secondary;
+      line-height: 1.5;
+    }
+  }
+  
+  .client-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $spacing-md;
+    border-top: 1px solid $border-light;
+    
+    .client-date {
+      font-size: 0.75rem;
+      color: $text-secondary;
+      font-weight: 500;
+    }
+    
+    .client-tags {
+      display: flex;
+      gap: $spacing-xs;
+      
+      .tag {
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $radius-sm;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        
+        &--active {
+          background: rgba($success-rgb, 0.1);
+          color: $success-color;
+        }
+        
+        &--inactive {
+          background: rgba($error-rgb, 0.1);
+          color: $error-color;
+        }
+      }
+    }
+  }
+}
+
+// Client List Item (List View)
+.client-list-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
   padding: $spacing-lg;
+  background: $surface-color;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
   transition: all $transition-normal;
   
   &:hover {
     border-color: $primary-color;
     box-shadow: $shadow-md;
   }
-}
-
-.client-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: $spacing-lg;
-}
-
-.client-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: $primary-color;
-  color: white;
-  border-radius: 50%;
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-.client-actions {
-  display: flex;
-  gap: $spacing-xs;
-}
-
-.client-card__content {
-  margin-bottom: $spacing-md;
-}
-
-.client-name {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: $text-color;
-  margin: 0 0 $spacing-xs 0;
-}
-
-.client-company {
-  color: $text-secondary;
-  font-size: 0.875rem;
-  margin: 0 0 $spacing-md 0;
-}
-
-.client-info {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  font-size: 0.875rem;
-  color: $text-secondary;
   
-  svg {
-    width: 14px;
-    height: 14px;
-    color: $text-secondary;
-  }
-}
-
-.client-vat {
-  font-size: 0.875rem;
-  color: $text-color;
-  font-weight: 500;
-  margin: 0;
-}
-
-.client-card__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: $spacing-md;
-  border-top: 1px solid $border-light;
-}
-
-.client-status {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-  padding: $spacing-xs $spacing-sm;
-  border-radius: $radius-sm;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  
-  &.active {
-    background: color.adjust($success-rgb, $alpha: 0.1);
-    color: $success-color;
-  }
-  
-  &.inactive {
-    background: rgba($text-secondary, 0.1);
-    color: $text-secondary;
-  }
-}
-
-.client-actions {
-  display: flex;
-  gap: $spacing-xs;
-}
-
-.action-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: $radius-sm;
-  background: $bg-secondary;
-  color: $text-secondary;
-  cursor: pointer;
-  transition: all $transition-fast;
-  
-  &:hover {
-    background: $primary-color;
+  .client-list-item__avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, $primary-color 0%, #a8d056 100%);
     color: white;
-    transform: translateY(-1px);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid white;
+      
+      &.active {
+        background: $success-color;
+      }
+      
+      &.inactive {
+        background: $error-color;
+      }
+    }
   }
   
-  svg {
-    width: 14px;
-    height: 14px;
+  .client-list-item__info {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: $spacing-lg;
+    align-items: center;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
+    
+    .client-list-item__main {
+      h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: $text-color;
+        margin: 0 0 $spacing-xs 0;
+      }
+      
+      .company {
+        font-size: 0.875rem;
+        color: $text-secondary;
+        margin: 0;
+      }
+    }
+    
+    .client-list-item__contact,
+    .client-list-item__location {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+      
+      .contact-item,
+      .location-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        font-size: 0.875rem;
+        color: $text-secondary;
+        
+        svg {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
+        }
+        
+        span {
+          word-break: break-word;
+        }
+      }
+    }
+  }
+  
+  .client-list-item__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    flex-shrink: 0;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+    
+    .vat-info {
+      font-size: 0.875rem;
+      color: $text-color;
+      font-weight: 600;
+      padding: $spacing-sm $spacing-md;
+      background: rgba($primary-rgb, 0.05);
+      border-radius: $radius-md;
+      border-left: 3px solid $primary-color;
+      white-space: nowrap;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: $spacing-xs;
+      
+      button {
+        width: 36px;
+        height: 36px;
+        border-radius: $radius-md;
+        transition: all $transition-normal;
+        
+        &:hover {
+          background: rgba($primary-rgb, 0.1);
+          color: $primary-color;
+        }
+        
+        &.delete-btn:hover {
+          background: rgba($error-rgb, 0.1);
+          color: $error-color;
+        }
+      }
+    }
   }
 }
 
 // Empty State
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-4xl;
   text-align: center;
-  padding: $spacing-2xl;
-  color: $text-secondary;
   
-  svg {
-    font-size: 4rem;
-    margin-bottom: $spacing-lg;
-    opacity: 0.5;
+  .empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, $primary-color 0%, #a8d056 100%);
+    border-radius: 50%;
+    color: white;
+    margin-bottom: $spacing-xl;
+    
+    svg {
+      width: 32px;
+      height: 32px;
+    }
   }
   
   h3 {
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
     color: $text-color;
     margin: 0 0 $spacing-md 0;
   }
   
   p {
     font-size: 1rem;
+    color: $text-secondary;
     margin: 0 0 $spacing-xl 0;
-  }
-}
-
-.create-button {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-md $spacing-lg;
-  background: $primary-color;
-  color: white;
-  text-decoration: none;
-  border-radius: $radius-md;
-  font-weight: 500;
-  transition: all $transition-fast;
-  
-  &:hover {
-    background: $primary-dark;
-    transform: translateY(-1px);
-    box-shadow: $shadow-md;
-    text-decoration: none;
-    color: white;
+    max-width: 400px;
+    line-height: 1.6;
   }
 }
 
 // Responsive Design
 @media (max-width: 1024px) {
-  .clients__stats {
-    grid-template-columns: repeat(2, 1fr);
+  .clients {
+    padding: $spacing-xl;
   }
   
   .clients-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .clients__stats {
-    grid-template-columns: 1fr;
+  .clients {
+    padding: $spacing-lg;
   }
   
-  .clients-grid {
-    grid-template-columns: 1fr;
+  .clients__stats {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: $spacing-md;
+  }
+  
+  .stat-item {
+    padding: $spacing-lg;
+    
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    
+    .stat-content .stat-value {
+      font-size: 1.5rem;
+    }
   }
   
   .client-card {
+    padding: $spacing-lg;
+  }
+  
+  .client-list-item {
     padding: $spacing-md;
+    
+    .client-list-item__info {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
   }
-  
-  .client-card__header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $spacing-md;
-  }
-  
-  .client-actions {
-    align-self: flex-end;
-  }
+}
+
+// Animation Classes
+.fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
 } 

@@ -8,6 +8,7 @@ import InvoiceList from './pages/InvoiceList/InvoiceList'
 import InvoiceCreate from './pages/InvoiceCreate/InvoiceCreate'
 import InvoiceEdit from './pages/InvoiceEdit/InvoiceEdit'
 import InvoicePreview from './pages/InvoicePreview/InvoicePreview'
+import Clients from './pages/Clients/Clients'
 import Settings from './pages/Settings/Settings'
 import './styles/global.scss'
 
@@ -29,6 +30,7 @@ function AppContent() {
             <Route path="/invoice/create" element={<InvoiceCreate />} />
             <Route path="/invoice/edit/:id" element={<InvoiceEdit />} />
             <Route path="/invoice/preview/:id" element={<InvoicePreview />} />
+            <Route path="/clients" element={<Clients />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>

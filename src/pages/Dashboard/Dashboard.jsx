@@ -156,7 +156,7 @@ const Dashboard = () => {
               <FiPlus />
               <span>{t('dashboard.createNewInvoice')}</span>
             </Link>
-            <Link to="/settings" className={styles.actionButton}>
+            <Link to="/clients" className={styles.actionButton}>
               <FiUsers />
               <span>{t('client.title')}</span>
             </Link>

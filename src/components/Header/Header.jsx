@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { FiGlobe, FiChevronDown, FiHome, FiFileText, FiSettings } from 'react-icons/fi'
+import { FiGlobe, FiChevronDown, FiHome, FiFileText, FiSettings, FiUsers } from 'react-icons/fi'
 import styles from './Header.module.scss'
 
 const Header = ({ onLanguageChange }) => {
@@ -14,7 +14,7 @@ const Header = ({ onLanguageChange }) => {
   const navigation = [
     { path: '/', label: t('nav.dashboard'), icon: FiHome },
     { path: '/invoices', label: t('nav.invoices'), icon: FiFileText },
-    { path: '/invoice/create', label: t('nav.createInvoice'), icon: FiFileText },
+    { path: '/clients', label: t('nav.clients'), icon: FiUsers },
     { path: '/settings', label: t('nav.settings'), icon: FiSettings },
   ]
 
