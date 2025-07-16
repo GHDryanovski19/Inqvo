@@ -32,7 +32,7 @@ import { exportInvoiceToPDF } from '../../utils/pdfExport'
 import './Settings.scss'
 
 const Settings = () => {
-  const { settings, dispatch, invoices, clients } = useApp()
+  const { settings, dispatch, invoices, clients, generateBICFromIBAN } = useApp()
   const [activeTab, setActiveTab] = useState('company')
   const [isImporting, setIsImporting] = useState(false)
   const fileInputRef = useRef(null)
@@ -40,7 +40,9 @@ const Settings = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
+    watch,
+    setValue
   } = useForm({
     defaultValues: {
       // Company settings
@@ -70,8 +72,29 @@ const Settings = () => {
     }
   })
 
+  // Watch IBAN for auto-generation of BIC
+  const watchedIban = watch('companyIban')
+  const watchedBankCode = watch('companyBankCode')
+
+  // Auto-generate BIC when IBAN changes and bank code is empty
+  React.useEffect(() => {
+    if (watchedIban && !watchedBankCode) {
+      const bic = generateBICFromIBAN(watchedIban)
+      if (bic) {
+        setValue('companyBankCode', bic)
+        toast.success('Bank code auto-generated from IBAN! 🏦')
+      }
+    }
+  }, [watchedIban, watchedBankCode, generateBICFromIBAN, setValue])
+
   const onSubmit = async (data) => {
     try {
+      // Auto-generate BIC from IBAN if not provided
+      let bankCode = data.companyBankCode
+      if (data.companyIban && !data.companyBankCode) {
+        bankCode = generateBICFromIBAN(data.companyIban)
+      }
+
       const updatedSettings = {
         company: {
           name: data.companyName,
@@ -85,7 +108,7 @@ const Settings = () => {
           phone: data.companyPhone,
           iban: data.companyIban,
           bank: data.companyBank,
-          bankCode: data.companyBankCode,
+          bankCode: bankCode,
           logo: settings.company.logo
         },
         invoice: {
@@ -103,7 +126,7 @@ const Settings = () => {
       }
 
       dispatch({ type: 'UPDATE_SETTINGS', payload: updatedSettings })
-      toast.success('Settings saved successfully!')
+      toast.success('Settings saved successfully! 🎉')
     } catch (error) {
       toast.error('Failed to save settings')
       console.error('Save settings error:', error)
@@ -345,7 +368,7 @@ const Settings = () => {
 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>VAT Number (ДДС №)</label>
+                    <label>ДДС номер (VAT Number)</label>
                     <input
                       type="text"
                       {...register('companyVatNumber')}
@@ -354,18 +377,18 @@ const Settings = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>ID Number (Идент. №)</label>
+                    <label>ЕИК (ID Number)</label>
                     <input
                       type="text"
                       {...register('companyIdNumber')}
-                      placeholder="Enter company ID number"
+                      placeholder="Enter company ID number (without BG prefix)"
                     />
                   </div>
                 </div>
 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Manager (МОЛ)</label>
+                    <label>МОЛ (Manager)</label>
                     <input
                       type="text"
                       {...register('companyManager')}
@@ -374,7 +397,7 @@ const Settings = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Phone</label>
+                    <label>Телефон (Phone)</label>
                     <input
                       type="text"
                       {...register('companyPhone')}
@@ -397,7 +420,7 @@ const Settings = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Bank</label>
+                    <label>Банка (Bank)</label>
                     <input
                       type="text"
                       {...register('companyBank')}
@@ -407,11 +430,11 @@ const Settings = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Bank Code</label>
+                  <label>Банков код (Bank Code)</label>
                   <input
                     type="text"
                     {...register('companyBankCode')}
-                    placeholder="e.g., STSABGSF"
+                    placeholder="e.g., STSABGSF (auto-generated from IBAN)"
                   />
                 </div>
               </div>

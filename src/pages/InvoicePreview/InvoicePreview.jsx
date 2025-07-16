@@ -24,7 +24,7 @@ import './InvoicePreview.scss'
 const InvoicePreview = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals } = useApp()
+  const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals, extractVATFromEIK, generateEIKFromVAT } = useApp()
   const [isLoading, setIsLoading] = useState(false)
   const [copied, setCopied] = useState(false)
   
@@ -278,8 +278,8 @@ const InvoicePreview = () => {
                 )}
                 {settings.company.country && <p>{settings.company.country}</p>}
                 {settings.company.vatNumber && <p className="vat-number">ДДС номер: {settings.company.vatNumber}</p>}
-                {settings.company.idNumber && <p className="id-number">ЕГН/Булстат: {settings.company.idNumber}</p>}
-                {settings.company.manager && <p className="manager">Мениджър: {settings.company.manager}</p>}
+                {settings.company.idNumber && <p className="id-number">ЕИК: {extractVATFromEIK(settings.company.idNumber)}</p>}
+                {settings.company.manager && <p className="manager">МОЛ: {settings.company.manager}</p>}
                 {settings.company.phone && <p className="phone">Тел: {settings.company.phone}</p>}
                 {settings.company.bankDetails && <p className="bank-details">Банка: {settings.company.bankDetails}</p>}
               </div>
@@ -326,7 +326,7 @@ const InvoicePreview = () => {
               )}
               {invoice.client?.country && <p className="client-country">{invoice.client.country}</p>}
               {invoice.client?.vatNumber && <p className="client-vat">ДДС номер: {invoice.client.vatNumber}</p>}
-              {invoice.client?.idNumber && <p className="client-id">ЕГН/Булстат: {invoice.client.idNumber}</p>}
+              {invoice.client?.idNumber && <p className="client-id">ЕИК: {extractVATFromEIK(invoice.client.idNumber)}</p>}
             </div>
           </div>
         </div>

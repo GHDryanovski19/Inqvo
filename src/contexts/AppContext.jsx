@@ -352,12 +352,175 @@ export const AppProvider = ({ children }) => {
     }
   }
 
+  // Generate BIC/SWIFT code from IBAN
+  const generateBICFromIBAN = (iban) => {
+    if (!iban || iban.length < 8) return ''
+    
+    // Extract country code and bank code from IBAN
+    const countryCode = iban.substring(0, 2).toUpperCase()
+    const bankCode = iban.substring(4, 8).toUpperCase()
+    
+    // Bulgarian banks mapping
+    const bulgarianBanks = {
+      'BG': {
+        'STSA': 'STSABGSF', // DSK Bank
+        'BNPA': 'BNPABGSF', // BNP Paribas
+        'UNCR': 'UNCRBGSF', // UniCredit Bulbank
+        'RZBA': 'RZBABGSF', // Raiffeisen Bank
+        'CITI': 'CITIBGSF', // Citibank
+        'UBBS': 'UBBSBGSF', // UBB
+        'PIRB': 'PIRBBGSF', // Piraeus Bank
+        'TEXI': 'TEXIBGSF', // Texim Bank
+        'DEMI': 'DEMIBGSF', // Demir Bank
+        'FIBB': 'FIBBBGSF', // First Investment Bank
+        'CCPA': 'CCPABGSF', // Central Cooperative Bank
+        'BULB': 'BULBBGSF', // Bulgarian Development Bank
+        'BULG': 'BULGBGSF', // Bulgarian National Bank
+        'BULS': 'BULSBGSF', // Bulgarian-American Credit Bank
+        'BULV': 'BULVBGSF', // Bulgarian Post Bank
+        'BULX': 'BULXBGSF', // Bulgarian Agricultural Bank
+        'BULY': 'BULYBGSF', // Bulgarian Export-Import Bank
+        'BULZ': 'BULZBGSF', // Bulgarian Industrial Bank
+        'BULA': 'BULABGSF', // Bulgarian Commercial Bank
+        'BULC': 'BULCBGSF', // Bulgarian Cooperative Bank
+        'BULD': 'BULDBGSF', // Bulgarian Savings Bank
+        'BULE': 'BULEBGSF', // Bulgarian Investment Bank
+        'BULF': 'BULFBGSF', // Bulgarian Mortgage Bank
+        'BULH': 'BULHBGSF', // Bulgarian Housing Bank
+        'BULI': 'BULIBGSF', // Bulgarian Insurance Bank
+        'BULJ': 'BULJBGSF', // Bulgarian Pension Bank
+        'BULK': 'BULKBGSF', // Bulgarian Social Bank
+        'BULL': 'BULLBGSF', // Bulgarian Municipal Bank
+        'BULM': 'BULMBGSF', // Bulgarian Regional Bank
+        'BULN': 'BULNBGSF', // Bulgarian District Bank
+        'BULO': 'BULOBGSF', // Bulgarian City Bank
+        'BULP': 'BULPBGSF', // Bulgarian Town Bank
+        'BULQ': 'BULQBGSF', // Bulgarian Village Bank
+        'BULR': 'BULRBGSF', // Bulgarian Community Bank
+        'BULT': 'BULTBGSF', // Bulgarian Local Bank
+        'BULU': 'BULUBGSF', // Bulgarian State Bank
+        'BULW': 'BULWBGSF', // Bulgarian Public Bank
+        'BULX': 'BULXBGSF', // Bulgarian Private Bank
+        'BULY': 'BULYBGSF', // Bulgarian Foreign Bank
+        'BULZ': 'BULZBGSF', // Bulgarian International Bank
+      }
+    }
+    
+    // Return mapped BIC or generate generic one
+    if (bulgarianBanks[countryCode] && bulgarianBanks[countryCode][bankCode]) {
+      return bulgarianBanks[countryCode][bankCode]
+    }
+    
+    // Generate generic BIC if not found in mapping
+    return `${bankCode}${countryCode}SF`
+  }
+
+  // Extract VAT number from EIK (remove BG prefix if present)
+  const extractVATFromEIK = (eik) => {
+    if (!eik) return ''
+    // Remove BG prefix if present and return only numbers
+    return eik.replace(/^BG/i, '').replace(/\D/g, '')
+  }
+
+  // Generate EIK from VAT number (add BG prefix)
+  const generateEIKFromVAT = (vat) => {
+    if (!vat) return ''
+    // Add BG prefix if not present
+    return vat.startsWith('BG') ? vat : `BG${vat}`
+  }
+
+  // Simple translation function (can be enhanced with API later)
+  const translateText = async (text, targetLang = 'bg') => {
+    if (!text) return text
+    
+    // Simple mapping for common terms (can be replaced with API call)
+    const translations = {
+      'en': {
+        'Invoice': 'Фактура',
+        'Original': 'Оригинал',
+        'Recipient': 'Получател',
+        'Supplier': 'Доставчик',
+        'Description': 'Описание',
+        'Quantity': 'Количество',
+        'Unit Price': 'Единична цена',
+        'Amount': 'Сума',
+        'Subtotal': 'Междинна сума',
+        'VAT': 'ДДС',
+        'Total': 'Обща сума',
+        'Amount in words': 'Сума с думи',
+        'Payment method': 'Начин на плащане',
+        'Bank details': 'Банкови детайли',
+        'Notes': 'Бележки',
+        'Terms': 'Условия',
+        'Date of issue': 'Дата на издаване',
+        'Due date': 'Дата на плащане',
+        'Transaction basis': 'Основание на сделката',
+        'Transaction description': 'Описание на сделката',
+        'Place of transaction': 'Място на сделката',
+        'Received by': 'Получил',
+        'Payment': 'Плащане',
+        'Prepared by': 'Съставил',
+        'VAT Number': 'ДДС номер',
+        'ID Number': 'Идент. номер',
+        'Manager': 'МОЛ',
+        'Phone': 'Телефон',
+        'Address': 'Адрес',
+        'City': 'Град',
+        'Country': 'Държава',
+        'Bank': 'Банка',
+        'Bank Code': 'Банков код'
+      },
+      'bg': {
+        'Фактура': 'Invoice',
+        'Оригинал': 'Original',
+        'Получател': 'Recipient',
+        'Доставчик': 'Supplier',
+        'Описание': 'Description',
+        'Количество': 'Quantity',
+        'Единична цена': 'Unit Price',
+        'Сума': 'Amount',
+        'Междинна сума': 'Subtotal',
+        'ДДС': 'VAT',
+        'Обща сума': 'Total',
+        'Сума с думи': 'Amount in words',
+        'Начин на плащане': 'Payment method',
+        'Банкови детайли': 'Bank details',
+        'Бележки': 'Notes',
+        'Условия': 'Terms',
+        'Дата на издаване': 'Date of issue',
+        'Дата на плащане': 'Due date',
+        'Основание на сделката': 'Transaction basis',
+        'Описание на сделката': 'Transaction description',
+        'Място на сделката': 'Place of transaction',
+        'Получил': 'Received by',
+        'Плащане': 'Payment',
+        'Съставил': 'Prepared by',
+        'ДДС номер': 'VAT Number',
+        'Идент. номер': 'ID Number',
+        'МОЛ': 'Manager',
+        'Телефон': 'Phone',
+        'Адрес': 'Address',
+        'Град': 'City',
+        'Държава': 'Country',
+        'Банка': 'Bank',
+        'Банков код': 'Bank Code'
+      }
+    }
+    
+    // Return translation if available, otherwise return original text
+    return translations[targetLang]?.[text] || text
+  }
+
   const value = {
     ...state,
     dispatch,
     generateInvoiceNumber,
     formatCurrency,
     calculateInvoiceTotals,
+    generateBICFromIBAN,
+    extractVATFromEIK,
+    generateEIKFromVAT,
+    translateText,
     saveData,
     loadData
   }
