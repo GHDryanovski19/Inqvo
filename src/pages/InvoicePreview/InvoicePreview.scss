@@ -1,5 +1,6 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
+@use '../../styles/animations' as *;
 @use 'sass:color';
 
 .invoice-preview {
@@ -98,7 +99,7 @@
     border: 1px solid $border-color;
     border-radius: 8px;
     font-weight: 500;
-    transition: all 0.2s ease;
+    @include smooth-transition;
     
     &:hover {
       color: $primary-color;
@@ -183,7 +184,7 @@
     color: $text-secondary;
     font-weight: 500;
     font-size: 0.875rem;
-    transition: all 0.2s ease;
+    @include smooth-transition;
     
     &:hover {
       color: $primary-color;
@@ -206,7 +207,7 @@
     color: white;
     border: none;
     border-radius: 8px;
-    transition: all 0.2s ease;
+    @include smooth-transition;
     
     &:hover {
       background: $primary-dark;

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { FiPlus, FiFileText, FiDollarSign, FiClock, FiAlertTriangle, FiTrendingUp, FiUsers, FiCalendar } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import PageHeader from '../../components/UI/PageHeader'
+import { containerVariants, itemVariants, cardHover } from '../../utils/animations'
 import styles from './Dashboard.module.scss'
 
 const Dashboard = () => {
@@ -45,33 +46,13 @@ const Dashboard = () => {
     .sort((a, b) => new Date(b.issueDate) - new Date(a.issueDate))
     .slice(0, 5)
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  }
 
   const StatCard = ({ icon: Icon, title, value, color, trend }) => (
     <motion.div
       className={styles.statCard}
       variants={itemVariants}
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
+      {...cardHover}
     >
       <div className={styles.statIcon} style={{ backgroundColor: color }}>
         <Icon />
@@ -89,8 +70,7 @@ const Dashboard = () => {
       <motion.div
         className={styles.invoiceCard}
         variants={itemVariants}
-        whileHover={{ scale: 1.01 }}
-        transition={{ duration: 0.2 }}
+        {...cardHover}
       >
         <div className={styles.invoiceHeader}>
           <h4>#{invoice.invoiceNumber}</h4>

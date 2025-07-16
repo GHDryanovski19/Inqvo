@@ -1,156 +1,56 @@
 @use 'variables' as *;
 
 // ============================================================================
-// CENTRALIZED ANIMATION CONFIGURATION
+// OPTIMIZED TRANSITION CONFIGURATION
+// Performance-focused transitions for enterprise use
 // ============================================================================
 
-// Animation Durations
-$animation-duration-fast: 0.15s;
-$animation-duration-normal: 0.25s;
-$animation-duration-slow: 0.35s;
+// Transition Durations (Optimized for speed)
+$transition-instant: 0.05s;
+$transition-fast: 0.1s;
+$transition-normal: 0.15s;
+$transition-slow: 0.25s;
 
-// Animation Easing Functions
-$ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-$ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
-$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+// Transition Easing Functions (Optimized for performance)
+$ease-out: ease-out;
+$ease-in: ease-in;
+$ease-in-out: ease-in-out;
+$ease-linear: linear;
 
 // ============================================================================
-// ENTERPRISE-APPROPRIATE ANIMATIONS
+// PERFORMANCE-OPTIMIZED TRANSITIONS
 // ============================================================================
 
-// Button Hover Effects (No scaling)
-@mixin button-hover {
-  transition: all $animation-duration-fast $ease-smooth;
-  
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-}
-
-// Card Hover Effects (No scaling)
-@mixin card-hover {
-  transition: all $animation-duration-normal $ease-smooth;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-}
-
-// Subtle Fade In
-@mixin fade-in {
-  animation: fadeIn $animation-duration-normal $ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-// Subtle Slide Up
-@mixin slide-up {
-  animation: slideUp $animation-duration-normal $ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Subtle Slide Down
-@mixin slide-down {
-  animation: slideDown $animation-duration-normal $ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Subtle Slide Left
-@mixin slide-left {
-  animation: slideLeft $animation-duration-normal $ease-out;
-}
-
-@keyframes slideLeft {
-  from {
-    opacity: 0;
-    transform: translateX(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-// Subtle Slide Right
-@mixin slide-right {
-  animation: slideRight $animation-duration-normal $ease-out;
-}
-
-@keyframes slideRight {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-// Smooth Color Transition
+// Color Transitions (Fast)
 @mixin color-transition {
-  transition: color $animation-duration-fast $ease-smooth,
-              background-color $animation-duration-fast $ease-smooth,
-              border-color $animation-duration-fast $ease-smooth;
+  transition: 
+    color $transition-fast $ease-out,
+    background-color $transition-fast $ease-out,
+    border-color $transition-fast $ease-out;
 }
 
-// Smooth Opacity Transition
+// Opacity Transitions (Fast)
 @mixin opacity-transition {
-  transition: opacity $animation-duration-fast $ease-smooth;
+  transition: opacity $transition-fast $ease-out;
 }
 
-// Smooth Transform Transition (No scaling)
+// Transform Transitions (No scaling, optimized)
 @mixin transform-transition {
-  transition: transform $animation-duration-fast $ease-smooth;
+  transition: transform $transition-fast $ease-out;
 }
 
-// Smooth Box Shadow Transition
+// Box Shadow Transitions (Fast)
 @mixin shadow-transition {
-  transition: box-shadow $animation-duration-fast $ease-smooth;
+  transition: box-shadow $transition-fast $ease-out;
 }
 
-// Smooth All Properties Transition
+// All Properties Transition (Optimized)
 @mixin smooth-transition {
-  transition: all $animation-duration-fast $ease-smooth;
+  transition: all $transition-fast $ease-out;
 }
 
 // ============================================================================
-// INTERACTIVE ELEMENTS (ENTERPRISE STYLE)
+// INTERACTIVE ELEMENTS (ENTERPRISE STYLE, NO SCALING)
 // ============================================================================
 
 // Interactive Button (No scaling)
@@ -207,12 +107,12 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // ============================================================================
-// LOADING STATES
+// LOADING STATES (OPTIMIZED)
 // ============================================================================
 
-// Subtle Pulse (No scaling)
+// Subtle Pulse (No scaling, CSS-only for performance)
 @mixin subtle-pulse {
-  animation: subtlePulse 2s $ease-in-out infinite;
+  animation: subtlePulse 1.5s $ease-in-out infinite;
 }
 
 @keyframes subtlePulse {
@@ -220,62 +120,27 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.8;
   }
 }
 
-// Subtle Shimmer
-@mixin shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+// Rotation (Optimized)
+@mixin rotate {
+  animation: rotate 1s $ease-linear infinite;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
   }
-  100% {
-    background-position: 200% 0;
+  to {
+    transform: rotate(360deg);
   }
 }
 
 // ============================================================================
 // UTILITY CLASSES
 // ============================================================================
-
-.animate-fade-in {
-  @include fade-in;
-}
-
-.animate-slide-up {
-  @include slide-up;
-}
-
-.animate-slide-down {
-  @include slide-down;
-}
-
-.animate-slide-left {
-  @include slide-left;
-}
-
-.animate-slide-right {
-  @include slide-right;
-}
-
-.animate-subtle-pulse {
-  @include subtle-pulse;
-}
-
-.animate-shimmer {
-  @include shimmer;
-}
 
 .transition-smooth {
   @include smooth-transition;
@@ -295,4 +160,28 @@ $ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
 .transition-shadow {
   @include shadow-transition;
+}
+
+.interactive-button {
+  @include interactive-button;
+}
+
+.interactive-card {
+  @include interactive-card;
+}
+
+.interactive-link {
+  @include interactive-link;
+}
+
+.interactive-icon {
+  @include interactive-icon;
+}
+
+.loading-pulse {
+  @include subtle-pulse;
+}
+
+.loading-rotate {
+  @include rotate;
 } 

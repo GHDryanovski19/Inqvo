@@ -107,24 +107,21 @@ const Dropdown = ({
     hidden: { 
       opacity: 0, 
       y: menuPosition === 'top' ? 10 : -10,
-      scale: 0.95,
       transformOrigin: menuPosition === 'top' ? 'bottom' : 'top'
     },
     visible: { 
       opacity: 1, 
       y: 0,
-      scale: 1,
       transition: {
-        duration: 0.2,
+        duration: 0.15,
         ease: 'easeOut'
       }
     },
     exit: { 
       opacity: 0, 
       y: menuPosition === 'top' ? 10 : -10,
-      scale: 0.95,
       transition: {
-        duration: 0.15,
+        duration: 0.1,
         ease: 'easeIn'
       }
     }

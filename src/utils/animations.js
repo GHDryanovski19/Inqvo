@@ -1,172 +1,150 @@
 // ============================================================================
-// CENTRALIZED FRAMER MOTION ANIMATION CONFIGURATION
+// OPTIMIZED FRAMER MOTION ANIMATION CONFIGURATION
+// Enterprise-focused, performance-optimized animations
 // ============================================================================
 
-// Animation Durations
+// Animation Durations (Optimized for speed)
 export const DURATION = {
-  FAST: 0.15,
-  NORMAL: 0.25,
-  SLOW: 0.35,
-  EXTRA_SLOW: 0.5
+  INSTANT: 0.05,
+  FAST: 0.1,
+  NORMAL: 0.15,
+  SLOW: 0.25
 };
 
-// Easing Functions (Enterprise-appropriate)
+// Easing Functions (Optimized for performance)
 export const EASING = {
-  SMOOTH: [0.4, 0, 0.2, 1],        // Interactive elements
-  OUT: [0.25, 0.46, 0.45, 0.94],   // Enter animations
-  IN: [0.55, 0.055, 0.675, 0.19],  // Exit animations
-  IN_OUT: [0.645, 0.045, 0.355, 1] // Complex animations
+  LINEAR: "linear",
+  EASE_OUT: "easeOut",
+  EASE_IN: "easeIn",
+  EASE_IN_OUT: "easeInOut"
 };
 
 // ============================================================================
-// ENTERPRISE-APPROPRIATE ANIMATIONS (NO SCALING)
+// HOVER ANIMATIONS (NO SCALING)
 // ============================================================================
 
-// Button Hover Effects (No scaling)
+// Button Hover (No scaling, optimized)
 export const buttonHover = {
-  hover: {
+  whileHover: {
     y: -1,
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-    transition: { duration: DURATION.FAST, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_OUT }
   },
-  tap: {
+  whileTap: {
     y: 0,
     boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-    transition: { duration: DURATION.FAST, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.INSTANT }
   }
 };
 
-// Card Hover Effects (No scaling)
+// Card Hover (No scaling, optimized)
 export const cardHover = {
-  hover: {
+  whileHover: {
     y: -2,
     boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)",
-    transition: { duration: DURATION.NORMAL, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   }
 };
 
 // Interactive Element Hover (No scaling)
 export const interactiveHover = {
-  hover: {
+  whileHover: {
     y: -1,
-    transition: { duration: DURATION.FAST, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_OUT }
   },
-  tap: {
+  whileTap: {
     y: 0,
-    transition: { duration: DURATION.FAST, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.INSTANT }
+  }
+};
+
+// Link Hover (No scaling)
+export const linkHover = {
+  whileHover: {
+    color: "var(--primary-color, #3B82F6)",
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_OUT }
   }
 };
 
 // ============================================================================
-// ENTRANCE ANIMATIONS
+// ENTRANCE ANIMATIONS (OPTIMIZED)
 // ============================================================================
 
-// Fade In
+// Fade In (Fast)
 export const fadeIn = {
   initial: { opacity: 0 },
   animate: { 
     opacity: 1,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
-// Slide Up
+// Slide Up (Optimized)
 export const slideUp = {
   initial: { opacity: 0, y: 10 },
   animate: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
     y: -10,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
-// Slide Down
+// Slide Down (Optimized)
 export const slideDown = {
   initial: { opacity: 0, y: -10 },
   animate: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
     y: 10,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
-// Slide Left
+// Slide Left (Optimized)
 export const slideLeft = {
   initial: { opacity: 0, x: 10 },
   animate: { 
     opacity: 1, 
     x: 0,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
     x: -10,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
-// Slide Right
+// Slide Right (Optimized)
 export const slideRight = {
   initial: { opacity: 0, x: -10 },
   animate: { 
     opacity: 1, 
     x: 0,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
     x: 10,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
 // ============================================================================
-// STAGGERED ANIMATIONS
-// ============================================================================
-
-// Staggered Fade In
-export const staggeredFadeIn = {
-  initial: { opacity: 0 },
-  animate: (i) => ({
-    opacity: 1,
-    transition: { 
-      duration: DURATION.NORMAL, 
-      ease: EASING.OUT,
-      delay: i * 0.05 
-    }
-  })
-};
-
-// Staggered Slide Up
-export const staggeredSlideUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: DURATION.NORMAL, 
-      ease: EASING.OUT,
-      delay: i * 0.05 
-    }
-  })
-};
-
-// ============================================================================
-// CONTAINER ANIMATIONS
+// STAGGERED ANIMATIONS (OPTIMIZED)
 // ============================================================================
 
 // Container with staggered children
@@ -176,52 +154,79 @@ export const containerVariants = {
     opacity: 1,
     transition: {
       duration: DURATION.NORMAL,
-      ease: EASING.OUT,
-      staggerChildren: 0.05
+      ease: EASING.EASE_OUT,
+      staggerChildren: 0.03 // Faster stagger for better performance
     }
   }
 };
 
 // Item variants for staggered animations
 export const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   }
 };
 
+// Staggered Fade In
+export const staggeredFadeIn = {
+  initial: { opacity: 0 },
+  animate: (i) => ({
+    opacity: 1,
+    transition: { 
+      duration: DURATION.NORMAL, 
+      ease: EASING.EASE_OUT,
+      delay: i * 0.03 // Faster stagger
+    }
+  })
+};
+
+// Staggered Slide Up
+export const staggeredSlideUp = {
+  initial: { opacity: 0, y: 10 },
+  animate: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: DURATION.NORMAL, 
+      ease: EASING.EASE_OUT,
+      delay: i * 0.03 // Faster stagger
+    }
+  })
+};
+
 // ============================================================================
-// LOADING ANIMATIONS
+// LOADING ANIMATIONS (OPTIMIZED)
 // ============================================================================
 
 // Subtle Pulse (No scaling)
 export const subtlePulse = {
   animate: {
-    opacity: [1, 0.7, 1],
+    opacity: [1, 0.8, 1],
     transition: {
-      duration: 2,
-      ease: EASING.IN_OUT,
+      duration: 1.5,
+      ease: EASING.EASE_IN_OUT,
       repeat: Infinity
     }
   }
 };
 
-// Rotation
+// Rotation (Optimized)
 export const rotate = {
   animate: {
     rotate: 360,
     transition: {
       duration: 1,
-      ease: "linear",
+      ease: EASING.LINEAR,
       repeat: Infinity
     }
   }
 };
 
 // ============================================================================
-// MODAL ANIMATIONS
+// MODAL ANIMATIONS (NO SCALING)
 // ============================================================================
 
 // Modal Backdrop
@@ -229,68 +234,64 @@ export const modalBackdrop = {
   initial: { opacity: 0 },
   animate: { 
     opacity: 1,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
-// Modal Content
+// Modal Content (No scaling)
 export const modalContent = {
-  initial: { opacity: 0, y: 20, scale: 0.95 },
+  initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    y: 0,
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
-    y: 20, 
-    scale: 0.95,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    y: 20,
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
 // ============================================================================
-// DROPDOWN ANIMATIONS
+// DROPDOWN ANIMATIONS (NO SCALING)
 // ============================================================================
 
-// Dropdown Menu
+// Dropdown Menu (No scaling)
 export const dropdownMenu = {
-  initial: { opacity: 0, y: -10, scale: 0.95 },
+  initial: { opacity: 0, y: -10 },
   animate: { 
     opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { duration: DURATION.FAST, ease: EASING.OUT }
+    y: 0,
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
-    y: -10, 
-    scale: 0.95,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    y: -10,
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
 // ============================================================================
-// PAGE TRANSITIONS
+// PAGE TRANSITIONS (OPTIMIZED)
 // ============================================================================
 
 // Page Transition
 export const pageTransition = {
-  initial: { opacity: 0, x: -20 },
+  initial: { opacity: 0, x: -10 },
   animate: { 
     opacity: 1, 
     x: 0,
-    transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+    transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
   },
   exit: { 
     opacity: 0, 
-    x: 20,
-    transition: { duration: DURATION.FAST, ease: EASING.IN }
+    x: 10,
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_IN }
   }
 };
 
@@ -298,27 +299,27 @@ export const pageTransition = {
 // UTILITY FUNCTIONS
 // ============================================================================
 
-// Create custom hover animation
+// Create custom hover animation (No scaling)
 export const createHoverAnimation = (y = -1, shadow = "0 4px 12px rgba(0, 0, 0, 0.15)") => ({
-  hover: {
+  whileHover: {
     y,
     boxShadow: shadow,
-    transition: { duration: DURATION.FAST, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.FAST, ease: EASING.EASE_OUT }
   },
-  tap: {
+  whileTap: {
     y: 0,
     boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-    transition: { duration: DURATION.FAST, ease: EASING.SMOOTH }
+    transition: { duration: DURATION.INSTANT }
   }
 });
 
-// Create custom entrance animation
-export const createEntranceAnimation = (direction = "up", distance = 20) => {
+// Create custom entrance animation (No scaling)
+export const createEntranceAnimation = (direction = "up", distance = 10) => {
   const variants = {
     initial: { opacity: 0 },
     animate: { 
       opacity: 1,
-      transition: { duration: DURATION.NORMAL, ease: EASING.OUT }
+      transition: { duration: DURATION.NORMAL, ease: EASING.EASE_OUT }
     }
   };
 
@@ -351,7 +352,7 @@ export const createEntranceAnimation = (direction = "up", distance = 20) => {
 // Default animation config for components
 export const defaultAnimationConfig = {
   duration: DURATION.NORMAL,
-  ease: EASING.SMOOTH
+  ease: EASING.EASE_OUT
 };
 
 // Quick animation presets
@@ -359,6 +360,7 @@ export const presets = {
   button: buttonHover,
   card: cardHover,
   interactive: interactiveHover,
+  link: linkHover,
   fadeIn,
   slideUp,
   slideDown,

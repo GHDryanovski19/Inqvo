@@ -20,7 +20,14 @@ import {
   FiCopy
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
-import { animations, variants } from '../../config/animations'
+import { 
+  pageTransition, 
+  slideDown, 
+  containerVariants, 
+  itemVariants,
+  fadeIn,
+  slideUp
+} from '../../utils/animations'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
 import toast from 'react-hot-toast'
@@ -150,12 +157,12 @@ const InvoiceCreate = () => {
   return (
     <motion.div 
       className="invoice-create"
-      {...animations.page}
+      {...pageTransition}
     >
       {/* Header */}
       <motion.div 
         className="invoice-create__header"
-        {...animations.slideInTop}
+        {...slideDown}
       >
         <div className="header-left">
           <Button
@@ -198,7 +205,7 @@ const InvoiceCreate = () => {
       {/* Progress Steps */}
       <motion.div 
         className="progress-steps"
-        {...animations.fadeIn}
+        {...fadeIn}
       >
         {steps.map((step, index) => (
           <div 
@@ -222,7 +229,7 @@ const InvoiceCreate = () => {
               <motion.div
                 key="step1"
                 className="form-step"
-                {...animations.formField}
+                {...slideUp}
               >
                 <div className="step-header">
                   <h2>{t('invoice.create.basicInfo')}</h2>
@@ -300,7 +307,7 @@ const InvoiceCreate = () => {
               <motion.div
                 key="step2"
                 className="form-step"
-                {...animations.formField}
+                {...slideUp}
               >
                 <div className="step-header">
                   <h2>{t('invoice.create.clientSelection')}</h2>
@@ -327,7 +334,7 @@ const InvoiceCreate = () => {
                   {selectedClient && (
                     <motion.div 
                       className="selected-client-card"
-                      {...variants.clientSelection}
+                      {...fadeIn}
                     >
                       <div className="client-info">
                         <h3>{selectedClient.name}</h3>
@@ -360,7 +367,7 @@ const InvoiceCreate = () => {
               <motion.div
                 key="step3"
                 className="form-step"
-                {...animations.formField}
+                {...slideUp}
               >
                 <div className="step-header">
                   <h2>{t('invoice.create.invoiceItems')}</h2>
@@ -377,7 +384,7 @@ const InvoiceCreate = () => {
                   
                   <motion.div 
                     className="items-list"
-                    variants={variants.invoiceItems}
+                    variants={containerVariants}
                     initial="hidden"
                     animate="visible"
                   >
@@ -386,7 +393,7 @@ const InvoiceCreate = () => {
                         <motion.div
                           key={field.id}
                           className="item-row"
-                          variants={variants.invoiceItem}
+                          variants={itemVariants}
                           exit="exit"
                         >
                           <div className="item-description">
@@ -482,7 +489,7 @@ const InvoiceCreate = () => {
               <motion.div
                 key="step4"
                 className="form-step"
-                {...animations.formField}
+                {...slideUp}
               >
                 <div className="step-header">
                   <h2>{t('invoice.create.totalsSection')}</h2>
@@ -598,7 +605,7 @@ const InvoiceCreate = () => {
         {showPreview && (
           <motion.div 
             className="invoice-create__preview"
-            {...animations.slideInRight}
+            {...slideUp}
           >
             <div className="preview-header">
               <h3>Invoice Preview</h3>

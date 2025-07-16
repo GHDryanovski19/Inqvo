@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { buttonHover } from '../../../utils/animations'
 import './Button.scss'
 
 const Button = ({
@@ -33,8 +34,7 @@ const Button = ({
       onClick={handleClick}
       type={type}
       disabled={disabled || loading}
-      whileHover={!disabled && !loading ? { scale: 1.02 } : {}}
-      whileTap={!disabled && !loading ? { scale: 0.98 } : {}}
+      {...(!disabled && !loading ? buttonHover : {})}
       {...props}
     >
       {loading && (

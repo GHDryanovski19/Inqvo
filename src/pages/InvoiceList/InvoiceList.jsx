@@ -22,6 +22,7 @@ import PageHeader from '../../components/UI/PageHeader'
 import SortDirectionButton from '../../components/UI/SortDirectionButton'
 import toast from 'react-hot-toast'
 import { exportInvoiceToPDF } from '../../utils/pdfExport'
+import { containerVariants, itemVariants, interactiveHover } from '../../utils/animations'
 import './InvoiceList.scss'
 
 const InvoiceList = () => {
@@ -221,7 +222,12 @@ const InvoiceList = () => {
       {/* Invoices Table */}
       <div className="invoice-list__content">
         {filteredInvoices.length > 0 ? (
-          <div className="invoices-table">
+          <motion.div 
+            className="invoices-table"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <div className="table-header">
               <div className="header-cell">Invoice</div>
               <div className="header-cell">Client</div>
@@ -238,10 +244,8 @@ const InvoiceList = () => {
                 <motion.div
                   key={invoice.id}
                   className="table-row"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ backgroundColor: 'var(--color-gray-light)' }}
+                  variants={itemVariants}
+                  {...interactiveHover}
                 >
                   <div className="table-cell invoice-number">
                     <strong>{invoice.number}</strong>
@@ -314,7 +318,7 @@ const InvoiceList = () => {
                 </motion.div>
               )
             })}
-          </div>
+          </motion.div>
         ) : (
           <div className="empty-state">
             <FiFileText size={64} />

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { FiGlobe, FiChevronDown, FiHome, FiFileText, FiSettings, FiUsers } from 'react-icons/fi'
+import { slideDown, dropdownMenu } from '../../utils/animations'
 import styles from './Header.module.scss'
 
 const Header = ({ onLanguageChange }) => {
@@ -47,9 +48,7 @@ const Header = ({ onLanguageChange }) => {
   return (
     <motion.header 
       className={styles.header}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      {...slideDown}
     >
       <div className={styles.container}>
         <div className={styles.logo}>
@@ -90,14 +89,12 @@ const Header = ({ onLanguageChange }) => {
               <FiChevronDown className={`${styles.chevron} ${isLanguageOpen ? styles.rotated : ''}`} />
             </button>
 
-            {isLanguageOpen && (
-              <motion.div
-                className={styles.languageDropdown}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
+            <AnimatePresence>
+              {isLanguageOpen && (
+                <motion.div
+                  className={styles.languageDropdown}
+                  {...dropdownMenu}
+                >
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -110,6 +107,7 @@ const Header = ({ onLanguageChange }) => {
                 ))}
               </motion.div>
             )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

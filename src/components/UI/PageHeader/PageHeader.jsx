@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Button from '../Button/Button'
+import { slideDown } from '../../../utils/animations'
 import './PageHeader.scss'
 
 const PageHeader = ({ 
@@ -14,9 +15,7 @@ const PageHeader = ({
   return (
     <motion.div 
       className={`page-header ${className}`}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      {...slideDown}
     >
       <div className="page-header__content">
         <div className="page-header__info">
