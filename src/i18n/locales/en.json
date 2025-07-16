@@ -183,7 +183,16 @@
       "vatRate": "VAT Rate",
       "selectClient": "Select Client",
       "noClientSelected": "No client selected",
-      "selectClientPlaceholder": "Search and select a client..."
+      "selectClientPlaceholder": "Search and select a client...",
+      "legalInfo": "Legal Information (Bulgarian Compliance)",
+      "transactionBasis": "Transaction Basis",
+      "transactionBasisPlaceholder": "e.g., Contract, Order",
+      "transactionDescription": "Transaction Description",
+      "transactionDescriptionPlaceholder": "Description of the transaction",
+      "transactionPlace": "Transaction Place",
+      "transactionPlacePlaceholder": "e.g., Sofia",
+      "paymentMethod": "Payment Method",
+      "paymentMethodPlaceholder": "e.g., Bank Transfer, Cash"
     },
     "status": {
       "draft": "Draft",

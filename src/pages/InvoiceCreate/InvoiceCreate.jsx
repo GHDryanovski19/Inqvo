@@ -498,32 +498,32 @@ const InvoiceCreate = () => {
                   
                   {/* Bulgarian Legal Fields */}
                   <div className="legal-fields">
-                    <h3>Legal Information (Bulgarian Compliance)</h3>
+                    <h3>{t('invoice.form.legalInfo')}</h3>
                     <div className="form-grid">
                       <div className="form-group">
-                        <label>Transaction Basis (Основание на сделката)</label>
+                        <label>{t('invoice.form.transactionBasis')}</label>
                         <input
                           type="text"
                           {...register('transactionBasis')}
-                          placeholder="e.g., Договор, Поръчка"
+                          placeholder={t('invoice.form.transactionBasisPlaceholder')}
                         />
                       </div>
                       
                       <div className="form-group">
-                        <label>Transaction Description (Описание на сделката)</label>
+                        <label>{t('invoice.form.transactionDescription')}</label>
                         <input
                           type="text"
                           {...register('transactionDescription')}
-                          placeholder="Description of the transaction"
+                          placeholder={t('invoice.form.transactionDescriptionPlaceholder')}
                         />
                       </div>
                       
                       <div className="form-group">
-                        <label>Transaction Place (Място на сделката)</label>
+                        <label>{t('invoice.form.transactionPlace')}</label>
                         <input
                           type="text"
                           {...register('transactionPlace')}
-                          placeholder={settings.company.city || 'София'}
+                          placeholder={settings.company.city || t('invoice.form.transactionPlacePlaceholder')}
                         />
                       </div>
                       

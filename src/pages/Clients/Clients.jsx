@@ -368,7 +368,7 @@ const Clients = () => {
           <div className="header-actions">
             <Button
               variant="outline"
-              size="sm"
+              size="md"
               onClick={handleExportClients}
               title={t('client.export')}
             >
@@ -377,7 +377,7 @@ const Clients = () => {
             </Button>
             <Button
               variant="primary"
-              size="lg"
+              size="md"
               onClick={handleAddClient}
             >
               <FiPlus />

@@ -182,7 +182,16 @@
       "vatRate": "ДДС ставка",
       "selectClient": "Избери клиент",
       "noClientSelected": "Не е избран клиент",
-      "selectClientPlaceholder": "Търсете и изберете клиент..."
+      "selectClientPlaceholder": "Търсете и изберете клиент...",
+      "legalInfo": "Правна информация (Българско съответствие)",
+      "transactionBasis": "Основание на сделката",
+      "transactionBasisPlaceholder": "напр., Договор, Поръчка",
+      "transactionDescription": "Описание на сделката",
+      "transactionDescriptionPlaceholder": "Описание на сделката",
+      "transactionPlace": "Място на сделката",
+      "transactionPlacePlaceholder": "напр., София",
+      "paymentMethod": "Начин на плащане",
+      "paymentMethodPlaceholder": "напр., Банков превод, В брой"
     },
     "status": {
       "draft": "Чернова",
