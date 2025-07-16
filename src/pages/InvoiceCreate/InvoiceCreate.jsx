@@ -30,6 +30,7 @@ import {
 } from '../../utils/animations'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
+import Tabs from '../../components/UI/Tabs/Tabs'
 import toast from 'react-hot-toast'
 import './InvoiceCreate.scss'
 
@@ -148,10 +149,10 @@ const InvoiceCreate = () => {
   }
 
   const steps = [
-    { id: 1, title: t('invoice.create.basicInfo'), icon: FiEdit3 },
-    { id: 2, title: t('invoice.create.clientInfo'), icon: FiUser },
-    { id: 3, title: t('invoice.create.items'), icon: FiDollarSign },
-    { id: 4, title: t('invoice.create.totals'), icon: FiCheck }
+    { id: 1, label: t('invoice.create.basicInfo'), icon: FiEdit3 },
+    { id: 2, label: t('invoice.create.clientInfo'), icon: FiUser },
+    { id: 3, label: t('invoice.create.items'), icon: FiDollarSign },
+    { id: 4, label: t('invoice.create.totals'), icon: FiCheck }
   ]
 
   return (
@@ -203,23 +204,13 @@ const InvoiceCreate = () => {
       </motion.div>
 
       {/* Progress Steps */}
-      <motion.div 
+      <Tabs
+        tabs={steps}
+        activeTab={activeStep}
+        onTabChange={setActiveStep}
+        variant="progress"
         className="progress-steps"
-        {...fadeIn}
-      >
-        {steps.map((step, index) => (
-          <div 
-            key={step.id} 
-            className={`step ${activeStep >= step.id ? 'active' : ''} ${activeStep > step.id ? 'completed' : ''}`}
-            onClick={() => setActiveStep(step.id)}
-          >
-            <div className="step-icon">
-              {activeStep > step.id ? <FiCheck /> : <step.icon />}
-            </div>
-            <span className="step-title">{step.title}</span>
-          </div>
-        ))}
-      </motion.div>
+      />
 
       <div className="invoice-create__content">
         <div className="invoice-create__form">

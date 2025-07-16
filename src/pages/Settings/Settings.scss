@@ -48,24 +48,9 @@
   }
 }
 
-.tab-button {
-  // Custom styling for tab buttons using Button component
-  border-radius: 0;
-  border-bottom: 3px solid transparent;
-  
-  &.btn--primary {
-    border-bottom-color: $primary-color;
-  }
-  
-  @media (max-width: 768px) {
-    border-bottom: none;
-    border-right: 3px solid transparent;
-    
-    &.btn--primary {
-      border-bottom: none;
-      border-right-color: $primary-color;
-    }
-  }
+.settings__tabs {
+  // Using Tabs component - minimal custom styling
+  margin-bottom: $spacing-xl;
 }
 
 // Tab Content

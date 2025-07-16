@@ -139,81 +139,11 @@
   }
 }
 
-// Progress Steps
+// Progress Steps - using Tabs component
 .progress-steps {
-  max-width: 1200px;
-  margin: 0 auto 2rem auto;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  background: white;
-  border-radius: 16px;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  
-  @media (max-width: 768px) {
-    padding: 1rem;
-    margin: 0 1rem 1.5rem 1rem;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .step {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    cursor: pointer;
-    @include smooth-transition;
-    
-    &:hover {
-      background: $bg-secondary;
-    }
-    
-    &.active {
-      background: rgba($primary-color, 0.1);
-      color: $primary-color;
-      
-      .step-icon {
-        background: $primary-color;
-        color: white;
-      }
-    }
-    
-    &.completed {
-      color: $success-color;
-      
-      .step-icon {
-        background: $success-color;
-        color: white;
-      }
-    }
-    
-    .step-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: $bg-secondary;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.875rem;
-      @include smooth-transition;
-    }
-    
-    .step-title {
-      font-weight: 500;
-      font-size: 0.875rem;
-      
-      @media (max-width: 768px) {
-        display: none;
-      }
-    }
-  }
+  // Tabs component handles the styling
+  // Just ensure proper spacing
+  margin-bottom: 2rem;
 }
 
 // Content Layout

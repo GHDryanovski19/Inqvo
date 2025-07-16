@@ -22,6 +22,7 @@ import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
 import Dropdown from '../../components/UI/Dropdown'
 import PageHeader from '../../components/UI/PageHeader'
+import Tabs from '../../components/UI/Tabs/Tabs'
 import toast from 'react-hot-toast'
 import { 
   exportData, 
@@ -269,23 +270,13 @@ const Settings = () => {
 
       <div className="settings__content">
         {/* Tabs */}
-        <div className="settings__tabs">
-          {tabs.map((tab) => {
-            const Icon = tab.icon
-            return (
-              <Button
-                key={tab.id}
-                variant={activeTab === tab.id ? 'primary' : 'ghost'}
-                size="md"
-                onClick={() => setActiveTab(tab.id)}
-                className="tab-button"
-              >
-                <Icon />
-                {tab.label}
-              </Button>
-            )
-          })}
-        </div>
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          variant="default"
+          className="settings__tabs"
+        />
 
         {/* Tab Content */}
         <div className="settings__tab-content">

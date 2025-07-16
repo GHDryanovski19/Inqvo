@@ -1,0 +1,180 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../styles/animations' as *;
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  background: $surface-color;
+  border-radius: $radius-xl;
+  padding: $spacing-lg $spacing-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-light;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-md;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+  }
+  
+  // Default variant (for settings tabs)
+  &--default {
+    justify-content: flex-start;
+    
+    .tab {
+      border-radius: $radius-lg;
+      border: 2px solid transparent;
+      
+      &:hover {
+        background: $bg-secondary;
+        border-color: $border-light;
+      }
+      
+      &--active {
+        background: rgba($primary-rgb, 0.1);
+        border-color: $primary-color;
+        color: $primary-color;
+        
+        .tab__icon {
+          background: $primary-color;
+          color: white;
+        }
+      }
+    }
+  }
+  
+  // Progress variant (for invoice creation steps)
+  &--progress {
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto $spacing-xl auto;
+    
+    @media (max-width: 768px) {
+      margin: 0 $spacing-md $spacing-lg $spacing-md;
+    }
+    
+    .tab {
+      position: relative;
+      border-radius: $radius-lg;
+      
+      &:hover {
+        background: $bg-secondary;
+      }
+      
+      &--active {
+        background: rgba($primary-rgb, 0.1);
+        color: $primary-color;
+        
+        .tab__icon {
+          background: $primary-color;
+          color: white;
+        }
+      }
+      
+      &--completed {
+        color: $success-color;
+        
+        .tab__icon {
+          background: $success-color;
+          color: white;
+        }
+      }
+      
+      .tab__progress {
+        position: absolute;
+        top: 50%;
+        left: calc(100% + $spacing-md);
+        transform: translateY(-50%);
+        width: $spacing-lg;
+        height: 2px;
+        background: $border-light;
+        
+        .tab__progress-line {
+          width: 0;
+          height: 100%;
+          background: $success-color;
+          transition: width 0.3s ease;
+        }
+      }
+      
+      &:last-child .tab__progress {
+        display: none;
+      }
+    }
+  }
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  cursor: pointer;
+  @include smooth-transition;
+  user-select: none;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-sm $spacing-md;
+    gap: $spacing-sm;
+  }
+  
+  &__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $bg-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    @include smooth-transition;
+    flex-shrink: 0;
+    
+    @media (max-width: 768px) {
+      width: 28px;
+      height: 28px;
+      font-size: 0.75rem;
+    }
+  }
+  
+  &__title {
+    font-weight: 500;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Animation for progress line
+.tabs--progress .tab--completed .tab__progress-line {
+  width: 100%;
+}
+
+// Focus styles for accessibility
+.tab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba($primary-rgb, 0.3);
+  border-radius: $radius-lg;
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .tabs {
+    background: $surface-color;
+    border-color: $border-color;
+  }
+  
+  .tab {
+    &__icon {
+      background: $bg-secondary;
+    }
+    
+    &:hover {
+      background: $bg-secondary;
+    }
+  }
+} 
