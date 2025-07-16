@@ -20,6 +20,7 @@ import {
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
+import Dropdown from '../../components/UI/Dropdown'
 import toast from 'react-hot-toast'
 import { 
   exportData, 
@@ -496,12 +497,15 @@ const Settings = () => {
 
                   <div className="form-group">
                     <label>Language</label>
-                    <select {...register('invoiceLanguage')}>
-                      <option value="en">English</option>
-                      <option value="bg">Bulgarian</option>
-                      <option value="de">German</option>
-                      <option value="fr">French</option>
-                    </select>
+                    <Dropdown
+                      options={[
+                        { value: 'en', label: 'English' },
+                        { value: 'bg', label: 'Български' }
+                      ]}
+                      value={watch('invoiceLanguage')}
+                      onChange={(value) => setValue('invoiceLanguage', value)}
+                      placeholder="Select language..."
+                    />
                   </div>
                 </div>
 

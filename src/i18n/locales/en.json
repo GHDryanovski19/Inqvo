@@ -37,6 +37,8 @@
     "weeks": "Weeks",
     "months": "Months",
     "years": "Years",
+    "pieces": "Pieces",
+    "services": "Services",
     "yes": "Yes",
     "no": "No",
     "ok": "OK",
@@ -213,7 +215,10 @@
       "paymentMethod": "Payment Method",
       "paymentMethodPlaceholder": "e.g., Bank Transfer, Cash",
       "notesPlaceholder": "Add any additional notes...",
-      "termsPlaceholder": "Add payment terms..."
+      "termsPlaceholder": "Add payment terms...",
+      "statusPlaceholder": "Select status...",
+      "itemUnit": "Unit",
+      "itemUnitPlaceholder": "Select unit..."
     },
     "status": {
       "draft": "Draft",

@@ -22,6 +22,7 @@ import {
 import { useApp } from '../../contexts/AppContext'
 import { animations, variants } from '../../config/animations'
 import Button from '../../components/UI/Button/Button'
+import Dropdown from '../../components/UI/Dropdown'
 import toast from 'react-hot-toast'
 import './InvoiceCreate.scss'
 
@@ -268,12 +269,17 @@ const InvoiceCreate = () => {
 
                   <div className="form-group">
                     <label>{t('invoice.form.status')}</label>
-                    <select {...register('status')}>
-                      <option value="draft">{t('invoice.status.draft')}</option>
-                      <option value="sent">{t('invoice.status.sent')}</option>
-                      <option value="paid">{t('invoice.status.paid')}</option>
-                      <option value="overdue">{t('invoice.status.overdue')}</option>
-                    </select>
+                    <Dropdown
+                      options={[
+                        { value: 'draft', label: t('invoice.status.draft') },
+                        { value: 'sent', label: t('invoice.status.sent') },
+                        { value: 'paid', label: t('invoice.status.paid') },
+                        { value: 'overdue', label: t('invoice.status.overdue') }
+                      ]}
+                      value={watch('status')}
+                      onChange={(value) => setValue('status', value)}
+                      placeholder={t('invoice.form.statusPlaceholder')}
+                    />
                   </div>
                 </div>
                 
@@ -304,20 +310,18 @@ const InvoiceCreate = () => {
                 <div className="client-selection">
                   <div className="form-group">
                     <label>{t('invoice.form.selectClient')}</label>
-                    <div className="input-with-icon">
-                      <FiUser />
-                      <select
-                        onChange={(e) => handleClientSelect(e.target.value)}
-                        value={selectedClient?.id || ''}
-                      >
-                        <option value="">{t('invoice.form.selectClientPlaceholder')}</option>
-                        {clients.map(client => (
-                          <option key={client.id} value={client.id}>
-                            {client.name} - {client.email}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                    <Dropdown
+                      options={[
+                        { value: '', label: t('invoice.form.selectClientPlaceholder') },
+                        ...clients.map(client => ({
+                          value: client.id,
+                          label: `${client.name} - ${client.email}`
+                        }))
+                      ]}
+                      value={selectedClient?.id || ''}
+                      onChange={handleClientSelect}
+                      placeholder={t('invoice.form.selectClientPlaceholder')}
+                    />
                   </div>
                   
                   {selectedClient && (
@@ -413,12 +417,20 @@ const InvoiceCreate = () => {
                           </div>
                           
                           <div className="item-unit">
-                            <select {...register(`items.${index}.unit`)}>
-                              <option value="hour">hour</option>
-                              <option value="day">day</option>
-                              <option value="piece">piece</option>
-                              <option value="service">service</option>
-                            </select>
+                            <Dropdown
+                              options={[
+                                { value: 'hour', label: t('common.hours') },
+                                { value: 'day', label: t('common.days') },
+                                { value: 'week', label: t('common.weeks') },
+                                { value: 'month', label: t('common.months') },
+                                { value: 'piece', label: t('common.pieces') },
+                                { value: 'service', label: t('common.services') }
+                              ]}
+                              value={watch(`items.${index}.unit`)}
+                              onChange={(value) => setValue(`items.${index}.unit`, value)}
+                              placeholder={t('invoice.form.itemUnitPlaceholder')}
+                              size="sm"
+                            />
                           </div>
                           
                           <div className="item-total">
@@ -530,13 +542,17 @@ const InvoiceCreate = () => {
                       
                       <div className="form-group">
                         <label>{t('invoice.form.paymentMethod')}</label>
-                        <select {...register('paymentMethod')}>
-                          <option value="">{t('invoice.form.paymentMethodPlaceholder')}</option>
-                          <option value="bank_transfer">{t('common.paymentMethods.bankTransfer')}</option>
-                          <option value="cash">{t('common.paymentMethods.cash')}</option>
-                          <option value="card">{t('common.paymentMethods.card')}</option>
-                          <option value="check">{t('common.paymentMethods.check')}</option>
-                        </select>
+                        <Dropdown
+                          options={[
+                            { value: 'bank_transfer', label: t('common.paymentMethods.bankTransfer') },
+                            { value: 'cash', label: t('common.paymentMethods.cash') },
+                            { value: 'card', label: t('common.paymentMethods.card') },
+                            { value: 'check', label: t('common.paymentMethods.check') }
+                          ]}
+                          value={watch('paymentMethod')}
+                          onChange={(value) => setValue('paymentMethod', value)}
+                          placeholder={t('invoice.form.paymentMethodPlaceholder')}
+                        />
                       </div>
                     </div>
                   </div>

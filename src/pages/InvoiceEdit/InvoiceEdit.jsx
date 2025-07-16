@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
+import Dropdown from '../../components/UI/Dropdown'
 import toast from 'react-hot-toast'
 import './InvoiceEdit.scss'
 
@@ -236,12 +237,18 @@ const InvoiceEdit = () => {
 
               <div className="form-group">
                 <label>Status</label>
-                <select {...register('status')}>
-                  <option value="draft">Draft</option>
-                  <option value="pending">Pending</option>
-                  <option value="paid">Paid</option>
-                  <option value="overdue">Overdue</option>
-                </select>
+                <Dropdown
+                  options={[
+                    { value: 'draft', label: 'Draft' },
+                    { value: 'pending', label: 'Pending' },
+                    { value: 'paid', label: 'Paid' },
+                    { value: 'overdue', label: 'Overdue' }
+                  ]}
+                  value={watch('status')}
+                  onChange={(value) => setValue('status', value)}
+                  className={errors.status ? 'error' : ''}
+                />
+                {errors.status && <span className="error-message">{errors.status.message}</span>}
               </div>
             </div>
           </motion.div>
@@ -404,10 +411,15 @@ const InvoiceEdit = () => {
               <div className="form-grid">
                 <div className="form-group">
                   <label>Discount Type</label>
-                  <select {...register('discountType')}>
-                    <option value="percentage">Percentage (%)</option>
-                    <option value="fixed">Fixed Amount (€)</option>
-                  </select>
+                  <Dropdown
+                    options={[
+                      { value: 'percentage', label: 'Percentage' },
+                      { value: 'fixed', label: 'Fixed Amount' }
+                    ]}
+                    value={watch('discountType')}
+                    onChange={(value) => setValue('discountType', value)}
+                    placeholder="Select discount type..."
+                  />
                 </div>
                 <div className="form-group">
                   <label>Discount Value</label>

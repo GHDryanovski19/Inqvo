@@ -37,6 +37,8 @@
     "weeks": "Седмици",
     "months": "Месеци",
     "years": "Години",
+    "pieces": "Бройки",
+    "services": "Услуги",
     "yes": "Да",
     "no": "Не",
     "ok": "Добре",
@@ -212,7 +214,10 @@
       "paymentMethod": "Начин на плащане",
       "paymentMethodPlaceholder": "напр., Банков превод, В брой",
       "notesPlaceholder": "Добавете допълнителни бележки...",
-      "termsPlaceholder": "Добавете условия за плащане..."
+      "termsPlaceholder": "Добавете условия за плащане...",
+      "statusPlaceholder": "Избери статус...",
+      "itemUnit": "Мярка",
+      "itemUnitPlaceholder": "Избери мярка..."
     },
     "status": {
       "draft": "Чернова",
