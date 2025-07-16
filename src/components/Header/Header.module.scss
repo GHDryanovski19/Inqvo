@@ -127,76 +127,103 @@
   gap: 1rem;
 }
 
-.languageSwitcher {
-  position: relative;
-}
-
-.languageButton {
-  // Using Button component - minimal custom styling
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: white !important;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-  }
-}
-
-.currentLanguage {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.chevron {
-  transition: transform 0.2s ease;
-
-  &.rotated {
-    transform: rotate(180deg);
-  }
-}
-
 .languageDropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 0.5rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  min-width: 160px;
-  z-index: 1001;
-}
-
-.languageOption {
-  // Using Button component - minimal custom styling
-  width: 100%;
-  justify-content: flex-start;
-  border-radius: 0;
+  // Using Dropdown component - minimal custom styling
+  min-width: 140px;
   
-  &.active {
-    background: $primary-color !important;
-    color: white !important;
+  @include mobile {
+    min-width: 120px;
+  }
+  
+  // Override dropdown styling for header context with global selectors
+  :global(.dropdown-container) {
+    .dropdown {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      color: white !important;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+      }
+      
+      &:focus-within {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+      }
+      
+      &.dropdown--open {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+      }
+    }
+    
+    .dropdown__content {
+      color: white !important;
+    }
+    
+    .dropdown__icon {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .dropdown__text {
+      color: white !important;
+    }
+    
+    .dropdown__value {
+      color: white !important;
+    }
+    
+    .dropdown__placeholder {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+    
+    .dropdown__arrow {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    // Style the dropdown menu to have proper background
+    .dropdown__menu {
+      background: white !important;
+      border-color: $border-light !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .dropdown__option {
+      color: $text-color !important;
+      border-color: $border-light !important;
+      
+      &:hover {
+        background: $bg-secondary !important;
+        color: $text-color !important;
+      }
+      
+      &--selected {
+        background: rgba($primary-rgb, 0.1) !important;
+        color: $primary-color !important;
+        
+        &:hover {
+          background: rgba($primary-rgb, 0.15) !important;
+        }
+      }
+    }
+    
+    .dropdown__option-icon {
+      color: $text-secondary !important;
+    }
+    
+    .dropdown__option-label {
+      color: inherit !important;
+    }
   }
 }
+
+// Language dropdown styling is now handled by the Dropdown component
 
 // Mobile responsive
 @include mobile {
   .container {
     gap: 1rem;
-  }
-
-  .languageButton {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-
-    .currentLanguage {
-      display: none;
-    }
-  }
-
-  .languageDropdown {
-    min-width: 140px;
   }
 } 

@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FiGlobe, FiChevronDown, FiHome, FiFileText, FiSettings, FiUsers } from 'react-icons/fi'
-import { slideDown, dropdownMenu } from '../../utils/animations'
-import Button from '../UI/Button/Button'
+import { motion } from 'framer-motion'
+import { FiGlobe, FiHome, FiFileText, FiSettings, FiUsers } from 'react-icons/fi'
+import { slideDown } from '../../utils/animations'
+import Dropdown from '../UI/Dropdown/Dropdown'
 import styles from './Header.module.scss'
 
 const Header = ({ onLanguageChange }) => {
   const { t, i18n } = useTranslation()
   const location = useLocation()
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
-  const languageRef = useRef(null)
 
   const navigation = [
     { path: '/', label: t('nav.dashboard'), icon: FiHome },
@@ -21,30 +19,13 @@ const Header = ({ onLanguageChange }) => {
   ]
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'bg', name: 'Български', flag: '🇧🇬' },
+    { value: 'en', label: 'English', icon: '🇺🇸' },
+    { value: 'bg', label: 'Български', icon: '🇧🇬' },
   ]
-
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0]
 
   const handleLanguageChange = (langCode) => {
     onLanguageChange(langCode)
-    setIsLanguageOpen(false)
   }
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (languageRef.current && !languageRef.current.contains(event.target)) {
-        setIsLanguageOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
 
   return (
     <motion.header 
@@ -77,43 +58,16 @@ const Header = ({ onLanguageChange }) => {
         </nav>
 
         <div className={styles.actions}>
-          <div className={styles.languageSwitcher} ref={languageRef}>
-            <Button
-              variant="ghost"
-              size="md"
-              onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-              aria-label={t('header.changeLanguage')}
-              className={styles.languageButton}
-            >
-              <FiGlobe />
-              <span className={styles.currentLanguage}>
-                {currentLanguage.flag} {currentLanguage.code.toUpperCase()}
-              </span>
-              <FiChevronDown className={`${styles.chevron} ${isLanguageOpen ? styles.rotated : ''}`} />
-            </Button>
-
-            <AnimatePresence>
-              {isLanguageOpen && (
-                <motion.div
-                  className={styles.languageDropdown}
-                  {...dropdownMenu}
-                >
-                {languages.map((lang) => (
-                  <Button
-                    key={lang.code}
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={`${styles.languageOption} ${lang.code === i18n.language ? styles.active : ''}`}
-                  >
-                    <span className={styles.flag}>{lang.flag}</span>
-                    <span className={styles.name}>{lang.name}</span>
-                  </Button>
-                ))}
-              </motion.div>
-            )}
-            </AnimatePresence>
-          </div>
+          <Dropdown
+            options={languages}
+            value={i18n.language}
+            onChange={handleLanguageChange}
+            placeholder="Select language"
+            size="sm"
+            variant="default"
+            icon={<FiGlobe />}
+            className={styles.languageDropdown}
+          />
         </div>
       </div>
     </motion.header>
