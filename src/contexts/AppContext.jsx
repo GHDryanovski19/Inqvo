@@ -18,11 +18,16 @@ const initialState = {
     company: {
       name: 'Inkblot Studio',
       address: '',
-      city: '',
+      city: 'София',
       postalCode: '',
       country: 'Bulgaria',
       vatNumber: '',
+      idNumber: '',
+      manager: '',
+      phone: '',
       iban: '',
+      bank: '',
+      bankCode: '',
       logo: null
     },
     invoice: {
@@ -152,11 +157,16 @@ const appReducer = (state, action) => {
           company: {
             name: 'Inkblot Studio',
             address: '',
-            city: '',
+            city: 'София',
             postalCode: '',
             country: 'Bulgaria',
             vatNumber: '',
+            idNumber: '',
+            manager: '',
+            phone: '',
             iban: '',
+            bank: '',
+            bankCode: '',
             logo: null
           },
           invoice: {

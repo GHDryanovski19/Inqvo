@@ -496,6 +496,49 @@ const InvoiceCreate = () => {
                     </div>
                   </div>
                   
+                  {/* Bulgarian Legal Fields */}
+                  <div className="legal-fields">
+                    <h3>Legal Information (Bulgarian Compliance)</h3>
+                    <div className="form-grid">
+                      <div className="form-group">
+                        <label>Transaction Basis (Основание на сделката)</label>
+                        <input
+                          type="text"
+                          {...register('transactionBasis')}
+                          placeholder="e.g., Договор, Поръчка"
+                        />
+                      </div>
+                      
+                      <div className="form-group">
+                        <label>Transaction Description (Описание на сделката)</label>
+                        <input
+                          type="text"
+                          {...register('transactionDescription')}
+                          placeholder="Description of the transaction"
+                        />
+                      </div>
+                      
+                      <div className="form-group">
+                        <label>Transaction Place (Място на сделката)</label>
+                        <input
+                          type="text"
+                          {...register('transactionPlace')}
+                          placeholder={settings.company.city || 'София'}
+                        />
+                      </div>
+                      
+                      <div className="form-group">
+                        <label>Payment Method (Плащане)</label>
+                        <select {...register('paymentMethod')}>
+                          <option value="По сметка">По сметка (Bank Transfer)</option>
+                          <option value="В брой">В брой (Cash)</option>
+                          <option value="С карта">С карта (Card)</option>
+                          <option value="Чек">Чек (Check)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="form-group">
                     <label>Notes (Optional)</label>
                     <textarea

@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
-import { exportInvoiceToPDF, exportInvoiceToCSV } from '../../utils/pdfExport'
+import { exportInvoiceToPDF, exportInvoiceToCSV, convertToBulgarianWords } from '../../utils/pdfExport'
 import { generateInvoiceEmail } from '../../utils/emailExport'
 import toast from 'react-hot-toast'
 import './InvoicePreview.scss'
@@ -277,35 +277,45 @@ const InvoicePreview = () => {
                   <p>{settings.company.postalCode} {settings.company.city}</p>
                 )}
                 {settings.company.country && <p>{settings.company.country}</p>}
-                {settings.company.vatNumber && <p className="vat-number">VAT: {settings.company.vatNumber}</p>}
+                {settings.company.vatNumber && <p className="vat-number">ДДС номер: {settings.company.vatNumber}</p>}
+                {settings.company.idNumber && <p className="id-number">ЕГН/Булстат: {settings.company.idNumber}</p>}
+                {settings.company.manager && <p className="manager">Мениджър: {settings.company.manager}</p>}
+                {settings.company.phone && <p className="phone">Тел: {settings.company.phone}</p>}
+                {settings.company.bankDetails && <p className="bank-details">Банка: {settings.company.bankDetails}</p>}
               </div>
             </div>
           </div>
           
           <div className="invoice-details">
             <div className="invoice-title">
-              <h1>INVOICE</h1>
-              <div className="invoice-number-display">{invoice.number}</div>
+              <h1>ФАКТУРА</h1>
+              <div className="invoice-number-display">№ {invoice.number}</div>
             </div>
             
             <div className="invoice-dates">
               <div className="date-row">
-                <span className="date-label">Issue Date:</span>
-                <span className="date-value">{format(new Date(invoice.issueDate), 'dd MMM yyyy')}</span>
+                <span className="date-label">Дата на издаване:</span>
+                <span className="date-value">{format(new Date(invoice.issueDate), 'dd.MM.yyyy')}</span>
               </div>
               <div className="date-row">
-                <span className="date-label">Due Date:</span>
-                <span className="date-value">{format(new Date(invoice.dueDate), 'dd MMM yyyy')}</span>
+                <span className="date-label">Дата на плащане:</span>
+                <span className="date-value">{format(new Date(invoice.dueDate), 'dd.MM.yyyy')}</span>
               </div>
+              {invoice.transactionBasis && (
+                <div className="date-row">
+                  <span className="date-label">Основание за сделката:</span>
+                  <span className="date-value">{invoice.transactionBasis}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         {/* Client Information */}
         <div className="client-section">
-          <h3 className="section-title">Bill To:</h3>
+          <h3 className="section-title">Получател:</h3>
           <div className="client-card">
-            <h4 className="client-name">{invoice.client?.name || 'Unknown Client'}</h4>
+            <h4 className="client-name">{invoice.client?.name || 'Неизвестен клиент'}</h4>
             <div className="client-details">
               {invoice.client?.company && <p className="client-company">{invoice.client.company}</p>}
               {invoice.client?.email && <p className="client-email">{invoice.client.email}</p>}
@@ -315,7 +325,8 @@ const InvoicePreview = () => {
                 <p className="client-location">{invoice.client.postalCode} {invoice.client.city}</p>
               )}
               {invoice.client?.country && <p className="client-country">{invoice.client.country}</p>}
-              {invoice.client?.vatNumber && <p className="client-vat">VAT: {invoice.client.vatNumber}</p>}
+              {invoice.client?.vatNumber && <p className="client-vat">ДДС номер: {invoice.client.vatNumber}</p>}
+              {invoice.client?.idNumber && <p className="client-id">ЕГН/Булстат: {invoice.client.idNumber}</p>}
             </div>
           </div>
         </div>
@@ -324,10 +335,10 @@ const InvoicePreview = () => {
         <div className="invoice-items-section">
           <div className="items-table">
             <div className="table-header">
-              <div className="header-cell description">Description</div>
-              <div className="header-cell quantity">Quantity</div>
-              <div className="header-cell rate">Rate</div>
-              <div className="header-cell amount">Amount</div>
+              <div className="header-cell description">Описание</div>
+              <div className="header-cell quantity">Количество</div>
+              <div className="header-cell rate">Единична цена</div>
+              <div className="header-cell amount">Сума</div>
             </div>
             
             <div className="table-body">
@@ -342,7 +353,7 @@ const InvoicePreview = () => {
                   <div className="table-cell description">
                     <div className="item-info">
                       <span className="item-name">{item.description}</span>
-                      {item.unit && <span className="item-unit">per {item.unit}</span>}
+                      {item.unit && <span className="item-unit">за {item.unit}</span>}
                     </div>
                   </div>
                   <div className="table-cell quantity">
@@ -364,35 +375,79 @@ const InvoicePreview = () => {
         <div className="invoice-totals">
           <div className="totals-table">
             <div className="total-row subtotal">
-              <span className="total-label">Subtotal:</span>
+              <span className="total-label">Междинна сума:</span>
               <span className="total-value">{formatCurrency(totals.subtotal)}</span>
             </div>
             
             {totals.discount > 0 && (
               <div className="total-row discount">
                 <span className="total-label">
-                  Discount {totals.discountType === 'percentage' ? `(${totals.discountValue}%)` : ''}:
+                  Отстъпка {totals.discountType === 'percentage' ? `(${totals.discountValue}%)` : ''}:
                 </span>
                 <span className="total-value discount-value">-{formatCurrency(totals.discount)}</span>
               </div>
             )}
             
             <div className="total-row vat">
-              <span className="total-label">VAT ({totals.vatRate}%):</span>
+              <span className="total-label">ДДС ({totals.vatRate}%):</span>
               <span className="total-value">{formatCurrency(totals.vat)}</span>
             </div>
             
             <div className="total-row grand-total">
-              <span className="total-label">Total:</span>
+              <span className="total-label">Обща сума:</span>
               <span className="total-value">{formatCurrency(totals.total)}</span>
             </div>
           </div>
         </div>
 
+        {/* Amount in Words */}
+        <div className="amount-in-words">
+          <p><strong>Сума с думи:</strong> {convertToBulgarianWords(totals.total)}</p>
+        </div>
+
+        {/* Payment Method */}
+        {invoice.paymentMethod && (
+          <div className="payment-method">
+            <p><strong>Начин на плащане:</strong> {invoice.paymentMethod}</p>
+          </div>
+        )}
+
+        {/* Bank Details */}
+        <div className="bank-details-section">
+          <h4>Банкови детайли:</h4>
+          <div className="bank-details-grid">
+            {settings.company.iban && (
+              <div className="bank-detail">
+                <span className="label">IBAN:</span>
+                <span className="value">{settings.company.iban}</span>
+              </div>
+            )}
+            {settings.company.bank && (
+              <div className="bank-detail">
+                <span className="label">Банка:</span>
+                <span className="value">{settings.company.bank}</span>
+              </div>
+            )}
+            {settings.company.bankCode && (
+              <div className="bank-detail">
+                <span className="label">Банков код:</span>
+                <span className="value">{settings.company.bankCode}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Place of Issue */}
+        {invoice.place && (
+          <div className="place-of-issue">
+            <p><strong>Място на издаване:</strong> {invoice.place}</p>
+          </div>
+        )}
+
         {/* Invoice Notes */}
         {invoice.notes && (
           <div className="invoice-notes">
-            <h4>Notes:</h4>
+            <h4>Бележки:</h4>
             <p>{invoice.notes}</p>
           </div>
         )}
@@ -400,10 +455,18 @@ const InvoicePreview = () => {
         {/* Invoice Terms */}
         {invoice.terms && (
           <div className="invoice-terms">
-            <h4>Terms & Conditions:</h4>
+            <h4>Условия:</h4>
             <p>{invoice.terms}</p>
           </div>
         )}
+
+        {/* Legal Disclaimer */}
+        <div className="legal-disclaimer">
+          <p><small>
+            Тази фактура е издадена съгласно Закона за счетоводството и Закона за ДДС. 
+            Плащането трябва да бъде извършено в срок до {format(new Date(invoice.dueDate), 'dd.MM.yyyy')}.
+          </small></p>
+        </div>
       </motion.div>
     </div>
   )

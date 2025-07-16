@@ -50,7 +50,12 @@ const Settings = () => {
       companyPostalCode: settings.company.postalCode,
       companyCountry: settings.company.country,
       companyVatNumber: settings.company.vatNumber,
+      companyIdNumber: settings.company.idNumber || '',
+      companyManager: settings.company.manager || '',
+      companyPhone: settings.company.phone || '',
       companyIban: settings.company.iban,
+      companyBank: settings.company.bank || '',
+      companyBankCode: settings.company.bankCode || '',
       
       // Invoice settings
       invoicePrefix: settings.invoice.prefix,
@@ -75,7 +80,12 @@ const Settings = () => {
           postalCode: data.companyPostalCode,
           country: data.companyCountry,
           vatNumber: data.companyVatNumber,
+          idNumber: data.companyIdNumber,
+          manager: data.companyManager,
+          phone: data.companyPhone,
           iban: data.companyIban,
+          bank: data.companyBank,
+          bankCode: data.companyBankCode,
           logo: settings.company.logo
         },
         invoice: {
@@ -335,14 +345,45 @@ const Settings = () => {
 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>VAT Number</label>
+                    <label>VAT Number (ДДС №)</label>
                     <input
                       type="text"
                       {...register('companyVatNumber')}
-                      placeholder="Enter VAT number"
+                      placeholder="e.g., BG123456789"
                     />
                   </div>
 
+                  <div className="form-group">
+                    <label>ID Number (Идент. №)</label>
+                    <input
+                      type="text"
+                      {...register('companyIdNumber')}
+                      placeholder="Enter company ID number"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>Manager (МОЛ)</label>
+                    <input
+                      type="text"
+                      {...register('companyManager')}
+                      placeholder="Enter manager name"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Phone</label>
+                    <input
+                      type="text"
+                      {...register('companyPhone')}
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-grid">
                   <div className="form-group">
                     <label>
                       <FiCreditCard />
@@ -354,6 +395,24 @@ const Settings = () => {
                       placeholder="Enter IBAN"
                     />
                   </div>
+
+                  <div className="form-group">
+                    <label>Bank</label>
+                    <input
+                      type="text"
+                      {...register('companyBank')}
+                      placeholder="e.g., Банка ДСК"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Bank Code</label>
+                  <input
+                    type="text"
+                    {...register('companyBankCode')}
+                    placeholder="e.g., STSABGSF"
+                  />
                 </div>
               </div>
             </motion.div>

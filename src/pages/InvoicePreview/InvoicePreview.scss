@@ -300,6 +300,14 @@
         font-weight: 500;
         opacity: 1;
       }
+      
+      .id-number,
+      .manager,
+      .phone,
+      .bank-details {
+        font-weight: 500;
+        opacity: 1;
+      }
     }
   }
 }
@@ -630,6 +638,126 @@
     color: $text-secondary;
     line-height: 1.6;
     margin: 0;
+  }
+}
+
+// Bulgarian Legal Fields
+.amount-in-words,
+.payment-method,
+.place-of-issue {
+  padding: 1.5rem 3rem;
+  border-top: 1px solid $border-light;
+  background: $bg-secondary;
+  
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    
+    strong {
+      color: $text-color;
+      font-weight: 600;
+    }
+  }
+}
+
+.amount-in-words {
+  background: linear-gradient(135deg, rgba($primary-color, 0.05) 0%, rgba($primary-color, 0.02) 100%);
+  border-left: 4px solid $primary-color;
+  
+  p {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $text-color;
+  }
+}
+
+.payment-method,
+.place-of-issue {
+  p {
+    color: $text-secondary;
+  }
+}
+
+.bank-details-section {
+  padding: 1.5rem 3rem;
+  border-top: 1px solid $border-light;
+  background: $bg-secondary;
+  
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+  }
+  
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $text-color;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .bank-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    
+    .bank-detail {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid $border-light;
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+      }
+      
+      .label {
+        font-weight: 600;
+        color: $text-color;
+        font-size: 0.875rem;
+      }
+      
+      .value {
+        font-weight: 500;
+        color: $primary-color;
+        font-size: 0.875rem;
+        font-family: 'Courier New', monospace;
+      }
+    }
+  }
+}
+
+.legal-disclaimer {
+  padding: 2rem 3rem;
+  background: $bg-secondary;
+  border-top: 1px solid $border-light;
+  text-align: center;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem 2rem;
+  }
+  
+  p {
+    margin: 0;
+    color: $text-secondary;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    opacity: 0.8;
   }
 }
 
