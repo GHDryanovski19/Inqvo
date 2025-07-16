@@ -145,25 +145,49 @@ export const lightenColor = (hex, amount) => {
 
 // Preset themes
 export const presetThemes = {
-  defaultGreen: {
-    primaryColor: '#98C93C',
-    secondaryColor: '#2A9245',
-    successColor: '#10b981',
+  modernGreen: {
+    primaryColor: '#10b981',
+    secondaryColor: '#059669',
+    successColor: '#059669',
     warningColor: '#f59e0b',
     errorColor: '#ef4444',
     infoColor: '#3b82f6'
   },
   professionalBlue: {
-    primaryColor: '#6366f1',
-    secondaryColor: '#4f46e5',
+    primaryColor: '#3b82f6',
+    secondaryColor: '#1d4ed8',
+    successColor: '#10b981',
+    warningColor: '#f59e0b',
+    errorColor: '#ef4444',
+    infoColor: '#6366f1'
+  },
+  elegantPurple: {
+    primaryColor: '#8b5cf6',
+    secondaryColor: '#7c3aed',
     successColor: '#10b981',
     warningColor: '#f59e0b',
     errorColor: '#ef4444',
     infoColor: '#3b82f6'
   },
-  creativeOrange: {
-    primaryColor: '#f97316',
-    secondaryColor: '#ea580c',
+  corporateGray: {
+    primaryColor: '#6b7280',
+    secondaryColor: '#4b5563',
+    successColor: '#10b981',
+    warningColor: '#f59e0b',
+    errorColor: '#ef4444',
+    infoColor: '#3b82f6'
+  },
+  vibrantTeal: {
+    primaryColor: '#14b8a6',
+    secondaryColor: '#0d9488',
+    successColor: '#10b981',
+    warningColor: '#f59e0b',
+    errorColor: '#ef4444',
+    infoColor: '#3b82f6'
+  },
+  warmAmber: {
+    primaryColor: '#f59e0b',
+    secondaryColor: '#d97706',
     successColor: '#10b981',
     warningColor: '#f59e0b',
     errorColor: '#ef4444',

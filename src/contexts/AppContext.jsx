@@ -40,9 +40,9 @@ const initialState = {
       includeQR: true
     },
     theme: {
-      primaryColor: '#98C93C',
-      secondaryColor: '#2A9245',
-      successColor: '#10b981',
+      primaryColor: '#10b981',
+      secondaryColor: '#059669',
+      successColor: '#059669',
       warningColor: '#f59e0b',
       errorColor: '#ef4444',
       infoColor: '#3b82f6'
@@ -183,9 +183,9 @@ const appReducer = (state, action) => {
             includeQR: false
           },
           theme: {
-            primaryColor: '#98C93C',
-            secondaryColor: '#2A9245',
-            successColor: '#10b981',
+            primaryColor: '#10b981',
+            secondaryColor: '#059669',
+            successColor: '#059669',
             warningColor: '#f59e0b',
             errorColor: '#ef4444',
             infoColor: '#3b82f6'

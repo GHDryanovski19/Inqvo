@@ -841,10 +841,9 @@ const Settings = () => {
                 <p>Quick apply predefined color schemes</p>
                 
                 <div className="theme-presets">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      const theme = applyPresetTheme('defaultGreen')
+                  <div className="theme-preset-grid">
+                    <div className="theme-preset-card" onClick={() => {
+                      const theme = applyPresetTheme('modernGreen')
                       if (theme) {
                         setValue('primaryColor', theme.primaryColor)
                         setValue('secondaryColor', theme.secondaryColor)
@@ -852,17 +851,21 @@ const Settings = () => {
                         setValue('warningColor', theme.warningColor)
                         setValue('errorColor', theme.errorColor)
                         setValue('infoColor', theme.infoColor)
-                        toast.success('Default Green theme applied! 🎨')
+                        toast.success('Modern Green theme applied! 🎨')
                       }
-                    }}
-                  >
-                    <FiCheck />
-                    Default Green
-                  </Button>
-                  
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
+                    }}>
+                      <div className="theme-preview">
+                        <div className="color-swatch primary" style={{ backgroundColor: '#10b981' }}></div>
+                        <div className="color-swatch secondary" style={{ backgroundColor: '#059669' }}></div>
+                        <div className="color-swatch accent" style={{ backgroundColor: '#3b82f6' }}></div>
+                      </div>
+                      <div className="theme-info">
+                        <h4>Modern Green</h4>
+                        <p>Clean and professional</p>
+                      </div>
+                    </div>
+                    
+                    <div className="theme-preset-card" onClick={() => {
                       const theme = applyPresetTheme('professionalBlue')
                       if (theme) {
                         setValue('primaryColor', theme.primaryColor)
@@ -873,16 +876,20 @@ const Settings = () => {
                         setValue('infoColor', theme.infoColor)
                         toast.success('Professional Blue theme applied! 🎨')
                       }
-                    }}
-                  >
-                    <FiCheck />
-                    Professional Blue
-                  </Button>
-                  
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      const theme = applyPresetTheme('creativeOrange')
+                    }}>
+                      <div className="theme-preview">
+                        <div className="color-swatch primary" style={{ backgroundColor: '#3b82f6' }}></div>
+                        <div className="color-swatch secondary" style={{ backgroundColor: '#1d4ed8' }}></div>
+                        <div className="color-swatch accent" style={{ backgroundColor: '#6366f1' }}></div>
+                      </div>
+                      <div className="theme-info">
+                        <h4>Professional Blue</h4>
+                        <p>Trustworthy and corporate</p>
+                      </div>
+                    </div>
+                    
+                    <div className="theme-preset-card" onClick={() => {
+                      const theme = applyPresetTheme('elegantPurple')
                       if (theme) {
                         setValue('primaryColor', theme.primaryColor)
                         setValue('secondaryColor', theme.secondaryColor)
@@ -890,13 +897,89 @@ const Settings = () => {
                         setValue('warningColor', theme.warningColor)
                         setValue('errorColor', theme.errorColor)
                         setValue('infoColor', theme.infoColor)
-                        toast.success('Creative Orange theme applied! 🎨')
+                        toast.success('Elegant Purple theme applied! 🎨')
                       }
-                    }}
-                  >
-                    <FiCheck />
-                    Creative Orange
-                  </Button>
+                    }}>
+                      <div className="theme-preview">
+                        <div className="color-swatch primary" style={{ backgroundColor: '#8b5cf6' }}></div>
+                        <div className="color-swatch secondary" style={{ backgroundColor: '#7c3aed' }}></div>
+                        <div className="color-swatch accent" style={{ backgroundColor: '#3b82f6' }}></div>
+                      </div>
+                      <div className="theme-info">
+                        <h4>Elegant Purple</h4>
+                        <p>Creative and sophisticated</p>
+                      </div>
+                    </div>
+                    
+                    <div className="theme-preset-card" onClick={() => {
+                      const theme = applyPresetTheme('corporateGray')
+                      if (theme) {
+                        setValue('primaryColor', theme.primaryColor)
+                        setValue('secondaryColor', theme.secondaryColor)
+                        setValue('successColor', theme.successColor)
+                        setValue('warningColor', theme.warningColor)
+                        setValue('errorColor', theme.errorColor)
+                        setValue('infoColor', theme.infoColor)
+                        toast.success('Corporate Gray theme applied! 🎨')
+                      }
+                    }}>
+                      <div className="theme-preview">
+                        <div className="color-swatch primary" style={{ backgroundColor: '#6b7280' }}></div>
+                        <div className="color-swatch secondary" style={{ backgroundColor: '#4b5563' }}></div>
+                        <div className="color-swatch accent" style={{ backgroundColor: '#3b82f6' }}></div>
+                      </div>
+                      <div className="theme-info">
+                        <h4>Corporate Gray</h4>
+                        <p>Neutral and balanced</p>
+                      </div>
+                    </div>
+                    
+                    <div className="theme-preset-card" onClick={() => {
+                      const theme = applyPresetTheme('vibrantTeal')
+                      if (theme) {
+                        setValue('primaryColor', theme.primaryColor)
+                        setValue('secondaryColor', theme.secondaryColor)
+                        setValue('successColor', theme.successColor)
+                        setValue('warningColor', theme.warningColor)
+                        setValue('errorColor', theme.errorColor)
+                        setValue('infoColor', theme.infoColor)
+                        toast.success('Vibrant Teal theme applied! 🎨')
+                      }
+                    }}>
+                      <div className="theme-preview">
+                        <div className="color-swatch primary" style={{ backgroundColor: '#14b8a6' }}></div>
+                        <div className="color-swatch secondary" style={{ backgroundColor: '#0d9488' }}></div>
+                        <div className="color-swatch accent" style={{ backgroundColor: '#3b82f6' }}></div>
+                      </div>
+                      <div className="theme-info">
+                        <h4>Vibrant Teal</h4>
+                        <p>Modern and energetic</p>
+                      </div>
+                    </div>
+                    
+                    <div className="theme-preset-card" onClick={() => {
+                      const theme = applyPresetTheme('warmAmber')
+                      if (theme) {
+                        setValue('primaryColor', theme.primaryColor)
+                        setValue('secondaryColor', theme.secondaryColor)
+                        setValue('successColor', theme.successColor)
+                        setValue('warningColor', theme.warningColor)
+                        setValue('errorColor', theme.errorColor)
+                        setValue('infoColor', theme.infoColor)
+                        toast.success('Warm Amber theme applied! 🎨')
+                      }
+                    }}>
+                      <div className="theme-preview">
+                        <div className="color-swatch primary" style={{ backgroundColor: '#f59e0b' }}></div>
+                        <div className="color-swatch secondary" style={{ backgroundColor: '#d97706' }}></div>
+                        <div className="color-swatch accent" style={{ backgroundColor: '#3b82f6' }}></div>
+                      </div>
+                      <div className="theme-info">
+                        <h4>Warm Amber</h4>
+                        <p>Friendly and approachable</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

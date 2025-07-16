@@ -292,10 +292,69 @@
 }
 
 .theme-presets {
-  display: flex;
-  gap: $spacing-md;
-  flex-wrap: wrap;
-  margin-top: $spacing-md;
+  .theme-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-lg;
+    margin-top: $spacing-md;
+  }
+  
+  .theme-preset-card {
+    background: $surface-color;
+    border: 2px solid $border-light;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: var(--primary-color, $primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .theme-preview {
+      display: flex;
+      gap: $spacing-xs;
+      margin-bottom: $spacing-md;
+      
+      .color-swatch {
+        width: 24px;
+        height: 24px;
+        border-radius: $radius-sm;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        
+        &.primary {
+          flex: 2;
+        }
+        
+        &.secondary {
+          flex: 1;
+        }
+        
+        &.accent {
+          flex: 1;
+        }
+      }
+    }
+    
+    .theme-info {
+      h4 {
+        margin: 0 0 $spacing-xs 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: $text-color;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: $text-secondary;
+        line-height: 1.4;
+      }
+    }
+  }
 }
 
 // Data Management

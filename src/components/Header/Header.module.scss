@@ -4,7 +4,7 @@
 @use '../../styles/animations' as *;
 
 .header {
-  background: linear-gradient(135deg, $primary-color 0%, #2A9245 100%);
+  background: var(--primary-color, $primary-color);
   color: white;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   position: sticky;
