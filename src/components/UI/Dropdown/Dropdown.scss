@@ -1,5 +1,6 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
+@use '../../../styles/animations' as *;
 
 .dropdown-container {
   position: relative;
@@ -27,7 +28,7 @@
   border: 2px solid $border-light;
   border-radius: $radius-lg;
   cursor: pointer;
-  transition: all $transition-normal;
+  @include smooth-transition;
   user-select: none;
   
   // Remove default focus outline

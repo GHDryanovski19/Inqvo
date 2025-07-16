@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { IoChevronUp, IoChevronDown } from 'react-icons/io5';
+import { IoChevronUp } from 'react-icons/io5';
+import { buttonHover, DURATION, EASING } from '../../../utils/animations';
 import './SortDirectionButton.scss';
 
 const SortDirectionButton = ({ 
@@ -20,14 +21,14 @@ const SortDirectionButton = ({
       <motion.button
         className={`sort-direction-button sort-direction-button--chevron ${className}`}
         onClick={handleClick}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.2 }}
+        variants={buttonHover}
+        whileHover="hover"
+        whileTap="tap"
       >
-        <motion.div
+        <motion.div 
           className="sort-direction-button__icon-wrapper"
           animate={{ rotate: isAscending ? 0 : 180 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: DURATION.NORMAL, ease: EASING.SMOOTH }}
         >
           <IoChevronUp className="sort-direction-button__icon" />
         </motion.div>
@@ -39,14 +40,14 @@ const SortDirectionButton = ({
     <motion.button
       className={`sort-direction-button sort-direction-button--arrow ${className}`}
       onClick={handleClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.2 }}
+      variants={buttonHover}
+      whileHover="hover"
+      whileTap="tap"
     >
-      <motion.div
+      <motion.div 
         className="sort-direction-button__icon-wrapper"
         animate={{ rotate: isAscending ? 0 : 180 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ duration: DURATION.NORMAL, ease: EASING.SMOOTH }}
       >
         <span className="sort-direction-button__arrow">
           {isAscending ? '↑' : '↓'}

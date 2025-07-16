@@ -1,0 +1,298 @@
+@use 'variables' as *;
+
+// ============================================================================
+// CENTRALIZED ANIMATION CONFIGURATION
+// ============================================================================
+
+// Animation Durations
+$animation-duration-fast: 0.15s;
+$animation-duration-normal: 0.25s;
+$animation-duration-slow: 0.35s;
+
+// Animation Easing Functions
+$ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ============================================================================
+// ENTERPRISE-APPROPRIATE ANIMATIONS
+// ============================================================================
+
+// Button Hover Effects (No scaling)
+@mixin button-hover {
+  transition: all $animation-duration-fast $ease-smooth;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Card Hover Effects (No scaling)
+@mixin card-hover {
+  transition: all $animation-duration-normal $ease-smooth;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// Subtle Fade In
+@mixin fade-in {
+  animation: fadeIn $animation-duration-normal $ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Subtle Slide Up
+@mixin slide-up {
+  animation: slideUp $animation-duration-normal $ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Subtle Slide Down
+@mixin slide-down {
+  animation: slideDown $animation-duration-normal $ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Subtle Slide Left
+@mixin slide-left {
+  animation: slideLeft $animation-duration-normal $ease-out;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Subtle Slide Right
+@mixin slide-right {
+  animation: slideRight $animation-duration-normal $ease-out;
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Smooth Color Transition
+@mixin color-transition {
+  transition: color $animation-duration-fast $ease-smooth,
+              background-color $animation-duration-fast $ease-smooth,
+              border-color $animation-duration-fast $ease-smooth;
+}
+
+// Smooth Opacity Transition
+@mixin opacity-transition {
+  transition: opacity $animation-duration-fast $ease-smooth;
+}
+
+// Smooth Transform Transition (No scaling)
+@mixin transform-transition {
+  transition: transform $animation-duration-fast $ease-smooth;
+}
+
+// Smooth Box Shadow Transition
+@mixin shadow-transition {
+  transition: box-shadow $animation-duration-fast $ease-smooth;
+}
+
+// Smooth All Properties Transition
+@mixin smooth-transition {
+  transition: all $animation-duration-fast $ease-smooth;
+}
+
+// ============================================================================
+// INTERACTIVE ELEMENTS (ENTERPRISE STYLE)
+// ============================================================================
+
+// Interactive Button (No scaling)
+@mixin interactive-button {
+  @include smooth-transition;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($primary-rgb, 0.2);
+  }
+}
+
+// Interactive Card (No scaling)
+@mixin interactive-card {
+  @include smooth-transition;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// Interactive Link (No scaling)
+@mixin interactive-link {
+  @include color-transition;
+  
+  &:hover {
+    color: $primary-color;
+  }
+  
+  &:focus {
+    outline: none;
+    text-decoration: underline;
+  }
+}
+
+// Interactive Icon (No scaling)
+@mixin interactive-icon {
+  @include color-transition;
+  
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+// ============================================================================
+// LOADING STATES
+// ============================================================================
+
+// Subtle Pulse (No scaling)
+@mixin subtle-pulse {
+  animation: subtlePulse 2s $ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// Subtle Shimmer
+@mixin shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// ============================================================================
+// UTILITY CLASSES
+// ============================================================================
+
+.animate-fade-in {
+  @include fade-in;
+}
+
+.animate-slide-up {
+  @include slide-up;
+}
+
+.animate-slide-down {
+  @include slide-down;
+}
+
+.animate-slide-left {
+  @include slide-left;
+}
+
+.animate-slide-right {
+  @include slide-right;
+}
+
+.animate-subtle-pulse {
+  @include subtle-pulse;
+}
+
+.animate-shimmer {
+  @include shimmer;
+}
+
+.transition-smooth {
+  @include smooth-transition;
+}
+
+.transition-color {
+  @include color-transition;
+}
+
+.transition-opacity {
+  @include opacity-transition;
+}
+
+.transition-transform {
+  @include transform-transition;
+}
+
+.transition-shadow {
+  @include shadow-transition;
+} 

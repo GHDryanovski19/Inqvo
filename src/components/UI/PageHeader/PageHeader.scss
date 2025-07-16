@@ -1,5 +1,6 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
+@use '../../../styles/animations' as *;
 
 .page-header {
   background: $surface-color;

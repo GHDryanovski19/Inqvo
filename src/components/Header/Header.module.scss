@@ -1,6 +1,7 @@
 @use 'sass:color';
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
+@use '../../styles/animations' as *;
 
 .header {
   background: linear-gradient(135deg, $primary-color 0%, #2A9245 100%);

@@ -1,6 +1,7 @@
 @use 'sass:color';
 @use 'variables' as *;
 @use 'mixins' as *;
+@use 'animations' as *;
 
 // Reset and base styles
 * {
@@ -58,11 +59,7 @@ p {
 a {
   color: $primary-color;
   text-decoration: none;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: #2A9245; // Use the darker green directly instead of color.adjust
-  }
+  @include interactive-link;
 }
 
 // Form elements
@@ -73,7 +70,7 @@ input, textarea, select {
   border: 1px solid $border-color;
   border-radius: 8px;
   background: white;
-  transition: all 0.2s ease;
+  @include smooth-transition;
 
   &:focus {
     outline: none;
@@ -94,11 +91,11 @@ button {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  @include interactive-button;
 
   &:disabled {
     opacity: 0.6;
@@ -179,31 +176,6 @@ button {
 @include desktop {
   .hide-desktop { display: none !important; }
   .show-desktop { display: block !important; }
-}
-
-// Animation classes
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.slide-up {
-  animation: slideUp 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 // Print styles

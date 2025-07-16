@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use '../../../styles/variables' as *;
 
 .sort-direction-button {
   display: inline-flex;
@@ -8,30 +8,12 @@
   height: 32px;
   padding: 0;
   border: 1px solid $border-color;
-  border-radius: $border-radius;
-  background: $white;
+  border-radius: $radius-md;
+  background: $surface-color;
   color: $text-color;
   cursor: pointer;
-  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
-
-  &:hover {
-    border-color: $primary-color;
-    background: $primary-color;
-    color: $white;
-    box-shadow: 0 2px 8px rgba($primary-rgb, 0.3);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: $primary-color;
-    box-shadow: 0 0 0 2px rgba($primary-rgb, 0.2);
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
 
   &__icon-wrapper {
     display: flex;
@@ -44,14 +26,12 @@
   &__icon {
     width: 16px;
     height: 16px;
-    transition: color 0.2s ease;
   }
 
   &__arrow {
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
-    transition: color 0.2s ease;
   }
 
   // Chevron variant

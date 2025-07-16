@@ -1,5 +1,6 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
+@use '../../../styles/animations' as *;
 @use 'sass:color';
 
 .btn {
@@ -13,14 +14,9 @@
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: all $transition-fast;
   position: relative;
   overflow: hidden;
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px color.adjust($primary-rgb, $alpha: 0.2);
-  }
+  @include interactive-button;
   
   // Sizes
   &--sm {
@@ -48,13 +44,6 @@
     
     &:hover:not(.btn--disabled) {
       background: $primary-dark;
-      transform: translateY(-1px);
-      box-shadow: $shadow-md;
-    }
-    
-    &:active:not(.btn--disabled) {
-      transform: translateY(0);
-      box-shadow: $shadow-sm;
     }
   }
   
@@ -96,8 +85,6 @@
     
     &:hover:not(.btn--disabled) {
       background: $error-dark;
-      transform: translateY(-1px);
-      box-shadow: $shadow-md;
     }
   }
   
@@ -136,7 +123,7 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  transition: opacity $transition-fast;
+  @include opacity-transition;
 }
 
 @keyframes spin {
