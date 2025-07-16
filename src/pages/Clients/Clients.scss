@@ -111,9 +111,9 @@
       justify-content: center;
       width: 56px;
       height: 56px;
-      background: linear-gradient(135deg, $primary-color 0%, #a8d056 100%);
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
       border-radius: $radius-lg;
-      color: white;
+      color: $primary-color;
       
       svg {
         width: 24px;
