@@ -16,7 +16,13 @@ import {
   FiLock,
   FiUnlock,
   FiTrash2,
-  FiRefreshCw
+  FiRefreshCw,
+  FiHash,
+  FiDollarSign,
+  FiCalendar,
+  FiUsers,
+  FiAlertTriangle,
+  FiCheck
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
@@ -68,10 +74,18 @@ const Settings = () => {
       invoiceVatRate: settings.invoice.vatRate,
       invoiceLanguage: settings.invoice.language,
       invoiceIncludeQR: settings.invoice.includeQR,
+      invoiceCurrency: settings.invoice.currency || 'EUR',
+      invoicePaymentTerms: settings.invoice.paymentTerms || 30,
+      invoiceAutoNumber: settings.invoice.autoNumber || false,
+      invoiceShowTaxBreakdown: settings.invoice.showTaxBreakdown || false,
       
       // Theme settings
       primaryColor: settings.theme.primaryColor,
-      secondaryColor: settings.theme.secondaryColor
+      secondaryColor: settings.theme.secondaryColor,
+      successColor: settings.theme.successColor || '#10b981',
+      warningColor: settings.theme.warningColor || '#f59e0b',
+      errorColor: settings.theme.errorColor || '#ef4444',
+      infoColor: settings.theme.infoColor || '#3b82f6'
     }
   })
 
@@ -117,14 +131,21 @@ const Settings = () => {
         invoice: {
           prefix: data.invoicePrefix,
           nextNumber: parseInt(data.invoiceNextNumber),
-          currency: 'EUR',
+          currency: data.invoiceCurrency,
           vatRate: parseFloat(data.invoiceVatRate),
           language: data.invoiceLanguage,
-          includeQR: data.invoiceIncludeQR
+          includeQR: data.invoiceIncludeQR,
+          paymentTerms: parseInt(data.invoicePaymentTerms) || 30,
+          autoNumber: data.invoiceAutoNumber,
+          showTaxBreakdown: data.invoiceShowTaxBreakdown
         },
         theme: {
           primaryColor: data.primaryColor,
-          secondaryColor: data.secondaryColor
+          secondaryColor: data.secondaryColor,
+          successColor: data.successColor,
+          warningColor: data.warningColor,
+          errorColor: data.errorColor,
+          infoColor: data.infoColor
         }
       }
 
@@ -449,18 +470,29 @@ const Settings = () => {
               <p>Configure default invoice settings and preferences</p>
 
               <div className="form-section">
+                <h3>Invoice Numbering</h3>
+                <p>Set up how your invoices are numbered and formatted</p>
+                
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Invoice Prefix</label>
+                    <label>
+                      <FiHash />
+                      Invoice Prefix
+                    </label>
                     <input
                       type="text"
                       {...register('invoicePrefix')}
                       placeholder="e.g., INV"
+                      maxLength={10}
                     />
+                    <small>Prefix for invoice numbers (e.g., INV-2024-001)</small>
                   </div>
 
                   <div className="form-group">
-                    <label>Next Invoice Number</label>
+                    <label>
+                      <FiHash />
+                      Next Invoice Number
+                    </label>
                     <input
                       type="number"
                       min="1"
@@ -469,14 +501,19 @@ const Settings = () => {
                         min: { value: 1, message: 'Number must be positive' }
                       })}
                       className={errors.invoiceNextNumber ? 'error' : ''}
+                      placeholder="1"
                     />
                     {errors.invoiceNextNumber && <span className="error-message">{errors.invoiceNextNumber.message}</span>}
+                    <small>Next sequential number to use</small>
                   </div>
                 </div>
 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Default VAT Rate (%)</label>
+                    <label>
+                      <FiDollarSign />
+                      Default VAT Rate (%)
+                    </label>
                     <input
                       type="number"
                       min="0"
@@ -488,12 +525,17 @@ const Settings = () => {
                         max: { value: 100, message: 'VAT rate cannot exceed 100%' }
                       })}
                       className={errors.invoiceVatRate ? 'error' : ''}
+                      placeholder="20"
                     />
                     {errors.invoiceVatRate && <span className="error-message">{errors.invoiceVatRate.message}</span>}
+                    <small>Default VAT rate applied to new invoices</small>
                   </div>
 
                   <div className="form-group">
-                    <label>Language</label>
+                    <label>
+                      <FiGlobe />
+                      Invoice Language
+                    </label>
                     <Dropdown
                       options={[
                         { value: 'en', label: 'English' },
@@ -503,6 +545,46 @@ const Settings = () => {
                       onChange={(value) => setValue('invoiceLanguage', value)}
                       placeholder="Select language..."
                     />
+                    <small>Language used for invoice templates</small>
+                  </div>
+                </div>
+
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>
+                      <FiCreditCard />
+                      Currency
+                    </label>
+                    <Dropdown
+                      options={[
+                        { value: 'EUR', label: 'Euro (€)' },
+                        { value: 'USD', label: 'US Dollar ($)' },
+                        { value: 'BGN', label: 'Bulgarian Lev (лв)' },
+                        { value: 'GBP', label: 'British Pound (£)' }
+                      ]}
+                      value={watch('invoiceCurrency') || 'EUR'}
+                      onChange={(value) => setValue('invoiceCurrency', value)}
+                      placeholder="Select currency..."
+                    />
+                    <small>Default currency for invoices</small>
+                  </div>
+
+                  <div className="form-group">
+                    <label>
+                      <FiCalendar />
+                      Payment Terms (Days)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="365"
+                      {...register('invoicePaymentTerms', { 
+                        min: { value: 1, message: 'Must be at least 1 day' },
+                        max: { value: 365, message: 'Cannot exceed 365 days' }
+                      })}
+                      placeholder="30"
+                    />
+                    <small>Default payment terms in days</small>
                   </div>
                 </div>
 
@@ -513,6 +595,29 @@ const Settings = () => {
                       {...register('invoiceIncludeQR')}
                     />
                     <span>Include QR code for payment</span>
+                    <small>Add QR codes to invoices for easy payment</small>
+                  </label>
+                </div>
+
+                <div className="form-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      {...register('invoiceAutoNumber')}
+                    />
+                    <span>Auto-increment invoice numbers</span>
+                    <small>Automatically increment the next invoice number after saving</small>
+                  </label>
+                </div>
+
+                <div className="form-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      {...register('invoiceShowTaxBreakdown')}
+                    />
+                    <span>Show detailed tax breakdown</span>
+                    <small>Display individual tax components on invoices</small>
                   </label>
                 </div>
               </div>
@@ -529,9 +634,15 @@ const Settings = () => {
               <p>Customize the appearance of your application</p>
 
               <div className="form-section">
+                <h3>Color Scheme</h3>
+                <p>Choose colors that represent your brand</p>
+                
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Primary Color</label>
+                    <label>
+                      <FiDroplet />
+                      Primary Color
+                    </label>
                     <div className="color-input">
                       <input
                         type="color"
@@ -543,12 +654,17 @@ const Settings = () => {
                         {...register('primaryColor')}
                         placeholder="#98C93C"
                         className="color-text"
+                        pattern="^#[0-9A-Fa-f]{6}$"
                       />
                     </div>
+                    <small>Main brand color used throughout the app</small>
                   </div>
 
                   <div className="form-group">
-                    <label>Secondary Color</label>
+                    <label>
+                      <FiDroplet />
+                      Secondary Color
+                    </label>
                     <div className="color-input">
                       <input
                         type="color"
@@ -560,18 +676,190 @@ const Settings = () => {
                         {...register('secondaryColor')}
                         placeholder="#2A9245"
                         className="color-text"
+                        pattern="^#[0-9A-Fa-f]{6}$"
                       />
                     </div>
+                    <small>Accent color for highlights and secondary elements</small>
                   </div>
                 </div>
 
-                <div className="theme-preview">
-                  <h3>Preview</h3>
-                  <div className="preview-buttons">
-                    <Button variant="primary">Primary Button</Button>
-                    <Button variant="secondary">Secondary Button</Button>
-                    <Button variant="outline">Outline Button</Button>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>
+                      <FiDroplet />
+                      Success Color
+                    </label>
+                    <div className="color-input">
+                      <input
+                        type="color"
+                        {...register('successColor')}
+                        className="color-picker"
+                      />
+                      <input
+                        type="text"
+                        {...register('successColor')}
+                        placeholder="#10b981"
+                        className="color-text"
+                        pattern="^#[0-9A-Fa-f]{6}$"
+                      />
+                    </div>
+                    <small>Color for success states and positive actions</small>
                   </div>
+
+                  <div className="form-group">
+                    <label>
+                      <FiDroplet />
+                      Warning Color
+                    </label>
+                    <div className="color-input">
+                      <input
+                        type="color"
+                        {...register('warningColor')}
+                        className="color-picker"
+                      />
+                      <input
+                        type="text"
+                        {...register('warningColor')}
+                        placeholder="#f59e0b"
+                        className="color-text"
+                        pattern="^#[0-9A-Fa-f]{6}$"
+                      />
+                    </div>
+                    <small>Color for warnings and caution states</small>
+                  </div>
+                </div>
+
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>
+                      <FiDroplet />
+                      Error Color
+                    </label>
+                    <div className="color-input">
+                      <input
+                        type="color"
+                        {...register('errorColor')}
+                        className="color-picker"
+                      />
+                      <input
+                        type="text"
+                        {...register('errorColor')}
+                        placeholder="#ef4444"
+                        className="color-text"
+                        pattern="^#[0-9A-Fa-f]{6}$"
+                      />
+                    </div>
+                    <small>Color for errors and destructive actions</small>
+                  </div>
+
+                  <div className="form-group">
+                    <label>
+                      <FiDroplet />
+                      Info Color
+                    </label>
+                    <div className="color-input">
+                      <input
+                        type="color"
+                        {...register('infoColor')}
+                        className="color-picker"
+                      />
+                      <input
+                        type="text"
+                        {...register('infoColor')}
+                        placeholder="#3b82f6"
+                        className="color-text"
+                        pattern="^#[0-9A-Fa-f]{6}$"
+                      />
+                    </div>
+                    <small>Color for informational messages and links</small>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3>Theme Preview</h3>
+                <p>See how your color choices look in the interface</p>
+                
+                <div className="theme-preview">
+                  <div className="preview-section">
+                    <h4>Buttons</h4>
+                    <div className="preview-buttons">
+                      <Button variant="primary">Primary Button</Button>
+                      <Button variant="secondary">Secondary Button</Button>
+                      <Button variant="outline">Outline Button</Button>
+                      <Button variant="ghost">Ghost Button</Button>
+                    </div>
+                  </div>
+                  
+                  <div className="preview-section">
+                    <h4>Status Indicators</h4>
+                    <div className="preview-status">
+                      <span className="status-badge status--success">Success</span>
+                      <span className="status-badge status--warning">Warning</span>
+                      <span className="status-badge status--error">Error</span>
+                      <span className="status-badge status--info">Info</span>
+                    </div>
+                  </div>
+                  
+                  <div className="preview-section">
+                    <h4>Form Elements</h4>
+                    <div className="preview-form">
+                      <input type="text" placeholder="Sample input field" />
+                      <Button variant="primary" size="sm">Submit</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3>Preset Themes</h3>
+                <p>Quick apply predefined color schemes</p>
+                
+                <div className="theme-presets">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setValue('primaryColor', '#98C93C')
+                      setValue('secondaryColor', '#2A9245')
+                      setValue('successColor', '#10b981')
+                      setValue('warningColor', '#f59e0b')
+                      setValue('errorColor', '#ef4444')
+                      setValue('infoColor', '#3b82f6')
+                    }}
+                  >
+                    <FiCheck />
+                    Default Green
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setValue('primaryColor', '#6366f1')
+                      setValue('secondaryColor', '#4f46e5')
+                      setValue('successColor', '#10b981')
+                      setValue('warningColor', '#f59e0b')
+                      setValue('errorColor', '#ef4444')
+                      setValue('infoColor', '#3b82f6')
+                    }}
+                  >
+                    <FiCheck />
+                    Professional Blue
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setValue('primaryColor', '#f97316')
+                      setValue('secondaryColor', '#ea580c')
+                      setValue('successColor', '#10b981')
+                      setValue('warningColor', '#f59e0b')
+                      setValue('errorColor', '#ef4444')
+                      setValue('infoColor', '#3b82f6')
+                    }}
+                  >
+                    <FiCheck />
+                    Creative Orange
+                  </Button>
                 </div>
               </div>
             </motion.div>
@@ -587,39 +875,105 @@ const Settings = () => {
               <p>Export, import, and manage your application data</p>
 
               <div className="form-section">
+                <h3>Data Overview</h3>
+                <p>Current data statistics and storage information</p>
+                
+                <div className="data-overview">
+                  <div className="data-stats-grid">
+                    <div className="stat-card">
+                      <div className="stat-icon">
+                        <FiFileText />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-value">{invoices.length}</span>
+                        <span className="stat-label">Total Invoices</span>
+                      </div>
+                    </div>
+                    
+                    <div className="stat-card">
+                      <div className="stat-icon">
+                        <FiUsers />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-value">{clients.length}</span>
+                        <span className="stat-label">Active Clients</span>
+                      </div>
+                    </div>
+                    
+                    <div className="stat-card">
+                      <div className="stat-icon">
+                        <FiDatabase />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-value">
+                          {Math.round((JSON.stringify({ invoices, clients, settings }).length / 1024) * 100) / 100}
+                        </span>
+                        <span className="stat-label">Data Size (KB)</span>
+                      </div>
+                    </div>
+                    
+                    <div className="stat-card">
+                      <div className="stat-icon">
+                        <FiCalendar />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-value">
+                          {invoices.length > 0 ? new Date(invoices[0].createdAt).toLocaleDateString() : 'N/A'}
+                        </span>
+                        <span className="stat-label">Last Activity</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
                 <h3>Export Data</h3>
                 <p>Download your data for backup or transfer purposes</p>
                 
-                <div className="data-actions">
-                  <Button variant="outline" onClick={handleExportData}>
-                    <FiDownload />
-                    Export All Data
-                  </Button>
-                  
-                  <Button variant="outline" onClick={handleExportEncryptedData}>
-                    <FiLock />
-                    Export Encrypted
-                  </Button>
-                  
-                  <Button variant="outline" onClick={handleExportBackup}>
-                    <FiDatabase />
-                    Create Backup
-                  </Button>
-                  
-                  <Button variant="outline" onClick={handleBulkPDFExport}>
-                    <FiDownload />
-                    Export All PDFs
-                  </Button>
-                </div>
-
-                <div className="data-stats">
-                  <div className="stat-item">
-                    <span className="stat-label">Invoices:</span>
-                    <span className="stat-value">{invoices.length}</span>
+                <div className="export-options">
+                  <div className="export-card">
+                    <div className="export-header">
+                      <FiDownload />
+                      <h4>Export All Data</h4>
+                    </div>
+                    <p>Complete backup including invoices, clients, and settings</p>
+                    <Button variant="outline" onClick={handleExportData} fullWidth>
+                      Export JSON
+                    </Button>
                   </div>
-                  <div className="stat-item">
-                    <span className="stat-label">Clients:</span>
-                    <span className="stat-value">{clients.length}</span>
+                  
+                  <div className="export-card">
+                    <div className="export-header">
+                      <FiLock />
+                      <h4>Encrypted Export</h4>
+                    </div>
+                    <p>Password-protected backup for enhanced security</p>
+                    <Button variant="outline" onClick={handleExportEncryptedData} fullWidth>
+                      Export Encrypted
+                    </Button>
+                  </div>
+                  
+                  <div className="export-card">
+                    <div className="export-header">
+                      <FiDatabase />
+                      <h4>Create Backup</h4>
+                    </div>
+                    <p>Timestamped backup with automatic naming</p>
+                    <Button variant="outline" onClick={handleExportBackup} fullWidth>
+                      Create Backup
+                    </Button>
+                  </div>
+                  
+                  <div className="export-card">
+                    <div className="export-header">
+                      <FiFileText />
+                      <h4>Export All PDFs</h4>
+                    </div>
+                    <p>Generate PDF versions of all invoices</p>
+                    <Button variant="outline" onClick={handleBulkPDFExport} fullWidth>
+                      Export PDFs
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -629,42 +983,104 @@ const Settings = () => {
                 <p>Import data from a previously exported file</p>
                 
                 <div className="import-section">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".json"
-                    onChange={handleImportData}
-                    style={{ display: 'none' }}
-                  />
+                  <div className="import-card">
+                    <div className="import-header">
+                      <FiUpload />
+                      <h4>Import from File</h4>
+                    </div>
+                    <p>Restore data from a backup or transfer from another installation</p>
+                    
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".json"
+                      onChange={handleImportData}
+                      style={{ display: 'none' }}
+                    />
+                    
+                    <Button 
+                      variant="outline" 
+                      onClick={() => fileInputRef.current?.click()}
+                      loading={isImporting}
+                      fullWidth
+                    >
+                      <FiUpload />
+                      {isImporting ? 'Importing...' : 'Choose File'}
+                    </Button>
+                    
+                    <div className="import-info">
+                      <h5>Supported Formats:</h5>
+                      <ul>
+                        <li>JSON files exported from this application</li>
+                        <li>Encrypted JSON files with password</li>
+                        <li>Backup files with timestamp</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3>Data Maintenance</h3>
+                <p>Keep your data organized and optimized</p>
+                
+                <div className="maintenance-actions">
+                  <div className="maintenance-card">
+                    <div className="maintenance-header">
+                      <FiRefreshCw />
+                      <h4>Data Validation</h4>
+                    </div>
+                    <p>Check data integrity and fix any inconsistencies</p>
+                    <Button variant="outline" fullWidth>
+                      Validate Data
+                    </Button>
+                  </div>
                   
-                  <Button 
-                    variant="outline" 
-                    onClick={() => fileInputRef.current?.click()}
-                    loading={isImporting}
-                  >
-                    <FiUpload />
-                    {isImporting ? 'Importing...' : 'Import Data'}
-                  </Button>
-                  
-                  <p className="import-note">
-                    Supported formats: JSON files exported from this application
-                  </p>
+                  <div className="maintenance-card">
+                    <div className="maintenance-header">
+                      <FiTrash2 />
+                      <h4>Cleanup</h4>
+                    </div>
+                    <p>Remove duplicate entries and orphaned data</p>
+                    <Button variant="outline" fullWidth>
+                      Clean Data
+                    </Button>
+                  </div>
                 </div>
               </div>
 
               <div className="form-section danger-zone">
-                <h3>Danger Zone</h3>
-                <p>Irreversible actions - use with caution</p>
+                <h3>
+                  <FiAlertTriangle />
+                  Danger Zone
+                </h3>
+                <p>Irreversible actions - use with extreme caution</p>
                 
                 <div className="danger-actions">
-                  <Button variant="outline" onClick={handleClearData} className="danger-button">
-                    <FiTrash2 />
-                    Clear All Data
-                  </Button>
-                  
-                  <p className="danger-note">
-                    This will permanently delete all invoices, clients, and settings.
-                  </p>
+                  <div className="danger-card">
+                    <div className="danger-header">
+                      <FiTrash2 />
+                      <h4>Clear All Data</h4>
+                    </div>
+                    <p>Permanently delete all invoices, clients, and settings. This action cannot be undone.</p>
+                    
+                    <div className="danger-confirmation">
+                      <label className="checkbox-label">
+                        <input type="checkbox" id="confirm-delete" />
+                        <span>I understand this will permanently delete all data</span>
+                      </label>
+                      
+                      <Button 
+                        variant="danger" 
+                        onClick={handleClearData}
+                        disabled={!document.getElementById('confirm-delete')?.checked}
+                        fullWidth
+                      >
+                        <FiTrash2 />
+                        Clear All Data
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
