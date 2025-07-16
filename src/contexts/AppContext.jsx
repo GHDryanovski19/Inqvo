@@ -430,31 +430,57 @@ export const AppProvider = ({ children }) => {
   }
 
   // Helper function to translate city names
-  const translateCity = (cityName) => {
+  const translateCity = (cityName, language = 'en') => {
     if (!cityName) return ''
+    
     const cityTranslations = {
-      'Sofia': 'Sofia',
-      'София': 'Sofia',
-      'Burgas': 'Burgas',
-      'Бургас': 'Burgas',
-      'Varna': 'Varna',
-      'Варна': 'Varna',
-      'Plovdiv': 'Plovdiv',
-      'Пловдив': 'Plovdiv',
-      'Ruse': 'Ruse',
-      'Русе': 'Ruse',
-      'Stara Zagora': 'Stara Zagora',
-      'Стара Загора': 'Stara Zagora',
-      'Pleven': 'Pleven',
-      'Плевен': 'Pleven',
-      'Sliven': 'Sliven',
-      'Сливен': 'Sliven',
-      'Dobrich': 'Dobrich',
-      'Добрич': 'Dobrich',
-      'Shumen': 'Shumen',
-      'Шумен': 'Shumen'
+      'en': {
+        'Sofia': 'Sofia',
+        'София': 'Sofia',
+        'Burgas': 'Burgas',
+        'Бургас': 'Burgas',
+        'Varna': 'Varna',
+        'Варна': 'Varna',
+        'Plovdiv': 'Plovdiv',
+        'Пловдив': 'Plovdiv',
+        'Ruse': 'Ruse',
+        'Русе': 'Ruse',
+        'Stara Zagora': 'Stara Zagora',
+        'Стара Загора': 'Stara Zagora',
+        'Pleven': 'Pleven',
+        'Плевен': 'Pleven',
+        'Sliven': 'Sliven',
+        'Сливен': 'Sliven',
+        'Dobrich': 'Dobrich',
+        'Добрич': 'Dobrich',
+        'Shumen': 'Shumen',
+        'Шумен': 'Shumen'
+      },
+      'bg': {
+        'Sofia': 'София',
+        'София': 'София',
+        'Burgas': 'Бургас',
+        'Бургас': 'Бургас',
+        'Varna': 'Варна',
+        'Варна': 'Варна',
+        'Plovdiv': 'Пловдив',
+        'Пловдив': 'Пловдив',
+        'Ruse': 'Русе',
+        'Русе': 'Русе',
+        'Stara Zagora': 'Стара Загора',
+        'Стара Загора': 'Стара Загора',
+        'Pleven': 'Плевен',
+        'Плевен': 'Плевен',
+        'Sliven': 'Сливен',
+        'Сливен': 'Сливен',
+        'Dobrich': 'Добрич',
+        'Добрич': 'Добрич',
+        'Shumen': 'Шумен',
+        'Шумен': 'Шумен'
+      }
     }
-    return cityTranslations[cityName] || cityName
+    
+    return cityTranslations[language]?.[cityName] || cityName
   }
 
   // Simple translation function (can be enhanced with API later)

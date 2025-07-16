@@ -23,7 +23,7 @@ import './InvoicePreview.scss'
 import { useTranslation } from 'react-i18next'
 
 const InvoicePreview = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { invoices, clients, settings, formatCurrency, calculateInvoiceTotals, extractVATFromEIK, generateEIKFromVAT, translateCity } = useApp()
   const { id } = useParams()
   const navigate = useNavigate()

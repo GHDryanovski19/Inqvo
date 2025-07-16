@@ -27,7 +27,7 @@ import './InvoiceCreate.scss'
 
 const InvoiceCreate = () => {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { 
     clients, 
     settings, 
@@ -524,7 +524,7 @@ const InvoiceCreate = () => {
                         <input
                           type="text"
                           {...register('transactionPlace')}
-                          placeholder={translateCity(settings.company.city)}
+                          placeholder={translateCity(settings.company.city, i18n.language)}
                         />
                       </div>
                       

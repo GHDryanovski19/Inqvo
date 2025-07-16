@@ -119,21 +119,55 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
   }
 
   // Helper function to translate city names
-  const translateCity = (cityName) => {
+  const translateCity = (cityName, language = 'bg') => {
     if (!cityName) return ''
     const cityTranslations = {
-      'София': 'Sofia',
-      'Бургас': 'Burgas',
-      'Варна': 'Varna',
-      'Пловдив': 'Plovdiv',
-      'Русе': 'Ruse',
-      'Стара Загора': 'Stara Zagora',
-      'Плевен': 'Pleven',
-      'Сливен': 'Sliven',
-      'Добрич': 'Dobrich',
-      'Шумен': 'Shumen'
+      'en': {
+        'Sofia': 'Sofia',
+        'София': 'Sofia',
+        'Burgas': 'Burgas',
+        'Бургас': 'Burgas',
+        'Varna': 'Varna',
+        'Варна': 'Varna',
+        'Plovdiv': 'Plovdiv',
+        'Пловдив': 'Plovdiv',
+        'Ruse': 'Ruse',
+        'Русе': 'Ruse',
+        'Stara Zagora': 'Stara Zagora',
+        'Стара Загора': 'Stara Zagora',
+        'Pleven': 'Pleven',
+        'Плевен': 'Pleven',
+        'Sliven': 'Sliven',
+        'Сливен': 'Sliven',
+        'Dobrich': 'Dobrich',
+        'Добрич': 'Dobrich',
+        'Shumen': 'Shumen',
+        'Шумен': 'Shumen'
+      },
+      'bg': {
+        'Sofia': 'София',
+        'София': 'София',
+        'Burgas': 'Бургас',
+        'Бургас': 'Бургас',
+        'Varna': 'Варна',
+        'Варна': 'Варна',
+        'Plovdiv': 'Пловдив',
+        'Пловдив': 'Пловдив',
+        'Ruse': 'Русе',
+        'Русе': 'Русе',
+        'Stara Zagora': 'Стара Загора',
+        'Стара Загора': 'Стара Загора',
+        'Pleven': 'Плевен',
+        'Плевен': 'Плевен',
+        'Sliven': 'Сливен',
+        'Сливен': 'Сливен',
+        'Dobrich': 'Добрич',
+        'Добрич': 'Добрич',
+        'Shumen': 'Шумен',
+        'Шумен': 'Шумен'
+      }
     }
-    return cityTranslations[cityName] || cityName
+    return cityTranslations[language]?.[cityName] || cityName
   }
   
   return `
@@ -267,7 +301,7 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
             <p style="margin: 6px 0; color: #495057;"><strong>Дата на данъчно събитие:</strong> ${formatDate(invoice.issueDate)}</p>
             <p style="margin: 6px 0; color: #495057;"><strong>Основание на сделката:</strong> ${invoice.transactionBasis || ''}</p>
             <p style="margin: 6px 0; color: #495057;"><strong>Описание на сделката:</strong> ${invoice.transactionDescription || ''}</p>
-            <p style="margin: 6px 0; color: #495057;"><strong>Място на сделката:</strong> ${translateCity(invoice.transactionPlace) || translateCity(settings.company.city) || 'СОФИЯ'}</p>
+            <p style="margin: 6px 0; color: #495057;"><strong>Място на сделката:</strong> ${translateCity(invoice.transactionPlace, settings.invoice.language) || translateCity(settings.company.city, settings.invoice.language) || 'СОФИЯ'}</p>
             <p style="margin: 6px 0; color: #495057;"><strong>Получил:</strong> ${invoice.client?.manager || invoice.client?.name || ''}</p>
           </div>
           <div>

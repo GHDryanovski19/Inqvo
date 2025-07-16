@@ -76,7 +76,6 @@
       "card": "Card",
       "check": "Check"
     },
-    "optional": "Optional",
     "cities": {
       "София": "Sofia",
       "Бургас": "Burgas",
@@ -106,7 +105,8 @@
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
-    "previous": "Previous"
+    "previous": "Previous",
+    "optional": "Optional"
   },
   "nav": {
     "dashboard": "Dashboard",
