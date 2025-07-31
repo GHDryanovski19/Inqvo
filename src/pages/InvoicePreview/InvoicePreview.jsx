@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fi'
 import { useApp } from '../../contexts/AppContext'
 import Button from '../../components/UI/Button/Button'
-import { exportInvoiceToPDF, exportInvoiceToCSV, convertToBulgarianWords } from '../../utils/pdfExport'
+import { exportInvoiceToPDFSmart, exportInvoiceToCSV, convertToBulgarianWords } from '../../utils/pdfExport'
 import { generateInvoiceEmail } from '../../utils/emailExport'
 import toast from 'react-hot-toast'
 import './InvoicePreview.scss'
@@ -84,10 +84,11 @@ const InvoicePreview = () => {
     window.print()
   }
 
-  const handleExport = async () => {
-    setIsLoading(true)
+  const handleExportPDF = async () => {
     try {
-      const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+      setIsLoading(true)
+      const result = await exportInvoiceToPDFSmart(invoice, settings, formatCurrency)
+      
       if (result.success) {
         toast.success(`PDF exported successfully: ${result.filename}`)
       } else {
@@ -201,7 +202,7 @@ const InvoicePreview = () => {
             
             <Button 
               variant="outline" 
-              onClick={handleExport}
+              onClick={handleExportPDF}
               className="action-btn"
               loading={isLoading}
               title="Export as PDF"

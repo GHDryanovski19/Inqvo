@@ -71,6 +71,7 @@
     "color": "Цвят",
     "primary": "Основен",
     "secondary": "Вторичен",
+    "optional": "По избор",
     "paymentMethods": {
       "bankTransfer": "Банков превод",
       "cash": "В брой",
@@ -93,21 +94,6 @@
   "header": {
     "tagline": "Професионално управление на фактури",
     "changeLanguage": "Смяна на език"
-  },
-  "common": {
-    "close": "Затвори",
-    "cancel": "Отказ",
-    "save": "Запази",
-    "edit": "Редактирай",
-    "delete": "Изтрий",
-    "loading": "Зареждане...",
-    "error": "Грешка",
-    "success": "Успех",
-    "confirm": "Потвърди",
-    "back": "Назад",
-    "next": "Следващ",
-    "previous": "Предишен",
-    "optional": "По избор"
   },
   "nav": {
     "dashboard": "Табло",
@@ -226,6 +212,42 @@
       "overdue": "Просрочена",
       "cancelled": "Отменена",
       "pending": "Чакаща"
+    },
+    "pdf": {
+      "title": "ФАКТУРА",
+      "original": "Оригинал",
+      "number": "Номер",
+      "date": "Дата",
+      "recipient": "Получател",
+      "supplier": "Доставчик",
+      "vatNumber": "ДДС №",
+      "eik": "ЕИК",
+      "city": "Град",
+      "address": "Адрес",
+      "manager": "МОЛ",
+      "phone": "Телефон",
+      "items": "Артикули",
+      "itemNumber": "№",
+      "itemCode": "Код",
+      "itemName": "Наименование",
+      "itemUnit": "Мярка",
+      "itemQuantity": "Кол.",
+      "itemPrice": "Цена",
+      "itemTotal": "Сума",
+      "summary": "Обобщение",
+      "amountWithoutVAT": "Сума без ДДС",
+      "vatAmount": "ДДС",
+      "totalAmount": "Сума за плащане",
+      "amountInWords": "Сума с думи",
+      "paymentDetails": "Детайли за плащане",
+      "taxEventDate": "Дата на данъчно събитие",
+      "transactionBasis": "Основание на сделката",
+      "transactionDescription": "Описание на сделката",
+      "transactionPlace": "Място на сделката",
+      "payment": "Плащане",
+      "receivedBy": "Получил",
+      "preparedBy": "Съставил",
+      "legalDisclaimer": "Съгласно чл. 6, ал. 1 от Закона за счетоводството, чл. 114 от ЗДДС и чл. 78 от ППЗДДС печатът и подписът не са задължителни реквизити във фактурата."
     }
   },
   "client": {

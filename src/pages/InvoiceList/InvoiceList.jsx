@@ -21,7 +21,7 @@ import Dropdown from '../../components/UI/Dropdown'
 import PageHeader from '../../components/UI/PageHeader'
 import SortDirectionButton from '../../components/UI/SortDirectionButton'
 import toast from 'react-hot-toast'
-import { exportInvoiceToPDF } from '../../utils/pdfExport'
+import { exportInvoiceToPDFSmart } from '../../utils/pdfExport'
 import { containerVariants, itemVariants, interactiveHover } from '../../utils/animations'
 import './InvoiceList.scss'
 
@@ -92,7 +92,7 @@ const InvoiceList = () => {
 
   const handleExportInvoice = async (invoice) => {
     try {
-      const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+      const result = await exportInvoiceToPDFSmart(invoice, settings, formatCurrency)
       if (result.success) {
         toast.success(`PDF exported successfully: ${result.filename}`)
       } else {

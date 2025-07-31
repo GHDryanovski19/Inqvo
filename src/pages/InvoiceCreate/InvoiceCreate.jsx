@@ -507,6 +507,37 @@ const InvoiceCreate = () => {
                     </div>
                   </div>
                   
+                  {/* Discount Section */}
+                  <div className="discount-section">
+                    <h3>{t('invoice.form.discountType')}</h3>
+                    <div className="form-grid">
+                      <div className="form-group">
+                        <label>{t('invoice.form.discountType')}</label>
+                        <Dropdown
+                          options={[
+                            { value: 'percentage', label: t('invoice.form.discountPercentage') },
+                            { value: 'fixed', label: t('invoice.form.discountFixed') }
+                          ]}
+                          value={watch('discountType')}
+                          onChange={(value) => setValue('discountType', value)}
+                          placeholder={t('invoice.form.discountType')}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>{t('invoice.form.discountValue')}</label>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          {...register('discountValue', { 
+                            min: { value: 0, message: 'Discount must be positive' }
+                          })}
+                          placeholder={watchedDiscountType === 'percentage' ? '0.00' : '0.00'}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Bulgarian Legal Fields */}
                   <div className="legal-fields">
                     <h3>{t('invoice.form.legalInfo')}</h3>

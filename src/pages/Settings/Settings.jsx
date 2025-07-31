@@ -37,7 +37,7 @@ import {
   generateBackupFilename,
   validateImportedData 
 } from '../../utils/dataExport'
-import { exportInvoiceToPDF } from '../../utils/pdfExport'
+import { exportInvoiceToPDFSmart } from '../../utils/pdfExport'
 import { applyTheme, applyPresetTheme } from '../../utils/theme'
 import './Settings.scss'
 
@@ -272,7 +272,7 @@ const Settings = () => {
       
       for (let i = 0; i < invoices.length; i++) {
         const invoice = invoices[i]
-        const result = await exportInvoiceToPDF(invoice, settings, formatCurrency)
+        const result = await exportInvoiceToPDFSmart(invoice, settings, formatCurrency)
         if (result.success) {
           console.log(`Exported: ${result.filename}`)
         }

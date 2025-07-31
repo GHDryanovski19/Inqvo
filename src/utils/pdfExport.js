@@ -4,26 +4,26 @@ import html2canvas from 'html2canvas'
 // PDF Export utility for invoices with Bulgarian legal compliance
 export const exportInvoiceToPDF = async (invoice, settings, formatCurrency) => {
   try {
-    // Create a temporary div to render the invoice
+    // Create a simple, clean HTML structure for PDF generation
     const tempDiv = document.createElement('div')
     tempDiv.style.position = 'absolute'
     tempDiv.style.left = '-9999px'
     tempDiv.style.top = '0'
     tempDiv.style.width = '800px'
     tempDiv.style.backgroundColor = 'white'
-    tempDiv.style.padding = '40px'
     tempDiv.style.fontFamily = 'Arial, sans-serif'
     tempDiv.style.fontSize = '12px'
     tempDiv.style.lineHeight = '1.4'
     tempDiv.style.color = '#333'
+    tempDiv.style.padding = '20px'
     
-    // Generate the invoice HTML
-    tempDiv.innerHTML = generateInvoiceHTML(invoice, settings, formatCurrency)
+    // Generate simple, clean invoice HTML
+    tempDiv.innerHTML = generateSimpleInvoiceHTML(invoice, settings, formatCurrency)
     
     // Add to document temporarily
     document.body.appendChild(tempDiv)
     
-    // Convert to canvas
+    // Convert to canvas with basic settings
     const canvas = await html2canvas(tempDiv, {
       scale: 2,
       useCORS: true,
@@ -38,6 +38,7 @@ export const exportInvoiceToPDF = async (invoice, settings, formatCurrency) => {
     
     // Create PDF
     const pdf = new jsPDF('p', 'mm', 'a4')
+    
     const imgWidth = 210 // A4 width in mm
     const pageHeight = 295 // A4 height in mm
     const imgHeight = (canvas.height * imgWidth) / canvas.width
@@ -70,8 +71,8 @@ export const exportInvoiceToPDF = async (invoice, settings, formatCurrency) => {
   }
 }
 
-// Generate invoice HTML for PDF with Bulgarian legal compliance
-const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
+// Generate simple, clean invoice HTML for PDF
+const generateSimpleInvoiceHTML = (invoice, settings, formatCurrency) => {
   const totals = calculateInvoiceTotals(
     invoice.items || [], 
     invoice.vatRate || 20, 
@@ -88,21 +89,6 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
     return eik.replace(/^BG/i, '').replace(/\D/g, '')
   }
 
-  // Helper function to get payment method display text
-  const getPaymentMethodText = (method) => {
-    const paymentMethods = {
-      'bank_transfer': 'Bank Transfer',
-      'cash': 'Cash',
-      'card': 'Card',
-      'check': 'Check',
-      'По сметка': 'Bank Transfer', // Legacy support
-      'В брой': 'Cash', // Legacy support
-      'С карта': 'Card', // Legacy support
-      'Чек': 'Check' // Legacy support
-    }
-    return paymentMethods[method] || method || 'Bank Transfer'
-  }
-
   // Helper function to get payment method display text in Bulgarian
   const getPaymentMethodTextBG = (method) => {
     const paymentMethods = {
@@ -110,10 +96,10 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
       'cash': 'В брой',
       'card': 'С карта',
       'check': 'Чек',
-      'По сметка': 'Банков превод', // Legacy support
-      'В брой': 'В брой', // Legacy support
-      'С карта': 'С карта', // Legacy support
-      'Чек': 'Чек' // Legacy support
+      'По сметка': 'Банков превод',
+      'В брой': 'В брой',
+      'С карта': 'С карта',
+      'Чек': 'Чек'
     }
     return paymentMethods[method] || method || 'Банков превод'
   }
@@ -171,153 +157,178 @@ const generateInvoiceHTML = (invoice, settings, formatCurrency) => {
   }
   
   return `
-    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; color: #2c3e50; background: white; padding: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.1);">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1d1d1f; background: white; line-height: 1.6;">
       
-      <!-- Compact Premium Header -->
-      <div style="background: linear-gradient(135deg, #98C93C 0%, #7ba32e 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');"></div>
-        <div style="position: relative; z-index: 1;">
-          <h1 style="margin: 0 0 3px 0; font-size: 28px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            ФАКТУРА
-          </h1>
-          <h2 style="margin: 0 0 15px 0; font-size: 14px; font-weight: 400; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;">
-            Оригинал
-          </h2>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-            <div style="text-align: left;">
-              <p style="margin: 3px 0; font-weight: 600; font-size: 14px;">Номер: ${invoice.number}</p>
-            </div>
-            <div style="text-align: right;">
-              <p style="margin: 3px 0; font-weight: 600; font-size: 14px;">Дата: ${formatDate(invoice.issueDate)}</p>
-            </div>
+      <!-- Premium Header -->
+      <div style="text-align: center; margin-bottom: 40px; padding: 40px 0; background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%); color: white; border-radius: 16px;">
+        <h1 style="font-size: 32px; margin: 0 0 8px 0; color: white; font-weight: 600; letter-spacing: -0.5px;">ФАКТУРА</h1>
+        <h2 style="font-size: 24px; margin: 0; color: rgba(255, 255, 255, 0.9); font-weight: 400;">№ ${invoice.number}</h2>
+        <div style="margin-top: 20px; font-size: 16px; opacity: 0.8;">
+          <div style="margin-bottom: 8px;">Дата на издаване: ${formatDate(invoice.issueDate)}</div>
+          <div>Дата на плащане: ${formatDate(invoice.dueDate)}</div>
+        </div>
+      </div>
+
+      <!-- Company Information -->
+      <div style="margin-bottom: 40px;">
+        <h3 style="font-size: 18px; margin: 0 0 20px 0; color: #1d1d1f; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Издател</h3>
+        <div style="background: #f5f5f7; padding: 24px; border-radius: 12px; border-left: 4px solid #007AFF;">
+          <h4 style="font-size: 22px; margin: 0 0 16px 0; color: #1d1d1f; font-weight: 600;">${settings.company.name}</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; color: #6e6e73;">
+            ${settings.company.address ? `<div><strong>Адрес:</strong><br>${settings.company.address}</div>` : ''}
+            ${settings.company.city && settings.company.postalCode ? `<div><strong>Град:</strong><br>${settings.company.postalCode} ${settings.company.city}</div>` : ''}
+            ${settings.company.country ? `<div><strong>Държава:</strong><br>${settings.company.country}</div>` : ''}
+            ${settings.company.vatNumber ? `<div><strong>ДДС номер:</strong><br>${settings.company.vatNumber}</div>` : ''}
+            ${settings.company.idNumber ? `<div><strong>ЕИК:</strong><br>${extractVATFromEIK(settings.company.idNumber)}</div>` : ''}
+            ${settings.company.manager ? `<div><strong>МОЛ:</strong><br>${settings.company.manager}</div>` : ''}
+            ${settings.company.phone ? `<div><strong>Тел:</strong><br>${settings.company.phone}</div>` : ''}
+            ${settings.company.bankDetails ? `<div><strong>Банка:</strong><br>${settings.company.bankDetails}</div>` : ''}
           </div>
         </div>
       </div>
-      
-      <!-- Compact Parties Information -->
-      <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-        <!-- Recipient Card -->
-        <div style="flex: 1; background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #dee2e6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #98C93C 0%, #7ba32e 100%);"></div>
-          <h3 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700; text-transform: uppercase; color: #495057; letter-spacing: 1px; border-bottom: 2px solid #98C93C; padding-bottom: 6px;">
-            Получател
-          </h3>
-          <div style="font-size: 11px; line-height: 1.6;">
-            <p style="margin: 6px 0; font-weight: 700; color: #2c3e50; font-size: 13px;">${invoice.client?.company || invoice.client?.name || 'N/A'}</p>
-            ${invoice.client?.vatNumber ? `<p style="margin: 6px 0; color: #495057;"><strong>ДДС №:</strong> ${invoice.client.vatNumber}</p>` : ''}
-            ${invoice.client?.idNumber ? `<p style="margin: 6px 0; color: #495057;"><strong>ЕИК:</strong> ${extractVATFromEIK(invoice.client.idNumber)}</p>` : ''}
-            ${invoice.client?.city ? `<p style="margin: 6px 0; color: #495057;"><strong>Град:</strong> ${invoice.client.city}</p>` : ''}
-            ${invoice.client?.address ? `<p style="margin: 6px 0; color: #495057;"><strong>Адрес:</strong> ${invoice.client.address}</p>` : ''}
-            ${invoice.client?.manager ? `<p style="margin: 6px 0; color: #495057;"><strong>МОЛ:</strong> ${invoice.client.manager}</p>` : ''}
-            <p style="margin: 6px 0; color: #495057;"><strong>Телефон:</strong> ${invoice.client?.phone || ''}</p>
-          </div>
-        </div>
-        
-        <!-- Supplier Card -->
-        <div style="flex: 1; background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #dee2e6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #98C93C 0%, #7ba32e 100%);"></div>
-          <h3 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700; text-transform: uppercase; color: #495057; letter-spacing: 1px; border-bottom: 2px solid #98C93C; padding-bottom: 6px;">
-            Доставчик
-          </h3>
-          <div style="font-size: 11px; line-height: 1.6;">
-            <p style="margin: 6px 0; font-weight: 700; color: #2c3e50; font-size: 13px;">${settings.company.name}</p>
-            ${settings.company.vatNumber ? `<p style="margin: 6px 0; color: #495057;"><strong>ДДС №:</strong> ${settings.company.vatNumber}</p>` : ''}
-            ${settings.company.idNumber ? `<p style="margin: 6px 0; color: #495057;"><strong>ЕИК:</strong> ${extractVATFromEIK(settings.company.idNumber)}</p>` : ''}
-            ${settings.company.city ? `<p style="margin: 6px 0; color: #495057;"><strong>Град:</strong> ${settings.company.city}</p>` : ''}
-            ${settings.company.address ? `<p style="margin: 6px 0; color: #495057;"><strong>Адрес:</strong> ${settings.company.address}</p>` : ''}
-            ${settings.company.manager ? `<p style="margin: 6px 0; color: #495057;"><strong>МОЛ:</strong> ${settings.company.manager}</p>` : ''}
-            <p style="margin: 6px 0; color: #495057;"><strong>Телефон:</strong> ${settings.company.phone || ''}</p>
+
+      <!-- Client Information -->
+      <div style="margin-bottom: 40px;">
+        <h3 style="font-size: 18px; margin: 0 0 20px 0; color: #1d1d1f; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Получател</h3>
+        <div style="background: #f5f5f7; padding: 24px; border-radius: 12px; border-left: 4px solid #34C759;">
+          <h4 style="font-size: 22px; margin: 0 0 16px 0; color: #1d1d1f; font-weight: 600;">${invoice.client?.name || 'Неизвестен клиент'}</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; color: #6e6e73;">
+            ${invoice.client?.company ? `<div><strong>Компания:</strong><br>${invoice.client.company}</div>` : ''}
+            ${invoice.client?.email ? `<div><strong>Email:</strong><br>${invoice.client.email}</div>` : ''}
+            ${invoice.client?.phone ? `<div><strong>Тел:</strong><br>${invoice.client.phone}</div>` : ''}
+            ${invoice.client?.address ? `<div><strong>Адрес:</strong><br>${invoice.client.address}</div>` : ''}
+            ${invoice.client?.city && invoice.client?.postalCode ? `<div><strong>Град:</strong><br>${invoice.client.postalCode} ${invoice.client.city}</div>` : ''}
+            ${invoice.client?.country ? `<div><strong>Държава:</strong><br>${invoice.client.country}</div>` : ''}
+            ${invoice.client?.vatNumber ? `<div><strong>ДДС номер:</strong><br>${invoice.client.vatNumber}</div>` : ''}
+            ${invoice.client?.idNumber ? `<div><strong>ЕИК:</strong><br>${extractVATFromEIK(invoice.client.idNumber)}</div>` : ''}
           </div>
         </div>
       </div>
-      
-      <!-- Compact Invoice Items Table -->
-      <div style="margin-bottom: 20px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-        <table style="width: 100%; border-collapse: collapse; background: white; font-size: 10px;">
-          <thead>
-            <tr style="background: linear-gradient(135deg, #98C93C 0%, #7ba32e 100%); color: white;">
-              <th style="padding: 8px 6px; text-align: center; font-weight: 700; border: none; font-size: 10px;">№</th>
-              <th style="padding: 8px 6px; text-align: center; font-weight: 700; border: none; font-size: 10px;">Код</th>
-              <th style="padding: 8px 6px; text-align: left; font-weight: 700; border: none; font-size: 10px;">Наименование</th>
-              <th style="padding: 8px 6px; text-align: center; font-weight: 700; border: none; font-size: 10px;">Мярка</th>
-              <th style="padding: 8px 6px; text-align: center; font-weight: 700; border: none; font-size: 10px;">Кол.</th>
-              <th style="padding: 8px 6px; text-align: right; font-weight: 700; border: none; font-size: 10px;">Цена</th>
-              <th style="padding: 8px 6px; text-align: right; font-weight: 700; border: none; font-size: 10px;">Сума</th>
-            </tr>
-          </thead>
-          <tbody>
+
+      <!-- Invoice Items -->
+      <div style="margin-bottom: 40px;">
+        <h3 style="font-size: 18px; margin: 0 0 20px 0; color: #1d1d1f; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Артикули</h3>
+        <div style="border: 1px solid #e5e5e7; border-radius: 12px; overflow: hidden;">
+          <div style="background: #f5f5f7; padding: 16px 24px; border-bottom: 1px solid #e5e5e7;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 16px; font-weight: 600; color: #1d1d1f; font-size: 14px;">
+              <div>Описание</div>
+              <div style="text-align: center;">Количество</div>
+              <div style="text-align: right;">Единична цена</div>
+              <div style="text-align: right;">Сума</div>
+            </div>
+          </div>
+          
+          <div>
             ${invoice.items?.map((item, index) => `
-              <tr style="border-bottom: 1px solid #e9ecef;">
-                <td style="padding: 6px; text-align: center; font-size: 10px; color: #495057; font-weight: 600;">${index + 1}</td>
-                <td style="padding: 6px; text-align: center; font-size: 10px; color: #6c757d;">${item.code || ''}</td>
-                <td style="padding: 6px; text-align: left; font-size: 10px; color: #2c3e50; font-weight: 500;">${item.description}</td>
-                <td style="padding: 6px; text-align: center; font-size: 10px; color: #495057;">${item.unit || 'бр.'}</td>
-                <td style="padding: 6px; text-align: center; font-size: 10px; color: #495057; font-weight: 600;">${item.quantity}</td>
-                <td style="padding: 6px; text-align: right; font-size: 10px; color: #495057; font-weight: 600;">${formatCurrency(item.rate)}</td>
-                <td style="padding: 6px; text-align: right; font-size: 10px; color: #2c3e50; font-weight: 700;">${formatCurrency(item.quantity * item.rate)}</td>
-              </tr>
+              <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 16px; padding: 16px 24px; border-bottom: 1px solid #e5e5e7; ${index % 2 === 0 ? 'background: #fafafa;' : ''}">
+                <div>
+                  <div style="font-weight: 500; color: #1d1d1f; margin-bottom: 4px;">${item.description}</div>
+                  ${item.unit ? `<div style="font-size: 12px; color: #6e6e73;">за ${item.unit}</div>` : ''}
+                </div>
+                <div style="text-align: center; color: #1d1d1f;">${item.quantity}</div>
+                <div style="text-align: right; color: #1d1d1f;">${formatCurrency(item.rate)}</div>
+                <div style="text-align: right; font-weight: 600; color: #1d1d1f;">${formatCurrency(item.quantity * item.rate)}</div>
+              </div>
             `).join('') || ''}
-          </tbody>
-        </table>
-      </div>
-      
-      <!-- Compact Summary Section -->
-      <div style="display: flex; justify-content: space-between; margin-bottom: 20px; gap: 20px;">
-        <!-- Amount in Words -->
-        <div style="flex: 1; background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #dee2e6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-          <h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 700; color: #495057; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #98C93C; padding-bottom: 5px;">
-            Сума с думи
-          </h4>
-          <p style="margin: 0; font-weight: 600; color: #2c3e50; font-size: 12px; line-height: 1.4;">${amountInWords}</p>
-        </div>
-        
-        <!-- Totals -->
-        <div style="width: 280px; background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #dee2e6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-          <h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 700; color: #495057; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #98C93C; padding-bottom: 5px;">
-            Обобщение
-          </h4>
-          <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 600; color: #495057; font-size: 11px;">Данъчна основа ${invoice.vatRate}%:</span>
-            <span style="font-weight: 700; color: #2c3e50; font-size: 11px;">${formatCurrency(totals.subtotalAfterDiscount)}</span>
-          </div>
-          <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 600; color: #495057; font-size: 11px;">ДДС ${invoice.vatRate}%:</span>
-            <span style="font-weight: 700; color: #2c3e50; font-size: 11px;">${formatCurrency(totals.vat)}</span>
-          </div>
-          <div style="border-top: 2px solid #98C93C; padding-top: 8px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 700; color: #2c3e50; font-size: 14px;">Сума за плащане:</span>
-            <span style="font-weight: 800; color: #98C93C; font-size: 16px;">${formatCurrency(totals.total)}</span>
           </div>
         </div>
       </div>
-      
-      <!-- Compact Payment Details Box -->
-      <div style="border: 2px dashed #98C93C; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%); box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-        <h4 style="margin: 0 0 12px 0; font-size: 13px; font-weight: 700; color: #495057; text-transform: uppercase; letter-spacing: 1px; text-align: center; border-bottom: 2px solid #98C93C; padding-bottom: 6px;">
-          Детайли за плащане
-        </h4>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 11px;">
-          <div>
-            <p style="margin: 6px 0; color: #495057;"><strong>Дата на данъчно събитие:</strong> ${formatDate(invoice.issueDate)}</p>
-            <p style="margin: 6px 0; color: #495057;"><strong>Основание на сделката:</strong> ${invoice.transactionBasis || ''}</p>
-            <p style="margin: 6px 0; color: #495057;"><strong>Описание на сделката:</strong> ${invoice.transactionDescription || ''}</p>
-            <p style="margin: 6px 0; color: #495057;"><strong>Място на сделката:</strong> ${translateCity(invoice.transactionPlace, settings.invoice.language) || translateCity(settings.company.city, settings.invoice.language) || 'СОФИЯ'}</p>
-            <p style="margin: 6px 0; color: #495057;"><strong>Получил:</strong> ${invoice.client?.manager || invoice.client?.name || ''}</p>
+
+      <!-- Invoice Totals -->
+      <div style="margin-bottom: 40px;">
+        <div style="max-width: 400px; margin-left: auto; background: #f5f5f7; padding: 24px; border-radius: 12px;">
+          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e5e7; font-size: 16px;">
+            <span style="color: #6e6e73;">Междинна сума:</span>
+            <span style="font-weight: 500; color: #1d1d1f;">${formatCurrency(totals.subtotal)}</span>
           </div>
-          <div>
-            <p style="margin: 6px 0; color: #495057;"><strong>Плащане:</strong> ${getPaymentMethodTextBG(invoice.paymentMethod)}</p>
-            ${settings.company.iban ? `<p style="margin: 6px 0; color: #495057;"><strong>IBAN:</strong> ${settings.company.iban}</p>` : ''}
-            ${settings.company.bank ? `<p style="margin: 6px 0; color: #495057;"><strong>Банка:</strong> ${settings.company.bank}</p>` : ''}
-            ${settings.company.bankCode ? `<p style="margin: 6px 0; color: #495057;"><strong>Банков код:</strong> ${settings.company.bankCode}</p>` : ''}
-            <p style="margin: 6px 0; color: #495057;"><strong>Съставил:</strong> ${settings.company.manager || settings.company.name}</p>
+          
+          ${totals.discount > 0 ? `
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e5e7; font-size: 16px;">
+              <span style="color: #6e6e73;">
+                Отстъпка ${totals.discountType === 'percentage' ? `(${totals.discountValue}%)` : ''}:
+              </span>
+              <span style="color: #FF3B30; font-weight: 500;">-${formatCurrency(totals.discount)}</span>
+            </div>
+          ` : ''}
+          
+          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e5e7; font-size: 16px;">
+            <span style="color: #6e6e73;">ДДС (${totals.vatRate}%):</span>
+            <span style="font-weight: 500; color: #1d1d1f;">${formatCurrency(totals.vat)}</span>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; padding: 16px 0; margin-top: 16px; border-top: 2px solid #007AFF;">
+            <span style="font-weight: 600; font-size: 20px; color: #1d1d1f;">Обща сума:</span>
+            <span style="font-weight: 700; font-size: 20px; color: #007AFF;">${formatCurrency(totals.total)}</span>
           </div>
         </div>
       </div>
-      
-      <!-- Compact Legal Disclaimer -->
-      <div style="text-align: center; margin-top: 20px; padding: 15px; background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 10px; color: #6c757d; font-size: 9px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-        <p style="margin: 0; line-height: 1.4; font-style: italic;">
-          Съгласно чл. 6, ал. 1 от Закона за счетоводството, чл. 114 от ЗДДС и чл. 78 от ППЗДДС печатът и подписът не са задължителни реквизити във фактурата.
+
+      <!-- Amount in Words -->
+      <div style="margin-bottom: 40px; padding: 20px; background: linear-gradient(135deg, #f5f5f7 0%, #e5e5e7 100%); border-radius: 12px; border-left: 4px solid #FF9500;">
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #1d1d1f;">
+          <strong style="color: #FF9500;">Сума с думи:</strong> ${amountInWords}
+        </p>
+      </div>
+
+      <!-- Payment Method -->
+      ${invoice.paymentMethod ? `
+        <div style="margin-bottom: 40px;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 12px;">
+            <p style="margin: 0; font-size: 16px; color: #1d1d1f;">
+              <strong style="color: #007AFF;">Начин на плащане:</strong> ${getPaymentMethodTextBG(invoice.paymentMethod)}
+            </p>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Bank Details -->
+      <div style="margin-bottom: 40px;">
+        <h3 style="font-size: 18px; margin: 0 0 20px 0; color: #1d1d1f; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Банкови детайли</h3>
+        <div style="background: #f5f5f7; padding: 24px; border-radius: 12px; border-left: 4px solid #5856D6;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; color: #6e6e73;">
+            ${settings.company.iban ? `<div><strong>IBAN:</strong><br><span style="font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace; color: #007AFF;">${settings.company.iban}</span></div>` : ''}
+            ${settings.company.bank ? `<div><strong>Банка:</strong><br>${settings.company.bank}</div>` : ''}
+            ${settings.company.bankCode ? `<div><strong>Банков код:</strong><br>${settings.company.bankCode}</div>` : ''}
+          </div>
+        </div>
+      </div>
+
+      <!-- Place of Issue -->
+      ${invoice.place ? `
+        <div style="margin-bottom: 40px;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 12px;">
+            <p style="margin: 0; font-size: 16px; color: #1d1d1f;">
+              <strong style="color: #007AFF;">Място на издаване:</strong> ${invoice.place}
+            </p>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Invoice Notes -->
+      ${invoice.notes ? `
+        <div style="margin-bottom: 40px;">
+          <h3 style="font-size: 18px; margin: 0 0 20px 0; color: #1d1d1f; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Бележки</h3>
+          <div style="background: #f5f5f7; padding: 24px; border-radius: 12px;">
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #1d1d1f;">${invoice.notes}</p>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Invoice Terms -->
+      ${invoice.terms ? `
+        <div style="margin-bottom: 40px;">
+          <h3 style="font-size: 18px; margin: 0 0 20px 0; color: #1d1d1f; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Условия</h3>
+          <div style="background: #f5f5f7; padding: 24px; border-radius: 12px;">
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #1d1d1f;">${invoice.terms}</p>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Legal Disclaimer -->
+      <div style="margin-top: 60px; padding: 24px; background: linear-gradient(135deg, #f5f5f7 0%, #e5e5e7 100%); border-radius: 12px; text-align: center; border: 1px solid #e5e5e7;">
+        <p style="margin: 0; color: #6e6e73; font-size: 14px; line-height: 1.5; font-style: italic;">
+          Тази фактура е издадена съгласно Закона за счетоводството и Закона за ДДС. 
+          Плащането трябва да бъде извършено в срок до ${formatDate(invoice.dueDate)}.
         </p>
       </div>
     </div>
@@ -465,7 +476,7 @@ export const exportMultipleInvoicesToPDF = async (invoices, settings, formatCurr
       tempDiv.style.lineHeight = '1.4'
       tempDiv.style.color = '#333'
       
-      tempDiv.innerHTML = generateInvoiceHTML(invoice, settings, formatCurrency)
+      tempDiv.innerHTML = generateSimpleInvoiceHTML(invoice, settings, formatCurrency)
       document.body.appendChild(tempDiv)
       
       const canvas = await html2canvas(tempDiv, {
@@ -524,6 +535,17 @@ export const exportInvoiceToCSV = (invoice, formatCurrency) => {
     return { success: true, filename: `${invoice.number}_${new Date().toISOString().split('T')[0]}.csv` }
   } catch (error) {
     console.error('CSV export failed:', error)
+    return { success: false, error: error.message }
+  }
+} 
+
+// Smart PDF export that uses the simple, reliable html2canvas method
+export const exportInvoiceToPDFSmart = async (invoice, settings, formatCurrency) => {
+  try {
+    // Use the simple, reliable html2canvas method
+    return await exportInvoiceToPDF(invoice, settings, formatCurrency)
+  } catch (error) {
+    console.error('PDF export failed:', error)
     return { success: false, error: error.message }
   }
 } 
